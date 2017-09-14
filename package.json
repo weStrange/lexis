@@ -67,6 +67,8 @@
     "@storybook/addon-actions": "^3.2.6",
     "@storybook/addon-links": "^3.2.6",
     "@storybook/react": "^3.2.8",
+    "babel-plugin-transform-decorators": "^6.24.1",
+    "flow-typed": "^2.1.5",
     "prettier-standard": "^5.1.0",
     "standard": "^10.0.3"
   },
@@ -112,6 +114,9 @@
   "babel": {
     "presets": [
       "react-app"
+    ],
+    "plugins": [
+      "transform-decorators"
     ]
   },
   "eslintConfig": {
