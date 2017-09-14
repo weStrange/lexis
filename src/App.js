@@ -17,5 +17,5 @@ class App extends Component {
     );
   }
 }
-
+const something = something => (something ? 'this' : 'that');
 export default App;
