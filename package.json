@@ -1,0 +1,29 @@
+{
+  "name": "lexus-front",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "material-ui": "next",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "react-router": "^4.2.0",
+    "react-scripts": "1.0.13",
+    "redux": "^3.7.2",
+    "redux-saga": "^0.15.6",
+    "reselect": "^3.0.1",
+    "styled-components": "^2.1.2"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "storybook": "start-storybook -p 9009 -s public",
+    "build-storybook": "build-storybook -s public"
+  },
+  "devDependencies": {
+    "@storybook/react": "^3.2.8",
+    "@storybook/addon-actions": "^3.2.6",
+    "@storybook/addon-links": "^3.2.6"
+  }
+}
