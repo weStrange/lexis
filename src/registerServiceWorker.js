@@ -1,3 +1,6 @@
+/* flow */
+'use strict'
+
 // In production, we register a service worker to serve assets from local cache.
 
 // This lets the app load faster on subsequent visits in production, and gives
@@ -43,7 +46,7 @@ export default function register () {
   }
 }
 
-function registerValidSW (swUrl) {
+function registerValidSW (swUrl: string) {
   navigator.serviceWorker
     .register(swUrl)
     .then(registration => {
@@ -72,7 +75,7 @@ function registerValidSW (swUrl) {
     })
 }
 
-function checkValidServiceWorker (swUrl) {
+function checkValidServiceWorker (swUrl: string) {
   // Check if the service worker can be found. If it can't reload the page.
   fetch(swUrl)
     .then(response => {
