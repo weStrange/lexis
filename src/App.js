@@ -1,7 +1,6 @@
 /* flow */
 
 import React, { Component } from 'react'
-import 'assets/App.css'
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles'
 import { ThemeProvider } from 'styled-components'
 import * as colors from 'material-ui/colors'
@@ -10,6 +9,7 @@ import 'assets/font-awesome-4.7.0/css/font-awesome.min.css'
 import 'animate.css/animate.min.css'
 import tinyColor from 'tinycolor2'
 import AppShell from './scenes/app-shell/AppShell'
+import TeacherView from './scenes/teacher/Teacher'
 
 const primaryColor = '#5B86E5'
 const styledTheme = {
@@ -25,15 +25,6 @@ const muiTheme = createMuiTheme({
     fontFamily: 'Open-sans'
   },
   overrides: {
-    MuiListItem: {
-      button: {
-        '&:hover': {
-          backgroundColor: tinyColor('#36d1dc')
-            .setAlpha(0.8)
-            .toRgbString()
-        }
-      }
-    },
     MuiPopover: {
       paper: {
         boxShadow:
@@ -48,7 +39,9 @@ class App extends Component {
     return (
       <MuiThemeProvider theme={muiTheme}>
         <ThemeProvider theme={styledTheme}>
-          <AppShell />
+          <AppShell>
+            <TeacherView />
+          </AppShell>
         </ThemeProvider>
       </MuiThemeProvider>
     )

@@ -2,7 +2,7 @@ import React from 'react'
 import styled, { withTheme } from 'styled-components'
 import { Paper, Avatar, Text } from 'common-components'
 import { grey, yellow, teal, blue } from 'material-ui/colors'
-import List, { ListItem } from 'material-ui/List'
+import List, { ListItem as MuiListItem } from 'material-ui/List'
 import dashboardIcon from 'assets/trophy.svg'
 import courseIcon from 'assets/blackboard.svg'
 import courseComposerIcon from 'assets/compass.svg'
@@ -27,6 +27,19 @@ const navigationItems = [
   }
 ]
 const white = 'rgba(255,255,255, 0.86)'
+
+const ListItem = styled(MuiListItem)`
+  border-width: ${props => (props.selected ? '8px' : '0px')} !important;
+  border-style: solid !important;
+  border-color: transparent transparent transparent
+    ${props => props.selected && props.theme.primary} !important;
+  &:hover {
+    background-color: ${props =>
+      tinyColor(props.theme.primary)
+        .setAlpha(0.7)
+        .toRgbString()} !important;
+  }
+`
 const Wrapper = styled(Paper)`
   height: 100vh;
   width: 250px;
@@ -48,7 +61,12 @@ const SideNavigation = props => {
         {navigationItems.map((item, key) => {
           const selected = currentIndex === key
           return (
-            <ListItem button key={key} onClick={e => setIndex(key)}>
+            <ListItem
+              selected={selected}
+              button
+              key={key}
+              onClick={e => setIndex(key)}
+            >
               <Avatar
                 backgroundColor='transparent'
                 style={{ backgroundColor: 'transparent' }}

@@ -36,7 +36,7 @@ const UserFunc = styled(CenterBox)`
   padding-right: 3em;
 `
 const Topbar = props => (
-  <Appbar elevation={7} shadowColor='#5B86E5'>
+  <Appbar elevation={3} shadowColor='#5B86E5'>
     <LogoBox>
       <Logo src={logo} />
       <Text medium fontSize={'2rem'} color={white}>
