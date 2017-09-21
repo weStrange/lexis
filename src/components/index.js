@@ -1,2 +1,5 @@
-export * from './Text'
-export * from './Panel'
+import Text from './Text'
+export { Text }
+export * from './Layout'
+export * from './Shadow'
+export * from './Icon'
