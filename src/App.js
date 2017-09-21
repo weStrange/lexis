@@ -8,16 +8,18 @@ import * as colors from 'material-ui/colors'
 import 'assets/index.css'
 import 'assets/font-awesome-4.7.0/css/font-awesome.min.css'
 import 'animate.css/animate.min.css'
+import tinyColor from 'tinycolor2'
 
 import AppShell from './scenes/app-shell/AppShell'
+const primaryColor = '#5B86E5'
 
 const styledTheme = {
-  primary: '#5B86E5',
+  primary: primaryColor,
   textColor: 'rgba(0, 0, 0, 0.86)'
 }
 const theme = createMuiTheme({
   palette: {
-    primary: colors.blue,
+    primary: colors.indigo,
     secondary: colors.grey
   },
   type: 'dark',
@@ -25,21 +27,13 @@ const theme = createMuiTheme({
     fontFamily: 'Open-sans'
   },
   overrides: {
-    MuiGrid: {
-      typeContainer: {
-        borderRadius: '4px'
-      }
-    },
-    MuiTab: {
-      root: {
-        transition: 'all 0.5s ease'
-      },
-      rootPrimary: {
-        color: 'rgba(255,255,255, 0.5)'
-      },
-      rootPrimarySelected: {
-        fontWeight: '800',
-        letterSpacing: '1px'
+    MuiListItem: {
+      button: {
+        '&:hover': {
+          backgroundColor: tinyColor('#36d1dc')
+            .setAlpha(0.8)
+            .toRgbString()
+        }
       }
     }
   }
