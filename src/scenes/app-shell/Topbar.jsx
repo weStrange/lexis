@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Text, Paper, CenterBox, Icon, Avatar } from 'common-components'
 import SearchBox from './SearchBox'
 import logo from 'assets/logo.svg'
-
+import SettingMenu from './SettingsMenu'
 const Logo = styled.img`
   width: 3.5rem;
   height: auto;
@@ -21,7 +21,7 @@ const Appbar = styled(Paper)`
   background: linear-gradient(to left, #36d1dc, #5b86e5);
   align-items: center;
   justify-content: flex-start;
-  z-index: 10000;
+  z-index: 1000;
 `
 
 const LogoBox = styled(CenterBox)`
@@ -36,7 +36,7 @@ const UserFunc = styled(CenterBox)`
   padding-right: 3em;
 `
 const Topbar = props => (
-  <Appbar elevation={3} shadowColor='#5B86E5'>
+  <Appbar elevation={7} shadowColor='#5B86E5'>
     <LogoBox>
       <Logo src={logo} />
       <Text medium fontSize={'2rem'} color={white}>
@@ -53,13 +53,7 @@ const Topbar = props => (
         size='1.3rem'
         onClick={() => alert('Hello, world!')}
       />
-      <Icon
-        spacing='12px'
-        color={white}
-        iconClassName='fa fa-cog'
-        size='1.3rem'
-        onClick={() => console.log('Take me to your leader!')}
-      />
+      <SettingMenu />
       <Avatar size='3rem' style={{ marginRight: 12 }} />
       <Text light normal color={white}>
         Welcome, Teacher

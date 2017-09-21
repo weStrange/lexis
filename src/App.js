@@ -9,20 +9,18 @@ import 'assets/index.css'
 import 'assets/font-awesome-4.7.0/css/font-awesome.min.css'
 import 'animate.css/animate.min.css'
 import tinyColor from 'tinycolor2'
-
 import AppShell from './scenes/app-shell/AppShell'
-const primaryColor = '#5B86E5'
 
+const primaryColor = '#5B86E5'
 const styledTheme = {
   primary: primaryColor,
-  textColor: 'rgba(0, 0, 0, 0.86)'
+  textColor: 'rgba(91, 134, 229, 0.86)'
 }
-const theme = createMuiTheme({
+const muiTheme = createMuiTheme({
   palette: {
     primary: colors.indigo,
     secondary: colors.grey
   },
-  type: 'dark',
   typography: {
     fontFamily: 'Open-sans'
   },
@@ -35,6 +33,12 @@ const theme = createMuiTheme({
             .toRgbString()
         }
       }
+    },
+    MuiPopover: {
+      paper: {
+        boxShadow:
+          '0px 8px 9px -5px rgba(91, 134, 229, 0.4),0px 15px 22px 2px rgba(91, 134, 229, 0.28),0px 6px 28px 5px rgba(91, 134, 229, 0.24) !important'
+      }
     }
   }
 })
@@ -42,7 +46,7 @@ const theme = createMuiTheme({
 class App extends Component {
   render () {
     return (
-      <MuiThemeProvider theme={theme}>
+      <MuiThemeProvider theme={muiTheme}>
         <ThemeProvider theme={styledTheme}>
           <AppShell />
         </ThemeProvider>
