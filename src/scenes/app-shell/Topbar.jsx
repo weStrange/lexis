@@ -1,9 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Text, Paper, CenterBox, Icon } from 'common-components'
+import { Text, Paper, CenterBox, Icon, Avatar } from 'common-components'
 import SearchBox from './SearchBox'
 import logo from 'assets/logo.svg'
-import Avatar from './Avatar'
 
 const Logo = styled.img`
   width: 3.5rem;
@@ -27,7 +26,7 @@ const Appbar = styled(Paper)`
 
 const LogoBox = styled(CenterBox)`
   justify-content: center;
-  padding-left: 2rem;
+  padding-left: 3rem;
   padding-right: 3rem;
 `
 const SearchSection = styled(CenterBox)`flex-basis: 40%;`

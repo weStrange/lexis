@@ -9,5 +9,6 @@ const Avatar = ({ src, ...props }) => (
 export default styled(Avatar)`
   width: ${props => props.size} !important;
   height: ${props => props.size} !important;
-  background-color: ${props => props.theme.primary} !important;
+  background-color: ${props =>
+    props.backgroundColor || props.theme.primary} !important;
 `
