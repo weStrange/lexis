@@ -1,2 +1,6 @@
 /* flow */
-'use strict'
+
+export type Action = {
+  type: string,
+  payload: any
+}

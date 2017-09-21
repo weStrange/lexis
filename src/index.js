@@ -1,15 +1,19 @@
 /* flow */
-'use strict'
 
 import React from 'react'
 import ReactDOM from 'react-dom'
 
 // global css goes here
-import './assets/index.css'
-import './assets/font-awesome-4.7.0/css/font-awesome.min.css'
-
-import App from './App'
 import registerServiceWorker from './registerServiceWorker'
+import App from './App'
 
-ReactDOM.render(<App />, document.getElementById('root'))
+import store from './core/store'
+import { Provider } from 'react-redux'
+
+const Root = () => (
+  <Provider store={store}>
+    <App />
+  </Provider>
+)
+ReactDOM.render(<Root />, document.getElementById('root'))
 registerServiceWorker()
