@@ -1,0 +1,3 @@
+/* @flow */
+
+export type CourseManagerAction = {}

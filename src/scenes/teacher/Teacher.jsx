@@ -1,9 +1,15 @@
-/* flow */
+/* @flow */
+
 import React from 'react'
-import CourseManager from './course-manager/CourseManager'
-const TeacherView = props => (
-  <div>
-    <CourseManager />
-  </div>
-)
+import { CourseManager } from './course-manager/components'
+
+type TeacherViewProps = {}
+function TeacherView ({  }: TeacherViewProps) {
+  return (
+    <div>
+      <CourseManager />
+    </div>
+  )
+}
+
 export default TeacherView

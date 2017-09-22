@@ -11,6 +11,7 @@ const Container = styled(Paper)`
   padding: 0 2rem 0 1rem;
   width: 100%;
 `
+
 const SearchBox = props => (
   <Container elevation={3}>
     <Icon iconClassName='fa fa-search' size='1.5em' spacing={'18px'} />

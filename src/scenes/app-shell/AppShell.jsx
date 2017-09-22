@@ -1,3 +1,5 @@
+/* @flow */
+
 import React from 'react'
 import Topbar from './Topbar'
 import SideNavigation from './SideNavigation'
@@ -9,12 +11,14 @@ const Content = styled.div`
   transform: translate3d(250px, 100px, 0);
 `
 
-export const AppShell = props => (
-  <div>
-    <Topbar />
-    <SideNavigation />
-    <Content>{props.children}</Content>
-  </div>
-)
+export function AppShell ({ children }: any) {
+  return (
+    <div>
+      <Topbar />
+      <SideNavigation />
+      <Content>{children}</Content>
+    </div>
+  )
+}
 
 export default AppShell

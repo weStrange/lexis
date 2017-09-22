@@ -1,1 +1,3 @@
-/* flow */
+/* @flow */
+
+export type ProfileState = {}

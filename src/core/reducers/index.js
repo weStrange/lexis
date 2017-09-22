@@ -1,8 +1,9 @@
-/* flow */
-import * as constants from '../constants'
-import type Action from '../types'
+/* @flow */
 
-const rootReducer = (state = {}, action: Action) => {
+import * as constants from '../constants'
+import type { Action } from '../../actions'
+
+const rootReducer = (state: {} = {}, action: Action) => {
   return state
 }
 
