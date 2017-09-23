@@ -10,10 +10,13 @@ import App from './App'
 
 import store from './core/store'
 import { Provider } from 'react-redux'
+import { BrowserRouter, Route } from 'react-router-dom'
 
 const Root = () => (
   <Provider store={store}>
-    <App />
+    <BrowserRouter>
+      <Route path='/' component={App} />
+    </BrowserRouter>
   </Provider>
 )
 ReactDOM.render(<Root />, document.getElementById('root'))
