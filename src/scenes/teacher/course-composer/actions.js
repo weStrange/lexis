@@ -21,6 +21,8 @@ export type CourseComposerAction =
       type: 'teacher-composer-secondary-activity-set',
       activity: SecondaryActivity
     }
+  | { type: 'teacher-composer-main-area-toggle' }
+  | { type: 'teacher-composer-secondary-area-toggle' }
 
   // Lesson actions
   | { type: 'teacher-composer-lesson-add' }

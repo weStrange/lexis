@@ -40,7 +40,7 @@ export class CourseComposer extends Component {
       <Wrapper container spacing={24}>
         <Breadcrumbs />
         <ContentArea />
-        <ActivityPicker />
+        <ActivityPicker selectedItemIdx={0} />
 
         <VideoModal />
         <AudioModal />
@@ -53,11 +53,12 @@ export class CourseComposer extends Component {
   }
 }
 
-function mapStateToProps (state: AppState) {}
+function mapStateToProps (state: AppState) {
+  return {}
+}
 
-function mapDispatchToProsp (dispatch) {}
+function mapDispatchToProsp (dispatch) {
+  return {}
+}
 
-export default connect({
-  mapStateToProps,
-  mapDispatchToProsp
-})(CourseComposer)
+export default connect(mapStateToProps, mapDispatchToProsp)(CourseComposer)

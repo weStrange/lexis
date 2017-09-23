@@ -137,15 +137,23 @@ export type MultiOptionModal = {
   open: boolean
 }
 
+export type ActivityAreaSelect = 'main' | 'secondary' | 'none'
+
 export type MainViewState = {
   course: Course,
+  selectedActivityArea: ActivityAreaSelect,
   currentLevelIdx: number,
   currentLessonIdx: number,
   currentExerciseIdx: number
 }
 
+export type ActivityPickerState = {
+  open: boolean
+}
+
 export type CourseComposerState = {
   course: MainViewState,
+  activityPicker: ActivityPickerState,
   breadcrumbs: BreadcrumbsState,
   audioModal: AudioModalState,
   videoModal: VideoModalState,
