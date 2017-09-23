@@ -1,6 +1,5 @@
 /* @flow */
 
-
 import { List } from 'immutable'
 
 import type { Action } from '../../../../actions'
@@ -14,6 +13,7 @@ function getInitialState (): MainViewState {
       difficulty: 'Beginner',
       levels: List()
     },
+    selectedActivityArea: 'none',
     currentLevelIdx: 0,
     currentLessonIdx: 0,
     currentExerciseIdx: 0

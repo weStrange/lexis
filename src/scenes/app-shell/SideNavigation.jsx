@@ -24,7 +24,7 @@ const navigationItems = [
   {
     title: 'My Courses',
     imgSrc: courseIcon,
-    link: '/'
+    link: '/teacher/course-manager'
   },
   {
     title: 'Course Composer',

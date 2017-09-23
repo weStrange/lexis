@@ -1,8 +1,7 @@
 /* @flow */
 
 import React, { Component } from 'react'
-import { Router, Route, Redirect } from 'react-router'
-import { Link } from 'react-router-dom'
+import { Router, Route, Redirect, Switch } from 'react-router'
 import { ConnectedRouter } from 'react-router-redux'
 
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles'
@@ -17,6 +16,7 @@ import tinyColor from 'tinycolor2'
 import AppShell from './scenes/app-shell/AppShell'
 
 import CourseComposer from './scenes/teacher/course-composer'
+import CourseManager from './scenes/teacher/course-manager'
 
 import store from './core/store'
 import history from './core/history'
@@ -54,28 +54,22 @@ class App extends Component {
         <ThemeProvider theme={styledTheme}>
           <ConnectedRouter history={history}>
             <div>
-              <Redirect from='/' to='/teacher/dashboard' />
-              <Route path='/' component={AppShell}>
-                <Route
-                  path='/teacher/course-composer'
-                  component={CourseComposer}
-                />
-                <Route
-                  path='/teacher/course-manager'
-                  component={() => <div />}
-                />
-                <Route
-                  path='*'
-                  component={() => (
-                    <div>
-                      <h1>Page not found</h1>
-                      <p>
-                        <Link to='/'>Back</Link>
-                      </p>
-                    </div>
-                  )}
-                />
-              </Route>
+              <AppShell>
+                <Switch>
+                  <Route
+                    path='/teacher/course-manager'
+                    component={CourseManager}
+                  />
+                  <Route
+                    path='/teacher/course-composer'
+                    component={CourseComposer}
+                  />
+                  <Route
+                    path='*'
+                    component={() => <div>Page not found!</div>}
+                  />
+                </Switch>
+              </AppShell>
             </div>
           </ConnectedRouter>
         </ThemeProvider>
