@@ -10,6 +10,7 @@ import 'animate.css/animate.min.css'
 import tinyColor from 'tinycolor2'
 import AppShell from './scenes/app-shell/AppShell'
 import TeacherView from './scenes/teacher/Teacher'
+import { Route } from 'react-router-dom'
 
 const primaryColor = '#5B86E5'
 const styledTheme = {
@@ -43,11 +44,12 @@ class App extends Component {
       <MuiThemeProvider theme={muiTheme}>
         <ThemeProvider theme={styledTheme}>
           <AppShell>
-            <TeacherView />
+            <Route path='/' component={TeacherView} />
           </AppShell>
         </ThemeProvider>
       </MuiThemeProvider>
     )
   }
 }
+
 export default App
