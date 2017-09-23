@@ -1,7 +1,18 @@
 /* @flow */
 
-import React from 'react'
+import React, { Component } from 'react'
 
-export default function () {
-  return <div>Placeholder</div>
+import type { MainViewState } from '../types'
+
+type ContentAreaProps = {
+  mainView: MainViewState,
+  actions: any
+}
+
+export default class ContentArea extends Component {
+  prop: ContentAreaProps
+
+  render () {
+    return <div>Placeholder</div>
+  }
 }

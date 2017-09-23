@@ -1,16 +1,25 @@
 /* @flow */
 
 import React, { Component } from 'react'
+import { Router, Route, Redirect } from 'react-router'
+import { Link } from 'react-router-dom'
+import { ConnectedRouter } from 'react-router-redux'
+
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles'
 import { ThemeProvider } from 'styled-components'
 import * as colors from 'material-ui/colors'
+
 import 'assets/index.css'
 import 'assets/font-awesome-4.7.0/css/font-awesome.min.css'
 import 'animate.css/animate.min.css'
+
 import tinyColor from 'tinycolor2'
 import AppShell from './scenes/app-shell/AppShell'
-import TeacherView from './scenes/teacher/Teacher'
-import { Route } from 'react-router-dom'
+
+import CourseComposer from './scenes/teacher/course-composer'
+
+import store from './core/store'
+import history from './core/history'
 
 const primaryColor = '#5B86E5'
 const styledTheme = {
@@ -43,9 +52,32 @@ class App extends Component {
     return (
       <MuiThemeProvider theme={muiTheme}>
         <ThemeProvider theme={styledTheme}>
-          <AppShell>
-            <Route path='/' component={TeacherView} />
-          </AppShell>
+          <ConnectedRouter history={history}>
+            <div>
+              <Redirect from='/' to='/teacher/dashboard' />
+              <Route path='/' component={AppShell}>
+                <Route
+                  path='/teacher/course-composer'
+                  component={CourseComposer}
+                />
+                <Route
+                  path='/teacher/course-manager'
+                  component={() => <div />}
+                />
+                <Route
+                  path='*'
+                  component={() => (
+                    <div>
+                      <h1>Page not found</h1>
+                      <p>
+                        <Link to='/'>Back</Link>
+                      </p>
+                    </div>
+                  )}
+                />
+              </Route>
+            </div>
+          </ConnectedRouter>
         </ThemeProvider>
       </MuiThemeProvider>
     )

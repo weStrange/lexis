@@ -1,4 +1,9 @@
 import React from 'react'
+
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { Link } from 'react-router-dom'
+
 import styled, { withTheme } from 'styled-components'
 import { Paper, Avatar, Text } from 'common-components'
 import { grey, yellow, teal, blue } from 'material-ui/colors'
@@ -8,22 +13,28 @@ import courseIcon from 'assets/blackboard.svg'
 import courseComposerIcon from 'assets/compass.svg'
 import tinyColor from 'tinycolor2'
 
+import * as actionCreators from '../../core/action-creators'
+
 const navigationItems = [
   {
     title: 'Dash Board',
-    imgSrc: dashboardIcon
+    imgSrc: dashboardIcon,
+    link: '/'
   },
   {
-    title: 'Courses',
-    imgSrc: courseIcon
+    title: 'My Courses',
+    imgSrc: courseIcon,
+    link: '/'
   },
   {
     title: 'Course Composer',
-    imgSrc: courseComposerIcon
+    imgSrc: courseComposerIcon,
+    link: '/teacher/course-composer'
   },
   {
     title: 'Profile',
-    imgSrc: null
+    imgSrc: null,
+    link: '/'
   }
 ]
 const white = 'rgba(255,255,255, 0.86)'
@@ -51,37 +62,47 @@ const Wrapper = styled(Paper)`
 `
 const ListText = styled(Text)`margin-left: 16px;`
 const SideNavigation = props => {
-  let currentIndex = 2 // for mocking purposes
-  const setIndex = i => {
-    currentIndex = i
-  }
+  let currentIndex = props.currIdx // for mocking purposes
+
   return (
     <Wrapper elevation={3}>
       <List>
         {navigationItems.map((item, key) => {
           const selected = currentIndex === key
           return (
-            <ListItem
-              selected={selected}
-              button
-              key={key}
-              onClick={e => setIndex(key)}
-            >
-              <Avatar
-                backgroundColor='transparent'
-                style={{ backgroundColor: 'transparent' }}
-                imgProps={{ style: { transform: 'scale(0.8)' } }}
-                src={item.imgSrc}
-                size='3rem'
-              />
-              <ListText light={!selected} medium={selected} color={white}>
-                {item.title}
-              </ListText>
-            </ListItem>
+            <Link style={{ textDecoration: 'none' }} to={item.link}>
+              <ListItem
+                selected={selected}
+                button
+                key={key}
+                onClick={() => props.actions.nav.setIndex(key)}
+              >
+                <Avatar
+                  backgroundColor='transparent'
+                  style={{ backgroundColor: 'transparent' }}
+                  imgProps={{ style: { transform: 'scale(0.8)' } }}
+                  src={item.imgSrc}
+                  size='3rem'
+                />
+                <ListText light={!selected} medium={selected} color={white}>
+                  {item.title}
+                </ListText>
+              </ListItem>
+            </Link>
           )
         })}
       </List>
     </Wrapper>
   )
 }
-export default SideNavigation
+
+export default connect(
+  (state: AppState) => ({
+    ...state.nav
+  }),
+  dispatch => ({
+    actions: {
+      nav: bindActionCreators(actionCreators.navActions, dispatch)
+    }
+  })
+)(SideNavigation)
