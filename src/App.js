@@ -17,6 +17,8 @@ import AppShell from './scenes/app-shell/AppShell'
 
 import CourseComposer from './scenes/teacher/course-composer'
 import CourseManager from './scenes/teacher/course-manager'
+import Courses from './scenes/student/courses'
+import Course from './scenes/student/course'
 
 import store from './core/store'
 import history from './core/history'
@@ -64,6 +66,8 @@ class App extends Component {
                     path='/teacher/course-composer'
                     component={CourseComposer}
                   />
+                  <Route exact path='/student/courses' component={Courses} />
+                  <Route path='/student/courses/*' component={Course} />
                   <Route
                     path='*'
                     component={() => <div>Page not found!</div>}

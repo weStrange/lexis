@@ -15,28 +15,48 @@ import tinyColor from 'tinycolor2'
 
 import * as actionCreators from '../../core/action-creators'
 
-const navigationItems = [
-  {
-    title: 'Dash Board',
-    imgSrc: dashboardIcon,
-    link: '/'
-  },
-  {
-    title: 'My Courses',
-    imgSrc: courseIcon,
-    link: '/teacher/course-manager'
-  },
-  {
-    title: 'Course Composer',
-    imgSrc: courseComposerIcon,
-    link: '/teacher/course-composer'
-  },
-  {
-    title: 'Profile',
-    imgSrc: null,
-    link: '/'
-  }
-]
+const navigationItems = {
+  TEACHER: [
+    {
+      title: 'Dashboard',
+      imgSrc: dashboardIcon,
+      link: '/dashboard'
+    },
+    {
+      title: 'My Courses',
+      imgSrc: courseIcon,
+      link: '/teacher/course-manager'
+    },
+    {
+      title: 'Course Composer',
+      imgSrc: courseComposerIcon,
+      link: '/teacher/course-composer'
+    },
+    {
+      title: 'Profile',
+      imgSrc: null,
+      link: '/profile'
+    }
+  ],
+  STUDENT: [
+    {
+      title: 'Dashboard',
+      imgSrc: dashboardIcon,
+      link: '/dashboard'
+    },
+    {
+      title: 'My Courses',
+      imgSrc: courseIcon,
+      link: '/student/courses'
+    },
+    {
+      title: 'Profile',
+      imgSrc: null,
+      link: '/profile'
+    }
+  ]
+}
+
 const white = 'rgba(255,255,255, 0.86)'
 
 const ListItem = styled(MuiListItem)`
@@ -63,42 +83,48 @@ const Wrapper = styled(Paper)`
 const ListText = styled(Text)`margin-left: 16px;`
 const SideNavigation = props => {
   let currentIndex = props.currIdx // for mocking purposes
+  const { user } = props
+
+  const renderNavigationItems = () => {
+    if ((user && user.role == 'TEACHER') || 'STUDENT') {
+      return navigationItems[user.role].map((item, key) => {
+        const selected = currentIndex === key
+        return (
+          <Link style={{ textDecoration: 'none' }} to={item.link}>
+            <ListItem
+              selected={selected}
+              button
+              key={key}
+              onClick={() => props.actions.nav.setIndex(key)}
+            >
+              <Avatar
+                backgroundColor='transparent'
+                style={{ backgroundColor: 'transparent' }}
+                imgProps={{ style: { transform: 'scale(0.8)' } }}
+                src={item.imgSrc}
+                size='3rem'
+              />
+              <ListText light={!selected} medium={selected} color={white}>
+                {item.title}
+              </ListText>
+            </ListItem>
+          </Link>
+        )
+      })
+    }
+  }
 
   return (
     <Wrapper elevation={3}>
-      <List>
-        {navigationItems.map((item, key) => {
-          const selected = currentIndex === key
-          return (
-            <Link style={{ textDecoration: 'none' }} to={item.link}>
-              <ListItem
-                selected={selected}
-                button
-                key={key}
-                onClick={() => props.actions.nav.setIndex(key)}
-              >
-                <Avatar
-                  backgroundColor='transparent'
-                  style={{ backgroundColor: 'transparent' }}
-                  imgProps={{ style: { transform: 'scale(0.8)' } }}
-                  src={item.imgSrc}
-                  size='3rem'
-                />
-                <ListText light={!selected} medium={selected} color={white}>
-                  {item.title}
-                </ListText>
-              </ListItem>
-            </Link>
-          )
-        })}
-      </List>
+      <List>{renderNavigationItems()}</List>
     </Wrapper>
   )
 }
 
 export default connect(
   (state: AppState) => ({
-    ...state.nav
+    ...state.nav,
+    user: { role: 'STUDENT' }
   }),
   dispatch => ({
     actions: {
