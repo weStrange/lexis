@@ -1,3 +1,3 @@
 /* @flow */
 
-export type CourseManagerAction = {}
+export type CourseManagerAction = { type: 'course-maanager-open' }

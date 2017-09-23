@@ -2,8 +2,6 @@
 
 import { List } from 'immutable'
 
-export type ContentPickerState = {}
-
 export type Video = {
   type: 'video',
   url: string
@@ -15,7 +13,6 @@ export type Audio = {
 }
 
 export type TextHighlight = {
-  id: string,
   length: number,
   offset: number
 }
@@ -48,6 +45,14 @@ export type MultiOptionEx = {
   }>
 }
 
+export type MainActivityKind =
+  | 'video'
+  | 'audio'
+  | 'text'
+  | 'skype'
+  | 'written-answer'
+  | 'multi-option'
+
 export type MainActivity =
   | Video
   | Audio
@@ -56,19 +61,38 @@ export type MainActivity =
   | WrittenAnswerEx
   | MultiOptionEx
 
+export type SecondaryActivityKind =
+  | 'audio'
+  | 'text'
+  | 'written-answer'
+  | 'multi-option'
+
 export type SecondaryActivity = Audio | Text | WrittenAnswerEx | MultiOptionEx
+
+export type Exercise = {
+  id: string,
+  name: string,
+  mainActivity: MainActivity | null,
+  secondaryActivity: SecondaryActivity | null
+}
 
 export type Lesson = {
   id: string,
   name: string,
-  mainActivity: MainActivity,
-  secondaryActivity: SecondaryActivity
+  exercises: List<Exercise>
 }
 
 export type Level = {
   id: string,
   name: string,
   lessons: List<Lesson>
+}
+
+export type Course = {
+  id: string,
+  name: string,
+  difficulty: CourseDifficulty,
+  levels: List<Level>
 }
 
 export type CourseDifficulty =
@@ -78,8 +102,55 @@ export type CourseDifficulty =
   | 'Advanced'
   | 'Proficient'
 
+export type BreadcrumbsState = {
+  level: string | null,
+  lesson: string | null
+}
+
+export type AudioModalState = {
+  audio: Audio,
+  open: boolean
+}
+
+export type VideoModalState = {
+  video: Video,
+  open: boolean
+}
+
+export type SkypeModalState = {
+  skype: Skype,
+  open: boolean
+}
+
+export type TextModalState = {
+  text: Text,
+  open: boolean
+}
+
+export type WrittenAnswerModal = {
+  exercise: WrittenAnswerEx,
+  open: boolean
+}
+
+export type MultiOptionModal = {
+  exercise: MultiOptionEx,
+  open: boolean
+}
+
+export type MainViewState = {
+  course: Course,
+  currentLevelIdx: number,
+  currentLessonIdx: number,
+  currentExerciseIdx: number
+}
+
 export type CourseComposerState = {
-  levels: List<Level>,
-  contentPicker: ContentPickerState,
-  difficulty: CourseDifficulty
+  course: MainViewState,
+  breadcrumbs: BreadcrumbsState,
+  audioModal: AudioModalState,
+  videoModal: VideoModalState,
+  skypeModal: SkypeModalState,
+  textModal: TextModalState
+  // writtenAnswerModal: WrittenAnswerModal,
+  // multiOptionModal: MultiOptionModal
 }

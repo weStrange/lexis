@@ -1,3 +1,3 @@
 /* @flow */
 
-export type DashboardAction = {}
+export type DashboardAction = { type: 'teacher-dashboard-open' }

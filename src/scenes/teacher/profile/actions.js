@@ -1,3 +1,3 @@
 /* @flow */
 
-export type ProfileAction = {}
+export type ProfileAction = { type: 'teacher-profile-load-request' }
