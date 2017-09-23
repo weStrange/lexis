@@ -21,6 +21,7 @@ import {
 } from './components'
 
 import type { CourseComposerState } from './types'
+import type { AppState } from '../../../types'
 
 const Wrapper = styled(Grid)`
   padding: 2rem;
@@ -51,3 +52,12 @@ export class CourseComposer extends Component {
     )
   }
 }
+
+function mapStateToProps (state: AppState) {}
+
+function mapDispatchToProsp (dispatch) {}
+
+export default connect({
+  mapStateToProps,
+  mapDispatchToProsp
+})(CourseComposer)

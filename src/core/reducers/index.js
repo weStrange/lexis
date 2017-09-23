@@ -1,10 +1,6 @@
 /* @flow */
 
-import * as constants from '../constants'
-import type { Action } from '../../actions'
+import teacher from '../../scenes/teacher/reducer'
+import nav from './navigationReducer'
 
-const rootReducer = (state: {} = {}, action: Action) => {
-  return state
-}
-
-export default rootReducer
+export { teacher, nav }
