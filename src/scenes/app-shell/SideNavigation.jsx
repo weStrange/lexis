@@ -40,7 +40,7 @@ const navigationItems = [
 const white = 'rgba(255,255,255, 0.86)'
 
 const ListItem = styled(MuiListItem)`
-  border-width: ${props => (props.selected ? '8px' : '0px')} !important;
+  border-width: ${props => (props.selected ? '4px' : '0px')} !important;
   border-style: solid !important;
   border-color: transparent transparent transparent
     ${props => props.selected && props.theme.primary} !important;
