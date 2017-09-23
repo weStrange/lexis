@@ -1,6 +1,12 @@
 /* @flow */
 
-import type { CourseDifficulty, MainActivity, SecondaryActivity } from './types'
+import type {
+  CourseDifficulty,
+  MainActivity,
+  SecondaryActivity,
+  ActivityAreaSelect,
+  ActivityKind
+} from './types'
 
 export type CourseComposerAction =
   | { type: 'teacher-composer-start' }
@@ -21,8 +27,12 @@ export type CourseComposerAction =
       type: 'teacher-composer-secondary-activity-set',
       activity: SecondaryActivity
     }
-  | { type: 'teacher-composer-main-area-toggle' }
-  | { type: 'teacher-composer-secondary-area-toggle' }
+  | { type: 'teacher-composer-activity-area-select', area: ActivityAreaSelect }
+
+  // Activity picker
+  | { type: 'teacher-composer-activity-select', activityKind: ActivityKind }
+  | { type: 'teacher-composer-activity-picker-open' }
+  | { type: 'teacher-composer-activity-picker-close' }
 
   // Lesson actions
   | { type: 'teacher-composer-lesson-add' }

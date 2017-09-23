@@ -2,18 +2,20 @@
 
 import { combineReducers } from 'redux'
 
-import audio from './audioReducer'
+import audioModal from './audioReducer'
 import breadcrumbs from './breadcrumbsReducer'
-import course from './courseReducer'
-import skype from './skypeReducer'
-import text from './textReducer'
-import video from './videoReducer'
+import mainView from './courseReducer'
+import skypeModal from './skypeReducer'
+import textModal from './textReducer'
+import videoModal from './videoReducer'
+import activityPicker from './activityPickerReducer'
 
 export default combineReducers({
-  audio,
+  audioModal,
   breadcrumbs,
-  course,
-  skype,
-  text,
-  video
+  mainView,
+  skypeModal,
+  textModal,
+  videoModal,
+  activityPicker
 })

@@ -239,6 +239,12 @@ export default function breadcrumbsReducer (
         }
       }
 
+    case 'teacher-composer-activity-area-select':
+      return {
+        ...state,
+        selectedActivityArea: action.area
+      }
+
     default:
       return state
   }

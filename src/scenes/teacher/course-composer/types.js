@@ -45,6 +45,8 @@ export type MultiOptionEx = {
   }>
 }
 
+export type ActivityKind = MainActivityKind & SecondaryActivityKind
+
 export type MainActivityKind =
   | 'video'
   | 'audio'
@@ -152,7 +154,7 @@ export type ActivityPickerState = {
 }
 
 export type CourseComposerState = {
-  course: MainViewState,
+  mainView: MainViewState,
   activityPicker: ActivityPickerState,
   breadcrumbs: BreadcrumbsState,
   audioModal: AudioModalState,
