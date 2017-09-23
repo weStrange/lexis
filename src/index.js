@@ -1,9 +1,10 @@
-/* flow */
+/* @flow */
 
 import React from 'react'
 import ReactDOM from 'react-dom'
 
 // global css goes here
+// $FlowIgnore
 import registerServiceWorker from './registerServiceWorker'
 import App from './App'
 

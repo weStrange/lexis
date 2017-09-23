@@ -35,31 +35,35 @@ const UserFunc = styled(CenterBox)`
   justify-content: flex-end;
   padding-right: 3em;
 `
-const Topbar = props => (
-  <Appbar elevation={3} shadowColor='#5B86E5'>
-    <LogoBox>
-      <Logo src={logo} />
-      <Text medium fontSize={'2rem'} color={white}>
-        Lexis
-      </Text>
-    </LogoBox>
-    <SearchSection>
-      <SearchBox />
-    </SearchSection>
-    <UserFunc>
-      <Icon
-        color={white}
-        iconClassName='fa fa-bell-o'
-        size='1.3rem'
-        onClick={() => alert('Hello, world!')}
-      />
-      <SettingMenu />
-      <Avatar size='3rem' style={{ marginRight: 12 }} />
-      <Text light normal color={white}>
-        Welcome, Teacher
-      </Text>
-    </UserFunc>
-  </Appbar>
-)
+
+type TopbarProps = {}
+function Topbar ({  }: TopbarProps) {
+  return (
+    <Appbar elevation={3} shadowColor='#5B86E5'>
+      <LogoBox>
+        <Logo src={logo} />
+        <Text medium fontSize={'2rem'} color={white}>
+          Lexis
+        </Text>
+      </LogoBox>
+      <SearchSection>
+        <SearchBox />
+      </SearchSection>
+      <UserFunc>
+        <Icon
+          color={white}
+          iconClassName='fa fa-bell-o'
+          size='1.3rem'
+          onClick={() => alert('Hello, world!')}
+        />
+        <SettingMenu />
+        <Avatar size='3rem' style={{ marginRight: 12 }} />
+        <Text light normal color={white}>
+          Welcome, Teacher
+        </Text>
+      </UserFunc>
+    </Appbar>
+  )
+}
 
 export default Topbar

@@ -1,3 +1,5 @@
+/* @flow */
+
 import Text from './Text'
 import Avatar from './Avatar'
 

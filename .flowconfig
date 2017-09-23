@@ -1,9 +1,25 @@
 [ignore]
-.*/node_modules/.*
+.*/node_modules/styled-components/src/
+.*/node_modules/radium/src/
+.*/node_modules/material-ui/test-utils/
+.*/node_modules/jss/lib/
+.*/node_modules/material-ui/styles/createGenerateClassName.js.flow
+.*/node_modules/material-ui/internal/Portal.js.flow
+.*/node_modules/material-ui/
+.*/node_modules/promise/
+.*/src/registerServiceWorker.js
+.*/node_modules/eslint-plugin-jsx-a11y/src/
+
 [include]
+.*/node_modules/material-ui/styles/*
+.*/node_modules/material-ui/colors/*
+.*/node_modules/material-ui/Grid/*
+.*/node_modules/material-ui/List/*
 
 [libs]
-./flow-typed
-[lints]
 
+flow
 [options]
+
+suppress_type=$FlowIssue
+suppress_comment= \\(.\\|\n\\)*\\$FlowIgnore

@@ -1,4 +1,4 @@
-/* flow */
+/* @flow */
 
 import React, { Component } from 'react'
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles'
@@ -34,7 +34,10 @@ const muiTheme = createMuiTheme({
   }
 })
 
+type AppProps = {}
 class App extends Component {
+  props: AppProps
+
   render () {
     return (
       <MuiThemeProvider theme={muiTheme}>
