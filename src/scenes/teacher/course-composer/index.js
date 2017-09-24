@@ -67,9 +67,11 @@ export class CourseComposer extends Component {
           onUrlEdit={actions.audio.editUrl}
           onClose={actions.audio.close}
           onSave={
-            composer.mainView.selectedActivityArea === 'main'
-              ? actions.course.setMainActivity
-              : actions.course.setSecondaryActivity
+            composer.mainView.selectedActivityArea === 'main' ? (
+              actions.course.setMainActivity
+            ) : (
+              actions.course.setSecondaryActivity
+            )
           }
         />
         {/* <SkypeModal />  */}

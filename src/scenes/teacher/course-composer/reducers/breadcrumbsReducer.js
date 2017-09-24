@@ -1,6 +1,5 @@
 /* @flow */
 
-
 import { List } from 'immutable'
 
 import type { Action } from '../../../../actions'

@@ -26,7 +26,11 @@ import history from './core/history'
 const primaryColor = '#5B86E5'
 const styledTheme = {
   primary: primaryColor,
-  textColor: 'rgba(91, 134, 229, 0.86)'
+  textColor: 'rgba(91, 134, 229, 0.86)',
+  transition: {
+    hard: `0.3s`,
+    soft: `0.7s`
+  }
 }
 const muiTheme = createMuiTheme({
   palette: {

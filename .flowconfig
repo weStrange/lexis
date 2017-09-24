@@ -15,7 +15,6 @@
 .*/node_modules/material-ui/styles/*
 .*/node_modules/material-ui/colors/*
 .*/node_modules/material-ui/Grid/*
-.*/node_modules/material-ui/List/*
 
 [libs]
 
