@@ -15,12 +15,12 @@ import {
   VideoModal,
   AudioModal,
   SkypeModal,
-  TextModal,
-  MultiOptionModal,
-  WrittenAnswerModal
+  TextModal
 } from './components'
 
-import type { CourseComposerState } from './types'
+import * as actionCreators from './action-creators'
+
+import type { CourseComposerState, ActivityKind } from './types'
 import type { AppState } from '../../../types'
 
 const Wrapper = styled(Grid)`
@@ -36,29 +36,67 @@ export class CourseComposer extends Component {
   props: CourseComposerProps
 
   render () {
+    const { composer, actions } = this.props
+
     return (
       <Wrapper container spacing={24}>
-        <Breadcrumbs />
-        <ContentArea />
-        <ActivityPicker selectedItemIdx={0} />
+        {/*  <Breadcrumbs />  */}
+        <ContentArea
+          mainView={composer.mainView}
+          onActivitySelect={actions.course.selectActivityArea}
+        />
+        <ActivityPicker
+          picker={composer.activityPicker}
+          activityArea={composer.mainView.selectedActivityArea}
+          onItemSelect={actions.activityPicker.select}
+        />
 
-        <VideoModal />
-        <AudioModal />
-        <SkypeModal />
-        <TextModal />
-        <MultiOptionModal />
-        <WrittenAnswerModal />
+        <VideoModal
+          video={composer.videoModal}
+          onUrlEdit={actions.video.editUrl}
+          onClose={actions.video.close}
+          onSave={actions.course.setMainActivity}
+        />
+        <AudioModal
+          audio={composer.audioModal}
+          onUrlEdit={actions.audio.editUrl}
+          onClose={actions.audio.close}
+          onSave={
+            composer.mainView.selectedActivityArea === 'main'
+              ? actions.course.setMainActivity
+              : actions.course.setSecondaryActivity
+          }
+        />
+        {/* <SkypeModal />  */}
+        {/* <TextModal /> */}
       </Wrapper>
     )
   }
 }
 
 function mapStateToProps (state: AppState) {
-  return {}
+  return {
+    composer: state.teacher.courseComposer
+  }
 }
 
 function mapDispatchToProsp (dispatch) {
-  return {}
+  return {
+    actions: {
+      activityPicker: bindActionCreators(
+        actionCreators.activityPicker,
+        dispatch
+      ),
+      audio: bindActionCreators(actionCreators.audioActions, dispatch),
+      skype: bindActionCreators(actionCreators.skypeActions, dispatch),
+      text: bindActionCreators(actionCreators.textActions, dispatch),
+      video: bindActionCreators(actionCreators.videoActions, dispatch),
+      course: bindActionCreators(actionCreators.courseActions, dispatch),
+      exercise: bindActionCreators(actionCreators.exerciseActions, dispatch),
+      lesson: bindActionCreators(actionCreators.lessonActions, dispatch),
+      level: bindActionCreators(actionCreators.levelActions, dispatch)
+    }
+  }
 }
 
 export default connect(mapStateToProps, mapDispatchToProsp)(CourseComposer)

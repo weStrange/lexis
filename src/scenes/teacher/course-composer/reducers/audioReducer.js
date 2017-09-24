@@ -1,6 +1,5 @@
 /* @flow */
 
-
 import { List } from 'immutable'
 
 import type { Action } from '../../../../actions'
@@ -24,10 +23,16 @@ export default function audioReducer (
     case 'teacher-composer-audio-url-edit':
       return {
         ...state,
-        video: {
+        audio: {
           ...state.audio,
           url: action.url
         }
+      }
+
+    case 'teacher-composer-activity-select':
+      return {
+        ...state,
+        open: action.activityKind === 'audio'
       }
 
     case 'teacher-composer-audio-modal-open':
@@ -36,9 +41,9 @@ export default function audioReducer (
         open: true
       }
 
-    case 'teacher-composer-audio-modal-open':
+    case 'teacher-composer-audio-modal-close':
       return {
-        ...state,
+        ...getInitialState(),
         open: false
       }
 

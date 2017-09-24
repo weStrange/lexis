@@ -1,6 +1,5 @@
 /* @flow */
 
-
 import { List } from 'immutable'
 
 import type { Action } from '../../../../actions'
@@ -30,15 +29,21 @@ export default function videoReducer (
         }
       }
 
+    case 'teacher-composer-activity-select':
+      return {
+        ...state,
+        open: action.activityKind === 'video'
+      }
+
     case 'teacher-composer-video-modal-open':
       return {
         ...state,
         open: true
       }
 
-    case 'teacher-composer-video-modal-open':
+    case 'teacher-composer-video-modal-close':
       return {
-        ...state,
+        ...getInitialState(),
         open: false
       }
 

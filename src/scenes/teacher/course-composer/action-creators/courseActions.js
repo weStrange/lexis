@@ -4,7 +4,8 @@ import type { Action } from '../../../../actions'
 import type {
   CourseDifficulty,
   MainActivity,
-  SecondaryActivity
+  SecondaryActivity,
+  ActivityAreaSelect
 } from '../types'
 
 export function editName (name: string): Action {
@@ -32,5 +33,12 @@ export function setSecondaryActivity (activity: SecondaryActivity): Action {
   return {
     type: 'teacher-composer-secondary-activity-set',
     activity: activity
+  }
+}
+
+export function selectActivityArea (area: ActivityAreaSelect): Action {
+  return {
+    type: 'teacher-composer-activity-area-select',
+    area: area
   }
 }
