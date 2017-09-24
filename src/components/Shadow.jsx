@@ -1,3 +1,5 @@
+/* @flow */
+
 import React from 'react'
 import styled from 'styled-components'
 import tinycolor from 'tinycolor2'
@@ -34,6 +36,6 @@ const getSpread = (elevation: number) => {
   return shadows[elevation < 0 || elevation > 24 ? 0 : elevation]
 }
 
-export const Paper = styled.div`
-  box-shadow: ${props => getSpread(props.elevation)};
-`
+const Paper = styled.div`box-shadow: ${props => getSpread(props.elevation)};`
+
+export default Paper

@@ -15,6 +15,13 @@ export function editName (name: string): Action {
   }
 }
 
+export function editDescription (description: string): Action {
+  return {
+    type: 'teacher-composer-course-description-edit',
+    description: description
+  }
+}
+
 export function editDifficulty (difficulty: CourseDifficulty): Action {
   return {
     type: 'teacher-composer-course-difficulty-edit',

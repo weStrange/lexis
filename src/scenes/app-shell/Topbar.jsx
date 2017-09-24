@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Text, Paper, CenterBox, Icon, Avatar } from 'common-components'
+import { Text, Paper, CenterBox, Icon, Avatar } from '../../components'
 import SearchBox from './SearchBox'
 import logo from 'assets/logo.svg'
 import SettingMenu from './SettingsMenu'

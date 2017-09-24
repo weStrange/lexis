@@ -10,6 +10,7 @@ function getInitialState (): MainViewState {
     course: {
       id: '',
       name: '',
+      description: '',
       difficulty: 'Beginner',
       levels: List()
     },
@@ -20,11 +21,20 @@ function getInitialState (): MainViewState {
   }
 }
 
-export default function breadcrumbsReducer (
+export default function courseReducer (
   state: MainViewState = getInitialState(),
   action: Action
 ): MainViewState {
   switch (action.type) {
+    case 'teacher-composer-start':
+      return {
+        ...state,
+        selectedActivityArea: 'none',
+        currentLevelIdx: -1,
+        currentLessonIdx: -1,
+        currentExerciseIdx: -1
+      }
+
     case 'teacher-composer-level-add':
       return {
         ...state,
@@ -32,7 +42,8 @@ export default function breadcrumbsReducer (
           ...state.course,
           levels: state.course.levels.push({
             id: '',
-            name: '',
+            name: 'My new level',
+            description: '',
             lessons: List()
           })
         }
@@ -66,6 +77,19 @@ export default function breadcrumbsReducer (
         }
       }
 
+    case 'teacher-composer-level-description-edit':
+      let levelDescAction = action
+      return {
+        ...state,
+        course: {
+          ...state.course,
+          levels: state.course.levels.update(action.idx, p => ({
+            ...p,
+            description: levelDescAction.description
+          }))
+        }
+      }
+
     case 'teacher-composer-lesson-add':
       return {
         ...state,
@@ -75,7 +99,7 @@ export default function breadcrumbsReducer (
             ...p,
             lessons: p.lessons.push({
               id: '',
-              name: '',
+              name: 'My new lesson',
               exercises: List()
             })
           }))
@@ -125,11 +149,12 @@ export default function breadcrumbsReducer (
           levels: state.course.levels.update(state.currentLevelIdx, p => ({
             ...p,
             lessons: p.lessons.update(state.currentLessonIdx, s => ({
-              id: '',
-              name: '',
+              ...s,
               exercises: s.exercises.push({
                 id: '',
-                name: '',
+                name: s.exercises.isEmpty()
+                  ? 'Introduction'
+                  : 'Part ' + s.exercises.size,
                 mainActivity: null,
                 secondaryActivity: null
               })
@@ -227,6 +252,15 @@ export default function breadcrumbsReducer (
         course: {
           ...state.course,
           name: action.name
+        }
+      }
+
+    case 'teacher-composer-course-description-edit':
+      return {
+        ...state,
+        course: {
+          ...state.course,
+          description: action.description
         }
       }
 

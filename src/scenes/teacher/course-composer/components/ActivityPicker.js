@@ -6,7 +6,7 @@ import { List as ImmList } from 'immutable'
 
 import Grid from 'material-ui/Grid'
 import styled, { withTheme } from 'styled-components'
-import { Paper, Avatar, Text } from 'common-components'
+import { Paper, Avatar, Text } from '../../../../components'
 import { grey, yellow, teal, blue } from 'material-ui/colors'
 import List, { ListItem as MuiListItem } from 'material-ui/List'
 import tinyColor from 'tinycolor2'

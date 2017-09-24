@@ -15,9 +15,15 @@ export type CourseComposerAction =
   | { type: 'teacher-composer-level-remove', idx: number }
   | { type: 'teacher-composer-level-select', idx: number }
   | { type: 'teacher-composer-level-name-edit', name: string, idx: number }
+  | {
+      type: 'teacher-composer-level-description-edit',
+      description: string,
+      idx: number
+    }
 
   // Course actions
   | { type: 'teacher-composer-course-name-edit', name: string }
+  | { type: 'teacher-composer-course-description-edit', description: string }
   | {
       type: 'teacher-composer-course-difficulty-edit',
       difficulty: CourseDifficulty

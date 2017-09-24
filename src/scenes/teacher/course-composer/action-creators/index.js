@@ -9,6 +9,7 @@ import * as exerciseActions from './exerciseActions'
 import * as lessonActions from './lessonActions'
 import * as levelActions from './levelActions'
 import * as activityPicker from './activityPickerActions'
+import * as generalActions from './generalActions'
 
 export {
   audioActions,
@@ -19,5 +20,6 @@ export {
   exerciseActions,
   lessonActions,
   levelActions,
-  activityPicker
+  activityPicker,
+  generalActions
 }
