@@ -47,7 +47,7 @@ export function VideoModal ({
       ignoreBackdropClick
       ignoreEscapeKeyUp
       open={video.open}
-      maxWidth='s'
+      maxWidth='sm'
     >
       <DialogTitle>Add video</DialogTitle>
       <DialogContent>

@@ -9,7 +9,7 @@ import styled from 'styled-components'
 import Grid from 'material-ui/Grid'
 
 import {
-  Breadcrumbs,
+  Navigation,
   ContentArea,
   ActivityPicker,
   VideoModal,
@@ -35,16 +35,21 @@ type CourseComposerProps = {
 export class CourseComposer extends Component {
   props: CourseComposerProps
 
+  componentWillMount () {
+    this.props.actions.general.startComposer()
+  }
+
   render () {
     const { composer, actions } = this.props
 
     return (
       <Wrapper container spacing={24}>
-        {/*  <Breadcrumbs />  */}
-        <ContentArea
+        <Navigation
+          breadcrumbs={composer.breadcrumbs}
           mainView={composer.mainView}
-          onActivitySelect={actions.course.selectActivityArea}
+          actions={actions}
         />
+
         <ActivityPicker
           picker={composer.activityPicker}
           activityArea={composer.mainView.selectedActivityArea}
@@ -94,7 +99,8 @@ function mapDispatchToProsp (dispatch) {
       course: bindActionCreators(actionCreators.courseActions, dispatch),
       exercise: bindActionCreators(actionCreators.exerciseActions, dispatch),
       lesson: bindActionCreators(actionCreators.lessonActions, dispatch),
-      level: bindActionCreators(actionCreators.levelActions, dispatch)
+      level: bindActionCreators(actionCreators.levelActions, dispatch),
+      general: bindActionCreators(actionCreators.generalActions, dispatch)
     }
   }
 }

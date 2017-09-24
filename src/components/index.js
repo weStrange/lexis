@@ -2,9 +2,8 @@
 
 import Text from './Text'
 import Avatar from './Avatar'
+import Paper from './Shadow'
+import { IconBox, SvgIcon, Icon } from './Icon'
+import { FlexBox, CenterBox } from './Layout'
 
-export * from './Layout'
-export * from './Shadow'
-export * from './Icon'
-export { Paper } from './Shadow'
-export { Text, Avatar }
+export { Text, Avatar, Paper, IconBox, SvgIcon, Icon, FlexBox, CenterBox }

@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Text, Icon, CenterBox, Paper } from 'common-components'
+import { Text, Icon, CenterBox, Paper } from '../../components'
 
 const Container = styled(Paper)`
   display: flex;

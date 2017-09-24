@@ -87,12 +87,14 @@ export type Lesson = {
 export type Level = {
   id: string,
   name: string,
+  description: string,
   lessons: List<Lesson>
 }
 
 export type Course = {
   id: string,
   name: string,
+  description: string,
   difficulty: CourseDifficulty,
   levels: List<Level>
 }

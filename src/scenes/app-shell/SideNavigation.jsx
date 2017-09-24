@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux'
 import { Link } from 'react-router-dom'
 
 import styled, { withTheme } from 'styled-components'
-import { Paper, Avatar, Text } from 'common-components'
+import { Paper, Avatar, Text } from '../../components'
 import { grey, yellow, teal, blue } from 'material-ui/colors'
 import List, { ListItem as MuiListItem } from 'material-ui/List'
 import dashboardIcon from 'assets/trophy.svg'

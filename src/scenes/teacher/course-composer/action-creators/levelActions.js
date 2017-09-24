@@ -29,3 +29,11 @@ export function editName (name: string, idx: number): Action {
     idx: idx
   }
 }
+
+export function editDescription (description: string, idx: number): Action {
+  return {
+    type: 'teacher-composer-level-description-edit',
+    description: description,
+    idx: idx
+  }
+}

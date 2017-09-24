@@ -47,7 +47,7 @@ export function AudioModal ({
       ignoreBackdropClick
       ignoreEscapeKeyUp
       open={audio.open}
-      maxWidth='s'
+      maxWidth='sm'
     >
       <DialogTitle>Add audio</DialogTitle>
       <DialogContent>

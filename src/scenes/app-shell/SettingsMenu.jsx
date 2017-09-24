@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import MuiMenu, { MenuItem } from 'material-ui/Menu'
-import { Text, Icon } from 'common-components'
+import { Text, Icon } from '../../components'
 const white = 'rgba(255, 255, 255, 0.86)'
 
 const Menu = styled(MuiMenu)`
