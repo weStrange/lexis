@@ -36,8 +36,7 @@ const UserFunc = styled(CenterBox)`
   padding-right: 3em;
 `
 
-type TopbarProps = {}
-function Topbar ({  }: TopbarProps) {
+function Topbar () {
   return (
     <Appbar elevation={3} shadowColor='#5B86E5'>
       <LogoBox>
