@@ -10,17 +10,19 @@ function getInitialState (): NavigationState {
   }
 }
 
-export default function audioReducer (
+export default function navigationReducer (
   state: NavigationState = getInitialState(),
   action: Action
 ): NavigationState {
   switch (action.type) {
+    // depricated
     case 'core-navigation-index-set':
       return {
         ...state,
         currIdx: action.idx
       }
-
+    case 'set-role':
+      return { ...state, userRole: action.role }
     default:
       return state
   }

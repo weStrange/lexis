@@ -56,8 +56,6 @@ export class ContentArea extends Component {
   }
 
   _displayMainActivity () {
-    // if ()
-
     let mainView = this.props.mainView
     let level = mainView.course.levels.get(mainView.currentLevelIdx)
     if (level === undefined) {
@@ -121,17 +119,17 @@ export class ContentArea extends Component {
         <List className={classes.exerciseList}>
           {mainView.currentLevelIdx >= 0 &&
           mainView.currentLessonIdx >= 0 &&
-          mainView.course.levels.get(mainView.currentLevelIdx) ? (
-            mainView.course.levels
-              .get(mainView.currentLevelIdx)
-              .lessons.get(mainView.currentLessonIdx)
-              .exercises.map((p, i) => (
-                <ListItem key={i} onClick={() => onExerciseSelect(i)} button>
-                  {/* TODO: Add styling to allow for selectable components */}
-                  <ListItemText primary={p.name} />
-                </ListItem>
-              ))
-          ) : null}
+          mainView.course.levels.get(mainView.currentLevelIdx)
+            ? mainView.course.levels
+                .get(mainView.currentLevelIdx)
+                .lessons.get(mainView.currentLessonIdx)
+                .exercises.map((p, i) => (
+                  <ListItem key={i} onClick={() => onExerciseSelect(i)} button>
+                    {/* TODO: Add styling to allow for selectable components */}
+                    <ListItemText primary={p.name} />
+                  </ListItem>
+                ))
+            : null}
           <ListItem button onClick={onExerciseAdd}>
             <ListItemText primary='Add' />
           </ListItem>

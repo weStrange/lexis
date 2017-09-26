@@ -4,7 +4,7 @@ import React from 'react'
 import TextField from 'material-ui/TextField'
 import List, { ListItem, ListItemText } from 'material-ui/List'
 
-import { Text } from '../../../../components'
+import { Text } from 'common-components'
 
 import type { Lesson, Level } from '../types'
 
@@ -24,23 +24,21 @@ export default function LevelEditor ({
 }: LevelEditorProps) {
   return (
     <div>
-      <form>
-        <TextField
-          id='levelName'
-          label='Level name'
-          value={level.name}
-          onChange={ev => onNameEdit(ev.target.value)}
-        />
-        <TextField
-          id='course-description'
-          label='Multiline'
-          multiline
-          rowsMax='8'
-          value={level.description}
-          onChange={ev => onDescriptionEdit(ev.target.value)}
-          margin='normal'
-        />
-      </form>
+      <TextField
+        id='levelName'
+        label='Level name'
+        value={level.name}
+        onChange={ev => onNameEdit(ev.target.value)}
+      />
+      <TextField
+        id='course-description'
+        label='Multiline'
+        multiline
+        rowsMax='8'
+        value={level.description}
+        onChange={ev => onDescriptionEdit(ev.target.value)}
+        margin='normal'
+      />
       <Text primary medium fontSize={'1.3em'}>
         Lessons
       </Text>
