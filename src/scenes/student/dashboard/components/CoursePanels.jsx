@@ -7,7 +7,7 @@ import { withStyles } from 'material-ui/styles'
 import Grid from 'material-ui/Grid'
 import { Text } from 'common-components'
 import { Paper } from 'material-ui'
-import { Carousel } from './'
+import { Carousel } from 'common-components'
 
 const styles = theme => ({
   coursePanel: theme.mixins.gutters({

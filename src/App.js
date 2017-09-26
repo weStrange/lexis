@@ -23,6 +23,7 @@ import Course from './scenes/student/course'
 import store from './core/store'
 import history from './core/history'
 import StudentDashboard from './scenes/student/dashboard/components/StudentDashboard'
+import TeacherDashboard from './scenes/teacher/dashboard/components/TeacherDashboard'
 
 const primaryColor = '#5B86E5'
 const styledTheme = {
@@ -70,6 +71,10 @@ class App extends Component {
                   <Route
                     path='/teacher/course-composer'
                     component={CourseComposer}
+                  />
+                  <Route
+                    path='/teacher/dashboard'
+                    component={TeacherDashboard}
                   />
                   <Route exact path='/student/courses' component={Courses} />
                   <Route path='/student/courses/*' component={Course} />

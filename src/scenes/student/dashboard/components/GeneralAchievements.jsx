@@ -7,8 +7,7 @@ import { withStyles } from 'material-ui/styles'
 import Grid from 'material-ui/Grid'
 import { Text } from 'common-components'
 import { Paper } from 'material-ui'
-import { Carousel } from './'
-import { Avatar } from 'common-components'
+import { Avatar, Carousel } from 'common-components'
 import trophy from 'assets/trophy.svg'
 
 const styles = theme => ({
@@ -49,7 +48,7 @@ class GeneralAchievements extends React.Component {
     })
   }
 
-  renderCoursePanels (offset, nCourses) {
+  renderAchievementPanels (offset, nCourses) {
     const { classes, achievements } = this.props
     let coursePanels = []
 
@@ -91,7 +90,7 @@ class GeneralAchievements extends React.Component {
     for (let i = 0; i < nViews; i++) {
       views.push(
         <Grid container spacing={12} key={i} style={{ padding: '10px' }}>
-          {this.renderCoursePanels(
+          {this.renderAchievementPanels(
             i * nAchievementsPerView,
             nAchievementsPerView
           )}

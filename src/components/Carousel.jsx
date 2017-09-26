@@ -16,7 +16,8 @@ const styles = theme => ({
     textAlign: 'center'
   }),
   button: theme.mixins.gutters({
-    marginTop: '45%'
+    position: 'relative',
+    top: '45%'
   })
 })
 
