@@ -28,7 +28,7 @@ const DropDownButton = styled(Button)`
 
 type Props = {
   course: any,
-  classes: any
+  classes?: any
 }
 
 class CourseAchievementsPanel extends React.Component {

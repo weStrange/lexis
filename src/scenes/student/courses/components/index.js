@@ -1,6 +1,6 @@
 // @flow
 
 import Courses from './Courses'
-import CoursePanels from './CoursePanels'
+// import CoursePanels from './CoursePanels'
 
-export { Courses, CoursePanels }
+export { Courses }

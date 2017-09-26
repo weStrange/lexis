@@ -1,11 +1,34 @@
 /* @flow */
 
+import { List as ImmList } from 'immutable'
+
 import React from 'react'
 import styled from 'styled-components'
 import Grid from 'material-ui/Grid'
 import List, { ListItem } from 'material-ui/List'
-import { connect } from 'react-redux'
+import { GridList, GridListTile, GridListTileBar } from 'material-ui/GridList'
 import { Text } from 'common-components'
+import Card from 'material-ui/Card'
+
+import type { Course } from 'core/types'
+
+const CourseGridList = styled(GridList)`
+  width: 100%;
+  height: 450;
+`
+
+const PropertyList = styled(List)`float: right;`
+
+const ImageGridListTile = styled(GridListTile)`
+  width: 30%;
+  height: 100px;
+  float: left;
+`
+
+const CourseCard = styled(Card)`
+  width: '45%';
+  margin: 10px 10px 10px 10px;
+`
 
 const CourseItem = styled(ListItem)`
   &::after {
@@ -18,69 +41,42 @@ const CourseItem = styled(ListItem)`
     content: '';
   }
 `
-const CourseList = ({ item, ...props }) => (
-  <Grid item {...props}>
+type CourseListProps = {
+  item: any,
+  courses: ImmList<Course>,
+  props?: any
+}
+const CourseList = ({ item, courses, ...props }: CourseListProps) => (
+  <div
+    style={{
+      display: 'flex',
+      flexWrap: 'wrap',
+      justifyContent: 'space-around',
+      overflow: 'hidden'
+    }}
+  >
     <Text primary medium fontSize={'1.3em'}>
       Your courses
     </Text>
-    <List>
-      {props.courses.map((course, key) => (
-        <CourseItem button key={key} onClick={e => console.log(key)}>
-          <Text normal color='rgba(0,0,0, .84)'>
-            {course.title}
-          </Text>
-        </CourseItem>
+    <CourseGridList cellHeight={180}>
+      {courses.map((p, i) => (
+        <CourseCard style={{ width: '40%' }}>
+          <ImageGridListTile key={i}>
+            <img
+              src='https://lh3.ggpht.com/EaoEf2uSk3CFAhPw9Fk-mbkU7c_qdBMlF5myx1ocDx4cHw54G21wDokRZSySJ3pd4iw=w300'
+              alt={p.name}
+            />
+          </ImageGridListTile>
+          <PropertyList>
+            <ListItem>{'Name: ' + p.name}</ListItem>
+            <ListItem>{'Creation date: 01.01.2017'}</ListItem>
+            <ListItem>{'Number of participants: 125'}</ListItem>
+            <ListItem>{'Difficulty: ' + p.difficulty}</ListItem>
+          </PropertyList>
+        </CourseCard>
       ))}
-    </List>
-  </Grid>
+    </CourseGridList>
+  </div>
 )
 
-export default connect(state => ({
-  courses: [
-    {
-      title: 'Intermediate english 1'
-    },
-    {
-      title: 'Intermediate english 2'
-    },
-    {
-      title: 'Intermediate english 3'
-    },
-    {
-      title: 'English for Kids 1'
-    },
-    {
-      title: 'English for Kids 2'
-    },
-    {
-      title: 'English for Kids 3'
-    },
-    {
-      title: 'Conquer IELTS within 90 days - Writing'
-    },
-    {
-      title: 'Conquer IELTS within 90 days - Reading'
-    },
-    {
-      title: 'Conquer IELTS within 90 days - Listening'
-    },
-    {
-      title: 'Conquer IELTS within 90 days - Speaking'
-    },
-    {
-      title: 'English for Working people 1'
-    },
-    {
-      title: 'English for Working people 2'
-    },
-    {
-      title: 'Intensive speaking 1'
-    },
-    {
-      title: 'Fluent conversation in English'
-    },
-    {
-      title: 'English thesaurus'
-    }
-  ]
-}))(CourseList)
+export default CourseList

@@ -4,9 +4,10 @@ import type {
   CourseDifficulty,
   MainActivity,
   SecondaryActivity,
-  ActivityAreaSelect,
   ActivityKind
-} from './types'
+} from '../../../core/types'
+
+import type { ActivityAreaSelect } from './types'
 
 export type CourseComposerAction =
   | { type: 'teacher-composer-start' }

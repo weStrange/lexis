@@ -10,7 +10,8 @@ import Select from 'material-ui/Select'
 
 import { Text } from '../../../../components'
 
-import type { Course, CourseDifficulty } from '../types'
+import type { Course } from '../types'
+import type { CourseDifficulty } from '../../../../core/types'
 
 const styles = theme => ({
   container: {
