@@ -2,7 +2,7 @@ import React from 'react'
 
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 
 import styled, { withTheme } from 'styled-components'
 import { Paper, Avatar, Text } from '../../components'
@@ -35,7 +35,7 @@ const navigationItems = {
     {
       title: 'Profile',
       imgSrc: null,
-      link: '/profile'
+      link: '/teacher/profile'
     }
   ],
   STUDENT: [
@@ -60,10 +60,8 @@ const navigationItems = {
 const white = 'rgba(255,255,255, 0.86)'
 
 const ListItem = styled(MuiListItem)`
-  border-width: ${props => (props.selected ? '4px' : '0px')} !important;
-  border-style: solid !important;
-  border-color: transparent transparent transparent
-    ${props => props.selected && props.theme.primary} !important;
+  transition: all ${({ theme }) => theme.transition.hard} ease !important;
+  border-color: ${props => props.theme.primary} !important;
   &:hover {
     background-color: ${props =>
       tinyColor(props.theme.primary)
@@ -80,38 +78,33 @@ const Wrapper = styled(Paper)`
   background: ${grey[800]};
   padding-top: 3rem;
 `
-const ListText = styled(Text)`margin-left: 16px;`
-const SideNavigation = props => {
-  let currentIndex = props.currIdx // for mocking purposes
-  const { user } = props
 
+const ListText = styled(Text)`margin-left: 16px;`
+
+const SideNavigation = props => {
   const renderNavigationItems = () => {
-    if ((user && user.role == 'TEACHER') || 'STUDENT') {
-      return navigationItems[user.role].map((item, key) => {
-        const selected = currentIndex === key
-        return (
-          <Link style={{ textDecoration: 'none' }} to={item.link}>
-            <ListItem
-              selected={selected}
-              button
-              key={key}
-              onClick={() => props.actions.nav.setIndex(key)}
-            >
-              <Avatar
-                backgroundColor='transparent'
-                style={{ backgroundColor: 'transparent' }}
-                imgProps={{ style: { transform: 'scale(0.8)' } }}
-                src={item.imgSrc}
-                size='3rem'
-              />
-              <ListText light={!selected} medium={selected} color={white}>
-                {item.title}
-              </ListText>
-            </ListItem>
-          </Link>
-        )
-      })
-    }
+    return navigationItems[props.nav.userRole].map((item, key) => {
+      return (
+        <ListItem
+          button
+          key={key}
+          onClick={() => props.actions.nav.setIndex(key)}
+          component={NavLink}
+          to={item.link}
+          activeStyle={{ borderLeft: `4px solid` }}
+        >
+          <Avatar
+            backgroundColor='transparent'
+            style={{ backgroundColor: 'transparent' }}
+            imgProps={{ style: { transform: 'scale(0.8)' } }}
+            src={item.imgSrc}
+            size='3rem'
+            to={item.link}
+          />
+          <ListText color={white}>{item.title}</ListText>
+        </ListItem>
+      )
+    })
   }
 
   return (
@@ -122,10 +115,7 @@ const SideNavigation = props => {
 }
 
 export default connect(
-  (state: AppState) => ({
-    ...state.nav,
-    user: { role: 'STUDENT' }
-  }),
+  (state: AppState) => ({ nav: state.nav, location: state.router.location }),
   dispatch => ({
     actions: {
       nav: bindActionCreators(actionCreators.navActions, dispatch)
