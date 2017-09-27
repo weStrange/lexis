@@ -6,7 +6,6 @@ import styled from 'styled-components'
 import Grid from 'material-ui/Grid'
 import { Paper } from 'material-ui'
 import { withStyles } from 'material-ui/styles'
-import type { AppState } from '../../../types'
 import { connect } from 'react-redux'
 import { List } from 'immutable'
 import {
@@ -15,6 +14,7 @@ import {
   CourseAchievements,
   ProgressCharts
 } from './'
+import type { Achievement, AppState, AchievementCategory } from 'core/types'
 
 const commonStyles = {
   paddingTop: 16,
@@ -28,12 +28,6 @@ const styles = theme => ({
   })
 })
 
-type Props = {
-  classes: any,
-  user: any,
-  generalAchievements: List<{}>
-}
-
 const Wrapper = styled(Grid)`
   padding: 2rem;
   width: 100%;
@@ -44,8 +38,15 @@ const DashboardAvatar = styled(Avatar)`
   height: 5em !important;
 `
 
+type Props = {
+  classes: any,
+  user: any,
+  generalAchievements: List<Achievement>,
+  courseAchievements: List<AchievementCategory>
+}
+
 const StudentDashboard = (props: Props) => {
-  const { classes, user } = props
+  const { classes, user, generalAchievements, courseAchievements } = props
 
   return (
     <Wrapper container spacing={24}>
@@ -76,9 +77,12 @@ const StudentDashboard = (props: Props) => {
         <CoursePanels />
       </Paper>
       <Paper className={classes.panel}>
-        <GeneralAchievements />
+        <GeneralAchievements achievements={generalAchievements} />
       </Paper>
-      <CourseAchievements className={classes.panel} />
+      <CourseAchievements
+        className={classes.panel}
+        achievementData={courseAchievements}
+      />
     </Wrapper>
   )
 }
@@ -90,7 +94,57 @@ function mapStateToProps (state: AppState) {
     user: {
       firstName: 'Bob',
       lastName: 'Chen'
-    }
+    },
+    generalAchievements: List([
+      {
+        name: 'Humanity Destroyer',
+        description: 'Kill more than 7 000 000 000 people'
+      },
+      {
+        name: "Satan's Mom",
+        description: 'Give birth to satan'
+      },
+      {
+        name: 'The Pain Itself',
+        description: 'Hurt feelings of at least 1000 people around you'
+      },
+      {
+        name: 'Stunt Master',
+        description: 'Drive you car into the ocean and surf a shark'
+      },
+      {
+        name: 'The Doom Bringer',
+        description: 'Cause a malfunction at a nuclear power plant'
+      }
+    ]),
+    courseAchievements: List([
+      {
+        name: 'Menani French',
+        achievements: [
+          {
+            name: 'Intoxicated',
+            description: 'Drink 3 bottles of coke'
+          },
+          {
+            name: 'The Great Escape',
+            description: 'Happens after drinking 3 bottles of coke'
+          }
+        ]
+      },
+      {
+        name: 'Basics of Spanish',
+        achievements: [
+          {
+            name: 'The King',
+            description: 'Get married to a queen'
+          },
+          {
+            name: 'Rumble in The Sky',
+            description: 'Use Stinger missile launcher at least ones'
+          }
+        ]
+      }
+    ])
   }
 }
 

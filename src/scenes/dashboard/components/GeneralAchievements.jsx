@@ -1,25 +1,25 @@
 // @flow
 
 import React from 'react'
-import { connect } from 'react-redux'
-import type { AppState } from '../../../types'
 import { withStyles } from 'material-ui/styles'
 import Grid from 'material-ui/Grid'
 import { Text } from 'common-components'
 import { Paper } from 'material-ui'
 import { Avatar, Carousel } from 'common-components'
 import trophy from 'assets/trophy.svg'
+import type { Achievement } from 'core/types'
+import { List } from 'immutable'
 
 const styles = theme => ({
   achievementPanel: theme.mixins.gutters({
     padding: theme.spacing.unit,
     margin: '10px',
-    minHeight: '100px'
+    minHeight: '150px'
   })
 })
 
 type Props = {
-  achievements: Array<any>,
+  achievements: List<Achievement>,
   classes: any
 }
 
@@ -53,8 +53,8 @@ class GeneralAchievements extends React.Component {
     let coursePanels = []
 
     const coursesEndIndex =
-      offset + nCourses > achievements.length
-        ? achievements.length
+      offset + nCourses > achievements.size
+        ? achievements.size
         : offset + nCourses
 
     for (let i = offset; i < coursesEndIndex; i++) {
@@ -66,10 +66,10 @@ class GeneralAchievements extends React.Component {
                 <Avatar src={trophy} size={'3.7em'} />
               </Grid>
               <Grid item sm={9}>
-                <Text fontSize={'1.3em'}>{achievements[i].name}</Text>
+                <Text fontSize={'1.3em'}>{achievements.get(i).name}</Text>
                 <br />
                 <br />
-                <Text>{achievements[i].description}</Text>
+                <Text>{achievements.get(i).description}</Text>
               </Grid>
             </Grid>
           </Paper>
@@ -83,7 +83,7 @@ class GeneralAchievements extends React.Component {
   renderAchievementPanelViews () {
     const { achievements } = this.props
 
-    const nViews = Math.floor(achievements.length / nAchievementsPerView) + 1
+    const nViews = Math.floor(achievements.size / nAchievementsPerView) + 1
 
     let views = []
 
@@ -104,7 +104,7 @@ class GeneralAchievements extends React.Component {
   render () {
     const { achievements } = this.props
     const { selectedViewIdx } = this.state
-    const nViews = Math.floor(achievements.length / nAchievementsPerView)
+    const nViews = Math.floor(achievements.size / nAchievementsPerView)
 
     return (
       <div>
@@ -122,31 +122,4 @@ class GeneralAchievements extends React.Component {
 
 const StyledGeneralAchievements = withStyles(styles)(GeneralAchievements)
 
-function mapStateToProps (state: AppState) {
-  return {
-    achievements: [
-      {
-        name: 'Humanity Destroyer',
-        description: 'Kill more than 7 000 000 000 people'
-      },
-      {
-        name: "Satan's Mom",
-        description: 'Give birth to satan'
-      },
-      {
-        name: 'The Pain Itself',
-        description: 'Hurt feelings of at least 1000 people around you'
-      },
-      {
-        name: 'Stunt Master',
-        description: 'Drive you car into the ocean and surf a shark'
-      },
-      {
-        name: 'The Doom Bringer',
-        description: 'Cause a malfunction at a nuclear power plant'
-      }
-    ]
-  }
-}
-
-export default connect(mapStateToProps)(StyledGeneralAchievements)
+export default StyledGeneralAchievements

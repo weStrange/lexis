@@ -2,7 +2,7 @@
 
 import * as React from 'react'
 import { List } from 'immutable'
-import type { PromoEvent } from '../types'
+import type { PromoEvent } from 'core/types'
 import { Grid, Paper } from 'material-ui'
 import { Text, Carousel } from 'common-components'
 import { withStyles } from 'material-ui/styles'
