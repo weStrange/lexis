@@ -8,3 +8,7 @@ export function setIndex (idx: number): Action {
     idx: idx
   }
 }
+export const changeRole = (role): Action => ({
+  type: 'navigation-change-role',
+  role
+})

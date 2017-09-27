@@ -56,8 +56,6 @@ export class ContentArea extends Component {
   }
 
   _displayMainActivity () {
-    // if ()
-
     let mainView = this.props.mainView
     let level = mainView.course.levels.get(mainView.currentLevelIdx)
     if (level === undefined) {

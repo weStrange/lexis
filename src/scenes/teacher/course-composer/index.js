@@ -21,7 +21,7 @@ import {
 import * as actionCreators from './action-creators'
 
 import type { CourseComposerState, ActivityKind } from './types'
-import type { AppState } from '../../../types'
+import type { AppState } from 'core/types'
 
 const Wrapper = styled(Grid)`
   padding: 2rem;

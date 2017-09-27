@@ -1,7 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
 import MuiMenu, { MenuItem } from 'material-ui/Menu'
-import { Text, Icon } from '../../components'
+import { Text, Icon } from 'common-components'
+import { Link, Route } from 'react-router-dom'
+import { connect, bindActionCreators } from 'react-redux'
+import { changeRole } from 'core/action-creators/navActions'
+
 const white = 'rgba(255, 255, 255, 0.86)'
 
 const Menu = styled(MuiMenu)`
@@ -48,19 +52,36 @@ class SettingsMenu extends React.PureComponent {
           open={this.state.open}
           onRequestClose={this.handleRequestClose}
         >
-          <MenuItem onClick={this.handleRequestClose}>
-            <Text primary>Profile</Text>
-          </MenuItem>
-          <MenuItem onClick={this.handleRequestClose}>
-            <Text primary>My account</Text>
-          </MenuItem>
-          <MenuItem onClick={this.handleRequestClose}>
+          <MenuItem disabled>
             <Text primary>Logout</Text>
           </MenuItem>
+          <Route
+            path='/teacher'
+            render={props => (
+              <MenuItem
+                component={Link}
+                to='../student'
+                onClick={() => this.props.dispatch(changeRole('STUDENT'))}
+              >
+                <Text primary>Sign in as student</Text>
+              </MenuItem>
+            )}
+          />
+          <Route
+            path='/student'
+            render={props => (
+              <MenuItem
+                component={Link}
+                to='../teacher'
+                onClick={() => this.props.dispatch(changeRole('TEACHER'))}
+              >
+                <Text primary>Sign in as teacher</Text>
+              </MenuItem>
+            )}
+          />
         </Menu>
       </div>
     )
   }
 }
-
-export default SettingsMenu
+export default connect()(SettingsMenu)

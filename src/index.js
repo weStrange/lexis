@@ -1,20 +1,19 @@
 /* @flow */
-
 import React from 'react'
 import ReactDOM from 'react-dom'
-
+import { ApolloProvider } from 'react-apollo'
 // global css goes here
 // $FlowIgnore
 import registerServiceWorker from './registerServiceWorker'
 import App from './App'
 
-import store from './core/store'
+import store, { apolloClient } from './core/store'
 import { Provider } from 'react-redux'
 
 const Root = () => (
-  <Provider store={store}>
+  <ApolloProvider store={store} client={apolloClient}>
     <App />
-  </Provider>
+  </ApolloProvider>
 )
 ReactDOM.render(<Root />, document.getElementById('root'))
 registerServiceWorker()
