@@ -9,7 +9,8 @@ import List, { ListItem } from 'material-ui/List'
 import { GridList, GridListTile, GridListTileBar } from 'material-ui/GridList'
 import { Text } from 'common-components'
 import Card from 'material-ui/Card'
-
+import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 import type { Course } from 'core/types'
 
 const CourseGridList = styled(GridList)`
@@ -60,7 +61,7 @@ const CourseList = ({ item, courses, ...props }: CourseListProps) => (
     </Text>
     <CourseGridList cellHeight={180}>
       {courses.map((p, i) => (
-        <CourseCard style={{ width: '40%' }}>
+        <CourseCard component={Link} to='./course-detail'>
           <ImageGridListTile key={i}>
             <img
               src='https://lh3.ggpht.com/EaoEf2uSk3CFAhPw9Fk-mbkU7c_qdBMlF5myx1ocDx4cHw54G21wDokRZSySJ3pd4iw=w300'
@@ -79,4 +80,48 @@ const CourseList = ({ item, courses, ...props }: CourseListProps) => (
   </div>
 )
 
-export default CourseList
+export default connect(state => ({
+  // mock data at the moment. will retrieve course list from actual redux store later
+  courses: [
+    {
+      name: 'Course1',
+      difficulty: 'Intermediate'
+    },
+    {
+      name: 'Course1',
+      difficulty: 'Intermediate'
+    },
+    {
+      name: 'Course1',
+      difficulty: 'Intermediate'
+    },
+    {
+      name: 'Course1',
+      difficulty: 'Intermediate'
+    },
+    {
+      name: 'Course1',
+      difficulty: 'Intermediate'
+    },
+    {
+      name: 'Course1',
+      difficulty: 'Intermediate'
+    },
+    {
+      name: 'Course1',
+      difficulty: 'Intermediate'
+    },
+    {
+      name: 'Course1',
+      difficulty: 'Intermediate'
+    },
+    {
+      name: 'Course1',
+      difficulty: 'Intermediate'
+    },
+    {
+      name: 'Course1',
+      difficulty: 'Intermediate'
+    }
+  ]
+}))(CourseList)
