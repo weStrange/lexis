@@ -1,8 +1,11 @@
 // @flow
 
 import React from 'react'
+
+import { List } from 'immutable'
 import { connect } from 'react-redux'
 import { withStyles } from 'material-ui/styles'
+
 import CategoryAchievementsPanel from './CategoryAchievementsPanel'
 import type { AchievementCategory } from 'core/types'
 

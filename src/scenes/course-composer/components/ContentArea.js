@@ -6,8 +6,10 @@ import Paper from 'material-ui/Paper'
 import Typography from 'material-ui/Typography'
 import { withStyles } from 'material-ui/styles'
 import List, { ListItem, ListItemText } from 'material-ui/List'
+import { grey } from 'material-ui/colors'
+import Add from 'material-ui-icons/Add'
 
-import { SoundPlayerContainer } from 'react-soundplayer/addons'
+import { Text } from 'common-components'
 
 import YouTube from 'react-youtube'
 
@@ -16,8 +18,9 @@ import type { MainViewState, ActivityAreaSelect } from '../types'
 const commonStyles = {
   paddingTop: 16,
   paddingBottom: 16,
-  marginLeft: window.innerWidth * 0.2,
-  width: window.innerWidth * 0.4
+  marginLeft: window.innerWidth * 0.175,
+  width: window.innerWidth * 0.4,
+  overflow: 'auto'
 }
 const styles = theme => ({
   mainActivity: theme.mixins.gutters({
@@ -51,11 +54,44 @@ type ContentAreaProps = {
 export class ContentArea extends Component {
   prop: ContentAreaProps
   _displayActivity: () => void
+  _getReadableDuration: () => void
 
   constructor (props: ContentAreaProps) {
     super(props)
 
     this._displayActivity = this._displayActivity.bind(this)
+    this._getReadableDuration = this._getReadableDuration.bind(this)
+  }
+
+  _getReadableDuration (duration: number): string {
+    switch (duration) {
+      case 0:
+        return 'No duration limit'
+
+      case 30 * 60:
+        return '30 minutes'
+
+      case 45 * 60:
+        return '45 minutes'
+
+      case 1 * 60 * 60:
+        return '1 hour'
+
+      case 1.5 * 60 * 60:
+        return '1.5 hour'
+
+      case 2 * 60 * 60:
+        return '2 hours'
+
+      case 2.5 * 60 * 60:
+        return '2.5 hours'
+
+      case 3 * 60 * 60:
+        return '3 hours'
+
+      default:
+        return 'No duration limit'
+    }
   }
 
   _displayActivity (activityType: ActivityType) {
@@ -75,7 +111,10 @@ export class ContentArea extends Component {
       return null
     }
 
-    let activity = exercise.mainActivity
+    let activity =
+      activityType === 'main'
+        ? exercise.mainActivity
+        : exercise.secondaryActivity
     if (activity === null) {
       return null
     }
@@ -86,7 +125,7 @@ export class ContentArea extends Component {
           <div
             style={{
               position: 'relative',
-              paddingBottom: '56.25%',
+              paddingBottom: '50%',
               paddingRight: '20%',
               height: 0,
               overflow: 'hidden'
@@ -104,13 +143,49 @@ export class ContentArea extends Component {
         ) : null
 
       case 'audio':
-        return activity.url ? (
-          <SoundPlayerContainer resolveUrl={activity.url} />
-        ) : null
+        return null
 
       case 'text':
+        return (
+          <Text>
+            {activity.content.split('\n').map(p => (
+              <span>
+                {p}
+                <br />
+              </span>
+            ))}
+          </Text>
+        )
 
       case 'skype':
+        return (
+          <div>
+            <img
+              height={window.innerHeight * 0.39}
+              width={window.innerWidth * 0.4}
+              src='https://secure.skypeassets.com/i/common/images/icons/skype-logo-open-graph.png'
+            />
+            <div
+              style={{
+                position: 'absolute',
+                bottom: window.innerHeight * 0.55,
+                left: window.innerWidth * 0.25
+              }}
+            >
+              <Text style={{ marginBottom: '20px' }} color='white'>
+                {activity.topic}
+              </Text>
+              <br />
+              <Text style={{ marginBottom: '20px' }} color='white'>
+                {activity.group ? 'Group session' : 'Individual session'}
+              </Text>
+              <br />
+              <Text style={{ marginBottom: '20px' }} color='white'>
+                {this._getReadableDuration(activity.duration)}
+              </Text>
+            </div>
+          </div>
+        )
 
       default:
         return null
@@ -138,7 +213,13 @@ export class ContentArea extends Component {
         }}
         onClick={() => onActivitySelect('none')}
       >
-        <List className={classes.exerciseList}>
+        <List
+          style={{
+            height: window.innerHeight * 0.65,
+            overflow: 'auto'
+          }}
+          className={classes.exerciseList}
+        >
           {mainView.currentLevelIdx >= 0 &&
           mainView.currentLessonIdx >= 0 &&
           mainView.course.levels.get(mainView.currentLevelIdx)
@@ -157,13 +238,30 @@ export class ContentArea extends Component {
                     onClick={() => onExerciseSelect(i)}
                     button
                   >
-                    {/* TODO: Add styling to allow for selectable components */}
                     <ListItemText primary={p.name} />
                   </ListItem>
                 ))
             : null}
-          <ListItem button onClick={onExerciseAdd}>
-            <ListItemText primary='Add' />
+          <ListItem
+            style={{
+              marginTop: '10px',
+              backgroundColor: '#36d1dc'
+            }}
+            button
+            onClick={onExerciseAdd}
+          >
+            <span>
+              <Add />
+              <span
+                style={{
+                  float: 'right',
+                  marginLeft: '20px',
+                  marginTop: '5px'
+                }}
+              >
+                Add
+              </span>
+            </span>
           </ListItem>
         </List>
         <Paper
@@ -173,10 +271,12 @@ export class ContentArea extends Component {
 
             onActivitySelect('main')
           }}
-          elevation={mainView.selectedActivityArea === 'main' ? 10 : 2}
+          elevation={mainView.selectedActivityArea === 'main' ? 15 : 2}
         >
           {exercise && exercise.mainActivity === null ? (
-            <label>Click here to select main activity</label>
+            <label style={{ marginLeft: '25%' }}>
+              Click here to select main activity
+            </label>
           ) : (
             this._displayActivity('main')
           )}
@@ -189,10 +289,12 @@ export class ContentArea extends Component {
 
             onActivitySelect('secondary')
           }}
-          elevation={mainView.selectedActivityArea === 'secondary' ? 10 : 2}
+          elevation={mainView.selectedActivityArea === 'secondary' ? 15 : 2}
         >
           {exercise && exercise.secondaryActivity === null ? (
-            <label>Click here to select secondary activity</label>
+            <label style={{ marginLeft: '25%' }}>
+              Click here to select secondary activity
+            </label>
           ) : (
             this._displayActivity('secondary')
           )}

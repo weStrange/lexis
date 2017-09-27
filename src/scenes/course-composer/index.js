@@ -21,7 +21,7 @@ import {
 import * as actionCreators from './action-creators'
 
 import type { CourseComposerState, ActivityKind } from './types'
-import type { AppState } from '../../../types'
+import type { AppState } from 'core/types'
 
 const Wrapper = styled(Grid)`
   padding: 0;
@@ -60,7 +60,11 @@ export class CourseComposer extends Component {
           video={composer.videoModal}
           onUrlEdit={actions.video.editUrl}
           onClose={actions.video.close}
-          onSave={actions.course.setMainActivity}
+          onSave={
+            composer.mainView.selectedActivityArea === 'main'
+              ? actions.course.setMainActivity
+              : actions.course.setSecondaryActivity
+          }
         />
         <AudioModal
           audio={composer.audioModal}
@@ -72,12 +76,28 @@ export class CourseComposer extends Component {
               : actions.course.setSecondaryActivity
           }
         />
-        {/* <SkypeModal />  */}
+        <SkypeModal
+          skype={composer.skypeModal}
+          onTopicEdit={actions.skype.editTopic}
+          onGroupToggle={actions.skype.toggleGroup}
+          onDurationChange={actions.skype.editDuration}
+          onStartTimeChange={actions.skype.editStartTime}
+          onClose={actions.skype.close}
+          onSave={
+            composer.mainView.selectedActivityArea === 'main'
+              ? actions.course.setMainActivity
+              : actions.course.setSecondaryActivity
+          }
+        />
         <TextModal
           text={composer.textModal}
           onTextEdit={actions.text.editContent}
           onClose={actions.text.close}
-          onSave={actions.course.setMainActivity}
+          onSave={
+            composer.mainView.selectedActivityArea === 'main'
+              ? actions.course.setMainActivity
+              : actions.course.setSecondaryActivity
+          }
         />
       </Wrapper>
     )

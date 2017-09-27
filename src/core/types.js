@@ -2,14 +2,15 @@
 
 import { List } from 'immutable'
 import type { CourseComposerState } from '../scenes/course-composer/types'
+import type { CourseManagerState } from '../scenes/course-manager/types'
 
 export type Gender = 'Male' | 'Female' | 'Other'
 
-export type Role = 'Teacher' | 'Student'
+export type Role = 'TEACHER' | 'STUDENT'
 
 export type NavigationState = {
   currIdx: number,
-  userRole: 'TEACHER' | 'STUDENT'
+  userRole: Role
 }
 
 export type CourseFeedback = {
@@ -136,7 +137,9 @@ export type CourseDifficulty =
   | 'Proficient'
 
 export type AppState = {
-  courseComposer: CourseComposerState
+  courseComposer: CourseComposerState,
+  courseManager: CourseManagerState,
+  nav: NavigationState
 }
 
 export type PromoEvent = { name: string, description: string }

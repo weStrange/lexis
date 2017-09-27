@@ -3,13 +3,26 @@
 import React from 'react'
 import TextField from 'material-ui/TextField'
 import List, { ListItem, ListItemText } from 'material-ui/List'
+import { grey } from 'material-ui/colors'
+import Add from 'material-ui-icons/Add'
 import styled from 'styled-components'
 
 import { Text } from 'common-components'
 
 import type { Lesson, Level } from '../types'
 
-const LessonOverview = styled.div`float: right;`
+const LessonOverview = styled.div`
+  position: fixed;
+  top: 0px;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin-right: 0px;
+  right: -20px;
+  color: white;
+  background: ${grey[800]};
+  padding-top: 3rem;
+  height: 200%;
+`
 
 const InputForm = styled.form`
   float: left;
@@ -46,7 +59,7 @@ export default function LevelEditor ({
         />
         <BlockedTextField
           id='course-description'
-          label='Multiline'
+          label='Level description'
           multiline
           rows='10'
           rowsMax='20'
@@ -65,8 +78,19 @@ export default function LevelEditor ({
               {p.name}
             </ListItem>
           ))}
-          <ListItem button onClick={onLessonAdd}>
-            Add
+          <ListItem style={{ marginTop: '10px' }} button onClick={onLessonAdd}>
+            <span>
+              <Add />
+              <span
+                style={{
+                  float: 'right',
+                  marginLeft: '20px',
+                  marginTop: '5px'
+                }}
+              >
+                Add
+              </span>
+            </span>
           </ListItem>
         </List>
       </LessonOverview>

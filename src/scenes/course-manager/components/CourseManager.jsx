@@ -7,9 +7,12 @@ import Grid from 'material-ui/Grid'
 import CourseList from './CourseList'
 import CourseDetail from './CourseDetail'
 import * as actonCreators from '../action-creators'
-// import type { AppState } from '../../../types'
-// import type { CourseManagerState } from '../types'
+
 import { Link, Route } from 'react-router'
+
+import type { AppState } from 'core/types'
+import type { CourseManagerState } from '../types'
+
 
 const Wrapper = styled(Grid)`
   padding: 2rem;

@@ -16,9 +16,10 @@ import type { Text, TextModalState } from '../types'
 const styles = theme => ({
   dialog: {
     width: '100%',
-    padding: '20px 20px 20px 20px'
+    padding: '20px 40px 20px 40px'
   },
   input: {
+    width: '100%',
     color: 'grey'
   }
 })
@@ -50,7 +51,7 @@ export function TextModal ({
         <TextField
           className={classes.input}
           multiline
-          rows={20}
+          rows={18}
           maxRows={7000}
           label='Text content'
           value={text.text.content}

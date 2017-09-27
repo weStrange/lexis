@@ -49,7 +49,8 @@ const activities = ImmList.of(
   {
     name: 'Audio',
     kind: 'audio',
-    mainOnly: false
+    mainOnly: false,
+    disabled: true
   },
   {
     name: 'Skype',
@@ -60,6 +61,30 @@ const activities = ImmList.of(
     name: 'Text',
     kind: 'text',
     mainOnly: false
+  },
+  {
+    name: 'Multiple Choice Questions',
+    kind: 'mcq',
+    mainOnly: false,
+    disabled: true
+  },
+  {
+    name: 'Full Answer Questions',
+    kind: 'faq',
+    mainOnly: false,
+    disabled: true
+  },
+  {
+    name: 'Writing Exercise',
+    kind: 'writing',
+    mainOnly: false,
+    disabled: true
+  },
+  {
+    name: 'Word Matching Exercise',
+    kind: 'wme',
+    mainOnly: false,
+    disabled: true
   }
 )
 
@@ -82,7 +107,7 @@ export default function ActivityPicker ({
       <List>
         {activities.map((p, key) => (
           <ListItem
-            disabled={activityArea !== 'main' && p.mainOnly}
+            disabled={(activityArea !== 'main' && p.mainOnly) || p.disabled}
             button
             key={key}
             onClick={() => onItemSelect(p.kind)}

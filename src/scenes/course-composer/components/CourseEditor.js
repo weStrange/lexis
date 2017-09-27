@@ -7,6 +7,8 @@ import Input, { InputLabel } from 'material-ui/Input'
 import { MenuItem } from 'material-ui/Menu'
 import { FormControl, FormHelperText } from 'material-ui/Form'
 import Select from 'material-ui/Select'
+import { grey } from 'material-ui/colors'
+import Add from 'material-ui-icons/Add'
 import styled from 'styled-components'
 
 import { Text } from 'common-components'
@@ -14,7 +16,18 @@ import { Text } from 'common-components'
 import type { Course } from '../types'
 import type { CourseDifficulty } from 'core/types'
 
-const LevelOverview = styled.div`float: right;`
+const LevelOverview = styled.div`
+  position: fixed;
+  top: 0px;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin-right: 0px;
+  right: -20px;
+  color: white;
+  background: ${grey[800]};
+  padding-top: 3rem;
+  height: 150%;
+`
 
 const InputForm = styled.form`
   float: left;
@@ -93,8 +106,19 @@ export default function CourseEditor ({
               {p.name}
             </ListItem>
           ))}
-          <ListItem button onClick={onLevelAdd}>
-            Add
+          <ListItem style={{ marginTop: '10px' }} button onClick={onLevelAdd}>
+            <span>
+              <Add />
+              <span
+                style={{
+                  float: 'right',
+                  marginLeft: '20px',
+                  marginTop: '5px'
+                }}
+              >
+                Add
+              </span>
+            </span>
           </ListItem>
         </List>
       </LevelOverview>
