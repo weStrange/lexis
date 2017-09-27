@@ -1,9 +1,9 @@
 /* @flow */
 
 import type { Action } from '../../../../actions'
-import type { ActivityKind } from '../types'
+import type { ActivityKind } from '../../../../core/types'
 
-export function select (activityKind: string): Action {
+export function select (activityKind: ActivityKind): Action {
   return {
     type: 'teacher-composer-activity-select',
     activityKind: activityKind

@@ -1,12 +1,12 @@
 /* @flow */
 
 import type { Action } from '../../../../actions'
+import type { ActivityAreaSelect } from '../types'
 import type {
   CourseDifficulty,
   MainActivity,
-  SecondaryActivity,
-  ActivityAreaSelect
-} from '../types'
+  SecondaryActivity
+} from '../../../../core/types'
 
 export function editName (name: string): Action {
   return {

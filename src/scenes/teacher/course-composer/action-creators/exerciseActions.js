@@ -5,7 +5,7 @@ import type {
   CourseDifficulty,
   MainActivity,
   SecondaryActivity
-} from '../types'
+} from '../../../../core/types'
 
 export function add (): Action {
   return {

@@ -15,7 +15,7 @@ type CoursesProps = {}
 function Courses ({  }: CoursesProps) {
   return (
     <Wrapper container spacing={24}>
-      <CourseList item md={4} />
+      {/*      <CourseList item md={4} />  */}
       <Grid item md={8} />
     </Wrapper>
   )
