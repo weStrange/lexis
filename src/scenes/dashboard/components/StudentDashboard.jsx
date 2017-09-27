@@ -25,17 +25,16 @@ const styles = theme => ({
   panel: theme.mixins.gutters({
     ...commonStyles,
     marginBottom: '30px'
+  }),
+  avatarContainer: theme.mixins.gutters({
+    ...commonStyles,
+    textAlign: 'center'
   })
 })
 
 const Wrapper = styled(Grid)`
   padding: 2rem;
   width: 100%;
-`
-
-const DashboardAvatar = styled(Avatar)`
-  width: 5em !important;
-  height: 5em !important;
 `
 
 type Props = {
@@ -52,23 +51,23 @@ const StudentDashboard = (props: Props) => {
     <Wrapper container spacing={24}>
       <Paper className={classes.panel}>
         <Grid container spacing={24}>
-          <Grid item sm={1}>
-            <DashboardAvatar />
+          <Grid item sm={12} md={2} lg={1}>
+            <Avatar size={'5rem'} />
           </Grid>
-          <Grid item sm={1}>
-            <Text primary medium fontSize={'1.3em'}>
+          <Grid item sm={12} md={10} lg={2}>
+            <Text primary medium fontSize={'1.1rem'}>
               {user.firstName + ' ' + user.lastName}
             </Text>
             <br />
-            <Text primary medium fontSize={'1em'}>
+            <Text primary medium fontSize={'0.8rem'}>
               Level 1
             </Text>
             <br />
-            <Text primary medium fontSize={'0.8em'} color='#52BE80'>
+            <Text primary medium fontSize={'0.8rem'} color='#52BE80'>
               Active subscription
             </Text>
           </Grid>
-          <Grid item sm={10}>
+          <Grid item xs={12} lg={9}>
             <ProgressCharts />
           </Grid>
         </Grid>
