@@ -1,6 +1,7 @@
 /* @flow */
 
-import teacher from '../../scenes/teacher/reducer'
+import courseComposer from '../../scenes/course-composer/reducers'
+import courseManager from '../../scenes/course-manager/reducers'
 import nav from './navigationReducer'
 
-export { teacher, nav }
+export { courseComposer, nav, courseManager }

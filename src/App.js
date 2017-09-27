@@ -15,14 +15,15 @@ import 'animate.css/animate.min.css'
 import tinyColor from 'tinycolor2'
 import AppShell from './scenes/app-shell/AppShell'
 
-import CourseComposer from './scenes/teacher/course-composer'
-import CourseManager from './scenes/teacher/course-manager'
-import Courses from './scenes/student/courses'
-import Course from './scenes/student/course'
+import CourseComposer from './scenes/course-composer'
+import CourseManager from './scenes/course-manager'
+import Course from './scenes/course-consumer'
 
 import store from './core/store'
 import history from './core/history'
-import StudentDashboard from './scenes/student/dashboard/components/StudentDashboard'
+import StudentDashboard from './scenes/dashboard/components/StudentDashboard'
+import TeacherDashboard from './scenes/dashboard/components/TeacherDashboard'
+import Dashboard from './scenes/dashboard/components/Dashboard'
 
 const primaryColor = '#5B86E5'
 const styledTheme = {
@@ -63,20 +64,12 @@ class App extends Component {
             <div>
               <AppShell>
                 <Switch>
-                  <Route
-                    path='/teacher/course-manager'
-                    component={CourseManager}
-                  />
-                  <Route
-                    path='/teacher/course-composer'
-                    component={CourseComposer}
-                  />
-                  <Route exact path='/student/courses' component={Courses} />
+                  <Route path='/course-manager' component={CourseManager} />
+                  <Route path='/course-composer' component={CourseComposer} />
+                  <Route path='/dashboard' component={Dashboard} />
+                  {/*<Route exact path='/student/courses' component={Courses} />*/}
                   <Route path='/student/courses/*' component={Course} />
-                  <Route
-                    path='/student/dashboard'
-                    component={StudentDashboard}
-                  />
+                  <Route path='/dashboard' component={Dashboard} />
                   <Route
                     path='*'
                     component={() => <div>Page not found!</div>}

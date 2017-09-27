@@ -1,6 +1,7 @@
 /* @flow */
 
 import { List } from 'immutable'
+import type { CourseComposerState } from '../scenes/course-composer/types'
 
 export type Gender = 'Male' | 'Female' | 'Other'
 
@@ -72,7 +73,7 @@ export type MultiOptionEx = {
   }>
 }
 
-export type ActivityKind = MainActivityKind & SecondaryActivityKind
+export type ActivityKind = MainActivityKind | SecondaryActivityKind
 
 export type MainActivityKind =
   | 'video'
@@ -133,3 +134,7 @@ export type CourseDifficulty =
   | 'Upper-intermediate'
   | 'Advanced'
   | 'Proficient'
+
+export type AppState = {
+  courseComposer: CourseComposerState
+}

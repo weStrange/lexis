@@ -13,41 +13,42 @@ import courseIcon from 'assets/blackboard.svg'
 import courseComposerIcon from 'assets/compass.svg'
 import tinyColor from 'tinycolor2'
 
-import * as actionCreators from '../../core/action-creators'
+import * as actionCreators from 'core/action-creators'
+import type { AppState } from 'core/types'
 
 const navigationItems = {
   TEACHER: [
     {
       title: 'Dashboard',
       imgSrc: dashboardIcon,
-      link: '/teacher/dashboard'
+      link: '/dashboard'
     },
     {
       title: 'My Courses',
       imgSrc: courseIcon,
-      link: '/teacher/course-manager'
+      link: '/course-manager'
     },
     {
       title: 'Course Composer',
       imgSrc: courseComposerIcon,
-      link: '/teacher/course-composer'
+      link: '/course-composer'
     },
     {
       title: 'Profile',
       imgSrc: null,
-      link: '/teacher/profile'
+      link: '/profile'
     }
   ],
   STUDENT: [
     {
       title: 'Dashboard',
       imgSrc: dashboardIcon,
-      link: '/student/dashboard'
+      link: '/dashboard'
     },
     {
       title: 'My Courses',
       imgSrc: courseIcon,
-      link: '/student/courses'
+      link: '/courses'
     },
     {
       title: 'Profile',
