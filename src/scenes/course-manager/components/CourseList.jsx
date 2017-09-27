@@ -21,14 +21,14 @@ const CourseGridList = styled(GridList)`
 const PropertyList = styled(List)`float: right;`
 
 const ImageGridListTile = styled(GridListTile)`
-  width: 30%;
-  height: 100px;
+  width: 40%;
+  height: 100%;
   float: left;
 `
 
-const CourseCard = styled(Card)`
-  width: '45%';
-  margin: 10px 10px 10px 10px;
+const StrongAndUp = styled.span`
+  text-transform: uppercase;
+  font-weight: bold;
 `
 
 const CourseItem = styled(ListItem)`
@@ -61,7 +61,15 @@ const CourseList = ({ item, courses, ...props }: CourseListProps) => (
     </Text>
     <CourseGridList cellHeight={180}>
       {courses.map((p, i) => (
-        <CourseCard component={Link} to='./course-detail'>
+        <Card
+          style={{
+            margin: '10px 10px 10px 10px',
+            width: '45%',
+            color: 'black'
+          }}
+          component={Link}
+          to='/course-manager/course-detail'
+        >
           <ImageGridListTile key={i}>
             <img
               src='https://lh3.ggpht.com/EaoEf2uSk3CFAhPw9Fk-mbkU7c_qdBMlF5myx1ocDx4cHw54G21wDokRZSySJ3pd4iw=w300'
@@ -69,12 +77,24 @@ const CourseList = ({ item, courses, ...props }: CourseListProps) => (
             />
           </ImageGridListTile>
           <PropertyList>
-            <ListItem>{'Name: ' + p.name}</ListItem>
-            <ListItem>{'Creation date: 01.01.2017'}</ListItem>
-            <ListItem>{'Number of participants: 125'}</ListItem>
-            <ListItem>{'Difficulty: ' + p.difficulty}</ListItem>
+            <ListItem>
+              <StrongAndUp>Name: </StrongAndUp>
+              {'  ' + p.name}
+            </ListItem>
+            <ListItem>
+              <StrongAndUp>Creation date: </StrongAndUp>
+              {'  01.01.2017'}
+            </ListItem>
+            <ListItem>
+              <StrongAndUp>Number of participants: </StrongAndUp>
+              {'  125'}
+            </ListItem>
+            <ListItem>
+              <StrongAndUp>Difficulty: </StrongAndUp>
+              {'  ' + p.difficulty}
+            </ListItem>
           </PropertyList>
-        </CourseCard>
+        </Card>
       ))}
     </CourseGridList>
   </div>

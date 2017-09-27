@@ -8,11 +8,10 @@ import CourseList from './CourseList'
 import CourseDetail from './CourseDetail'
 import * as actonCreators from '../action-creators'
 
-import { Link, Route } from 'react-router'
+import { Link, Route, Switch } from 'react-router'
 
 import type { AppState } from 'core/types'
 import type { CourseManagerState } from '../types'
-
 
 const Wrapper = styled(Grid)`
   padding: 2rem;
@@ -35,13 +34,14 @@ export class CourseManager extends Component {
 
     return (
       <Wrapper container spacing={24}>
-        <Route exact path='/' component={CourseList}>
-          {/* directly take course list from redux */}
-        </Route>
-        <Route path='/course-detail' component={CourseDetail}>
-          {/* have direct asses the selected course in redux */}
-        </Route>
-        <CourseDetail />
+        <Switch>
+          <Route path='/course-manager/course-detail' component={CourseDetail}>
+            {/* have direct asses the selected course in redux */}
+          </Route>
+          <Route path='/course-manager' component={CourseList}>
+            {/* directly take course list from redux */}
+          </Route>
+        </Switch>
       </Wrapper>
     )
   }
