@@ -30,10 +30,12 @@ const ListItem = styled(MuiListItem)`
 
 const Wrapper = styled(Paper)`
   height: 100vh;
-  width: 250px;
+  width: 180px;
   position: fixed;
-  top: 56px;
-  right: 0;
+  top: 0px;
+  padding-left: 20px;
+  margin-right: 0px;
+  right: -20px;
   background: ${grey[800]};
   padding-top: 3rem;
 `
@@ -85,7 +87,7 @@ export default function ActivityPicker ({
             key={key}
             onClick={() => onItemSelect(p.kind)}
           >
-            <Text normal color='rgba(0,0,0, .84)'>
+            <Text normal color='white'>
               {p.name}
             </Text>
           </ListItem>

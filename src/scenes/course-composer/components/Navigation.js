@@ -64,7 +64,7 @@ class Breadcrumbs extends React.Component {
   }
 
   renderContent (level: string | null, lesson: string | null) {
-    const contentStyle = { margin: '0 16px', overflow: 'hidden' }
+    const contentStyle = { margin: 0, overflow: 'hidden' }
 
     return (
       <div style={contentStyle}>

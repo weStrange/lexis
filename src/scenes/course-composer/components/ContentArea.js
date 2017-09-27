@@ -16,8 +16,8 @@ import type { MainViewState, ActivityAreaSelect } from '../types'
 const commonStyles = {
   paddingTop: 16,
   paddingBottom: 16,
-  marginLeft: window.innerWidth * 0.1,
-  width: window.innerWidth * 0.5
+  marginLeft: window.innerWidth * 0.2,
+  width: window.innerWidth * 0.4
 }
 const styles = theme => ({
   mainActivity: theme.mixins.gutters({
@@ -33,10 +33,13 @@ const styles = theme => ({
   exerciseList: theme.mixins.gutters({
     width: window.innerWidth * 0.1,
     marginTop: theme.spacing.unit * 3,
-    // marginLeft: '20px',
+    paddingLeft: 0,
+    marginLeft: 0,
     float: 'left'
   })
 })
+
+type ActivityType = 'main' | 'secondary'
 
 type ContentAreaProps = {
   mainView: MainViewState,
@@ -47,15 +50,15 @@ type ContentAreaProps = {
 }
 export class ContentArea extends Component {
   prop: ContentAreaProps
-  _displayMainActivity: () => void
+  _displayActivity: () => void
 
   constructor (props: ContentAreaProps) {
     super(props)
 
-    this._displayMainActivity = this._displayMainActivity.bind(this)
+    this._displayActivity = this._displayActivity.bind(this)
   }
 
-  _displayMainActivity () {
+  _displayActivity (activityType: ActivityType) {
     let mainView = this.props.mainView
     let level = mainView.course.levels.get(mainView.currentLevelIdx)
     if (level === undefined) {
@@ -79,7 +82,26 @@ export class ContentArea extends Component {
 
     switch (activity.type) {
       case 'video':
-        return activity.url ? <YouTube videoId={activity.url} /> : null
+        return activity.url ? (
+          <div
+            style={{
+              position: 'relative',
+              paddingBottom: '56.25%',
+              paddingRight: '20%',
+              height: 0,
+              overflow: 'hidden'
+            }}
+          >
+            <YouTube
+              opts={{
+                height: window.innerHeight * 0.4,
+                width: window.innerWidth * 0.4,
+                top: 0
+              }}
+              videoId={activity.url}
+            />
+          </div>
+        ) : null
 
       case 'audio':
         return activity.url ? (
@@ -124,7 +146,17 @@ export class ContentArea extends Component {
                 .get(mainView.currentLevelIdx)
                 .lessons.get(mainView.currentLessonIdx)
                 .exercises.map((p, i) => (
-                  <ListItem key={i} onClick={() => onExerciseSelect(i)} button>
+                  <ListItem
+                    key={i}
+                    style={{
+                      backgroundColor:
+                        mainView.currentExerciseIdx === i
+                          ? '#cbdbf4'
+                          : '#ffffff'
+                    }}
+                    onClick={() => onExerciseSelect(i)}
+                    button
+                  >
                     {/* TODO: Add styling to allow for selectable components */}
                     <ListItemText primary={p.name} />
                   </ListItem>
@@ -144,9 +176,9 @@ export class ContentArea extends Component {
           elevation={mainView.selectedActivityArea === 'main' ? 10 : 2}
         >
           {exercise && exercise.mainActivity === null ? (
-            <label>Click here to select an activity</label>
+            <label>Click here to select main activity</label>
           ) : (
-            this._displayMainActivity()
+            this._displayActivity('main')
           )}
         </Paper>
 
@@ -159,7 +191,11 @@ export class ContentArea extends Component {
           }}
           elevation={mainView.selectedActivityArea === 'secondary' ? 10 : 2}
         >
-          Click here to select secondary activity
+          {exercise && exercise.secondaryActivity === null ? (
+            <label>Click here to select secondary activity</label>
+          ) : (
+            this._displayActivity('secondary')
+          )}
         </Paper>
       </div>
     )

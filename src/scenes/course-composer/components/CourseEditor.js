@@ -7,22 +7,24 @@ import Input, { InputLabel } from 'material-ui/Input'
 import { MenuItem } from 'material-ui/Menu'
 import { FormControl, FormHelperText } from 'material-ui/Form'
 import Select from 'material-ui/Select'
+import styled from 'styled-components'
 
 import { Text } from 'common-components'
 
 import type { Course } from '../types'
 import type { CourseDifficulty } from 'core/types'
 
-const styles = theme => ({
-  container: {
-    display: 'flex',
-    flexWrap: 'wrap'
-  },
-  formControl: {
-    margin: theme.spacing.unit,
-    minWidth: 120
-  }
-})
+const LevelOverview = styled.div`float: right;`
+
+const InputForm = styled.form`
+  float: left;
+  margin-left: 15%;
+`
+
+const BlockedTextField = styled(TextField)`
+  width: 100%;
+  display: block;
+`
 
 type LevelEditorProps = {
   course: Course,
@@ -30,8 +32,7 @@ type LevelEditorProps = {
   onDescriptionEdit: (desc: string) => void,
   onDifficultyEdit: (diff: CourseDifficulty) => void,
   onLevelAdd: () => void,
-  onLevelSelect: (idx: number) => void,
-  classes?: any
+  onLevelSelect: (idx: number) => void
 }
 export default function CourseEditor ({
   course,
@@ -39,28 +40,34 @@ export default function CourseEditor ({
   onLevelAdd,
   onLevelSelect,
   onDescriptionEdit,
-  onDifficultyEdit,
-  classes = {}
+  onDifficultyEdit
 }: LevelEditorProps) {
   return (
     <div>
-      <form>
-        <TextField
+      <InputForm>
+        <BlockedTextField
           id='course-name'
           label='Course name'
           value={course.name}
           onChange={ev => onNameEdit(ev.target.value)}
         />
-        <TextField
+        <BlockedTextField
           id='course-description'
-          label='Multiline'
+          label='Course description'
           multiline
-          rowsMax='8'
+          rows='10'
+          rowsMax='20'
           value={course.description}
           onChange={ev => onDescriptionEdit(ev.target.value)}
           margin='normal'
         />
-        <FormControl className={classes.formControl}>
+        <FormControl
+          style={{
+            float: 'right',
+            width: '40%',
+            marginTop: '30px'
+          }}
+        >
           <InputLabel htmlFor='course-difficulty'>Difficulty</InputLabel>
           <Select
             value={course.difficulty}
@@ -75,20 +82,22 @@ export default function CourseEditor ({
           </Select>
           <FormHelperText>Assess difficulty of the course</FormHelperText>
         </FormControl>
-      </form>
-      <Text primary medium fontSize={'1.3em'}>
-        Levels
-      </Text>
-      <List>
-        {course.levels.map((p, i) => (
-          <ListItem key={i} button onClick={() => onLevelSelect(i)}>
-            {p.name}
+      </InputForm>
+      <LevelOverview>
+        <Text primary medium fontSize={'1.3em'}>
+          Levels
+        </Text>
+        <List>
+          {course.levels.map((p, i) => (
+            <ListItem key={i} button onClick={() => onLevelSelect(i)}>
+              {p.name}
+            </ListItem>
+          ))}
+          <ListItem button onClick={onLevelAdd}>
+            Add
           </ListItem>
-        ))}
-        <ListItem button onClick={onLevelAdd}>
-          Add
-        </ListItem>
-      </List>
+        </List>
+      </LevelOverview>
     </div>
   )
 }

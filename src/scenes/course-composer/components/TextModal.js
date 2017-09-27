@@ -2,32 +2,77 @@
 
 import React from 'react'
 
-import Dialog from 'material-ui/Dialog'
+import { withStyles } from 'material-ui/styles'
 import Button from 'material-ui/Button'
 import TextField from 'material-ui/TextField'
+import Dialog, {
+  DialogActions,
+  DialogContent,
+  DialogTitle
+} from 'material-ui/Dialog'
 
 import type { Text, TextModalState } from '../types'
 
-type AudioModalProps = {
-  text: TextModalState,
-  onContentEdit: (content: string) => void,
-  onClose: () => void,
-  onSave: (text: Text) => void
-}
-export default function AudioModal ({
-  text,
-  onContentEdit,
-  onClose,
-  onSave
-}: AudioModalProps) {
-  const actions = [
-    <Button label='Cancel' primary={true} onClick={onClose} />,
-    <Button label='Save' primary={true} disabled={true} onClick={onSave} />
-  ]
+const styles = theme => ({
+  dialog: {
+    width: '100%',
+    padding: '20px 20px 20px 20px'
+  },
+  input: {
+    color: 'grey'
+  }
+})
 
+type TextModalProps = {
+  text: TextModalState,
+  onTextEdit: (text: string) => void,
+  onClose: () => void,
+  onSave: (text: Text) => void,
+  classes: any
+}
+export function TextModal ({
+  text,
+  onTextEdit,
+  onClose,
+  onSave,
+  classes
+}: TextModalProps) {
   return (
-    <Dialog title='Add video' actions={actions} modal={true} open={text.open}>
-      <TextField hintText='Insert the text' value={text.text.content} />
+    <Dialog
+      className={classes.dialog}
+      ignoreBackdropClick
+      ignoreEscapeKeyUp
+      open={text.open}
+      maxWidth='sm'
+    >
+      <DialogTitle>Paste your text content below</DialogTitle>
+      <DialogContent>
+        <TextField
+          className={classes.input}
+          multiline
+          rows={20}
+          maxRows={7000}
+          label='Text content'
+          value={text.text.content}
+          onChange={ev => onTextEdit(ev.target.value)}
+        />
+      </DialogContent>
+      <DialogActions>
+        <Button color='primary' onClick={onClose}>
+          Cancel
+        </Button>
+        <Button
+          color='primary'
+          onClick={() => {
+            onSave(text.text)
+            onClose()
+          }}
+        >
+          Save
+        </Button>
+      </DialogActions>
     </Dialog>
   )
 }
+
+export default withStyles(styles)(TextModal)

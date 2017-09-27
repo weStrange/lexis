@@ -21,10 +21,10 @@ import {
 import * as actionCreators from './action-creators'
 
 import type { CourseComposerState, ActivityKind } from './types'
-import type { AppState } from 'core/types'
+import type { AppState } from '../../../types'
 
 const Wrapper = styled(Grid)`
-  padding: 2rem;
+  padding: 0;
   width: 100%;
 `
 
@@ -73,7 +73,12 @@ export class CourseComposer extends Component {
           }
         />
         {/* <SkypeModal />  */}
-        {/* <TextModal /> */}
+        <TextModal
+          text={composer.textModal}
+          onTextEdit={actions.text.editContent}
+          onClose={actions.text.close}
+          onSave={actions.course.setMainActivity}
+        />
       </Wrapper>
     )
   }

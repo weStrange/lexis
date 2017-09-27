@@ -19,8 +19,9 @@ const styles = theme => ({
     maxWidth: 360
   },
   dialog: {
-    width: '80%',
-    maxHeight: 435
+    width: '100%',
+    maxHeight: 435,
+    padding: '20px 20px 20px 20px'
   },
   input: {
     color: 'grey'
@@ -49,11 +50,11 @@ export function VideoModal ({
       open={video.open}
       maxWidth='sm'
     >
-      <DialogTitle>Add video</DialogTitle>
+      <DialogTitle>Input YouTube video ID</DialogTitle>
       <DialogContent>
         <TextField
           className={classes.input}
-          label='Url'
+          label='Video ID'
           value={video.video.url}
           onChange={ev => onUrlEdit(ev.target.value)}
         />
