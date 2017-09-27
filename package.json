@@ -148,6 +148,9 @@
             "**/*.test.js"
         ]
     },
+    "eslintConfig": {
+        "extends": "react-app"
+    },
     "prettier": {
         "jsxBracketSameLine": true,
         "printWidth": 120,
