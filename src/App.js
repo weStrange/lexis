@@ -1,7 +1,7 @@
 /* @flow */
 
 import React, { Component } from 'react'
-import { Router, Route, Redirect, Switch } from 'react-router'
+import { Route, Switch } from 'react-router'
 import { ConnectedRouter } from 'react-router-redux'
 
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles'
@@ -12,17 +12,13 @@ import 'assets/index.css'
 import 'assets/font-awesome-4.7.0/css/font-awesome.min.css'
 import 'animate.css/animate.min.css'
 
-import tinyColor from 'tinycolor2'
 import AppShell from './scenes/app-shell/AppShell'
 
 import CourseComposer from './scenes/course-composer'
 import CourseManager from './scenes/course-manager'
 import Course from './scenes/course-consumer'
 
-import store from './core/store'
 import history from './core/history'
-import StudentDashboard from './scenes/dashboard/components/StudentDashboard'
-import TeacherDashboard from './scenes/dashboard/components/TeacherDashboard'
 import Dashboard from './scenes/dashboard/components/Dashboard'
 
 const primaryColor = '#5B86E5'

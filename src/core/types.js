@@ -138,3 +138,16 @@ export type CourseDifficulty =
 export type AppState = {
   courseComposer: CourseComposerState
 }
+
+export type PromoEvent = { name: string, description: string }
+
+export type Achievement = {
+  name: string,
+  description: string,
+  imgUrl: string
+}
+
+export type AchievementCategory = {
+  name: string,
+  achievements: List<Achievement>
+}

@@ -31,7 +31,7 @@ type Props = {
   classes?: any
 }
 
-class CourseAchievementsPanel extends React.Component {
+class CategoryAchievementsPanel extends React.Component {
   props: Props
   state: {
     collapsed: boolean
@@ -125,4 +125,4 @@ class CourseAchievementsPanel extends React.Component {
   }
 }
 
-export default CourseAchievementsPanel
+export default CategoryAchievementsPanel
