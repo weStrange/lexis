@@ -97,7 +97,7 @@ function mapStateToProps (state: AppState) {
     generalAchievements: List([
       {
         name: 'Humanity Destroyer',
-        description: 'Kill more than 7 000 000 000 people'
+        description: 'Kill more than 7000000000 people'
       },
       {
         name: "Satan's Mom",

@@ -16,8 +16,9 @@ const styles = theme => ({
   achievementPanel: theme.mixins.gutters({
     padding: theme.spacing.unit,
     margin: '10px',
-    minHeight: '150px'
-  })
+    minHeight: '200px'
+  }),
+  achievementDescription: theme.mixins.gutters({})
 })
 
 type Props = {
@@ -61,17 +62,19 @@ class GeneralAchievements extends React.Component {
 
     for (let i = offset; i < coursesEndIndex; i++) {
       coursePanels.push(
-        <Grid item sm={4}>
+        <Grid item xs={12} lg={4}>
           <Paper className={classes.achievementPanel} key={i}>
             <Grid container>
-              <Grid item sm={3}>
-                <Avatar src={trophy} size={'3.7em'} />
+              <Grid item md={2} lg={4}>
+                <Avatar src={trophy} size={'3.4rem'} />
               </Grid>
-              <Grid item sm={9}>
-                <Text fontSize={'1.3em'}>{achievements.get(i).name}</Text>
-                <br />
-                <br />
-                <Text>{achievements.get(i).description}</Text>
+              <Grid item md={10} lg={8}>
+                <Text fontSize={'1.0rem'}>{achievements.get(i).name}</Text>
+              </Grid>
+              <Grid item xs={12}>
+                <Text fontSize={'0.8rem'}>
+                  {achievements.get(i).description}
+                </Text>
               </Grid>
             </Grid>
           </Paper>

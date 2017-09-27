@@ -6,7 +6,7 @@ import type { NavigationState } from '../types'
 function getInitialState (): NavigationState {
   return {
     currIdx: 0,
-    userRole: 'STUDENT'
+    userRole: 'TEACHER'
   }
 }
 

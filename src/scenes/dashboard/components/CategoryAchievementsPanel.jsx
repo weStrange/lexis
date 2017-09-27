@@ -102,10 +102,10 @@ class CategoryAchievementsPanel extends React.Component {
             <AchievementIcon src={trophy} />
           </TableCell>
           <TableCell>
-            <Text fontSize={'1.5em'}>{achievement.name}</Text>
+            <Text fontSize={'1.2rem'}>{achievement.name}</Text>
             <br />
             <br />
-            <Text>{achievement.description}</Text>
+            <Text fontSize={'0.8rem'}>{achievement.description}</Text>
           </TableCell>
         </TableRow>
       )
