@@ -21,7 +21,7 @@ export default function navigationReducer (
         ...state,
         currIdx: action.idx
       }
-    case 'set-role':
+    case 'navigation-change-role':
       return { ...state, userRole: action.role }
     default:
       return state
