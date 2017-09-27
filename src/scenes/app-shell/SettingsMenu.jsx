@@ -55,30 +55,22 @@ class SettingsMenu extends React.PureComponent {
           <MenuItem disabled>
             <Text primary>Logout</Text>
           </MenuItem>
-          <Route
-            path='/teacher'
-            render={props => (
-              <MenuItem
-                component={Link}
-                to='../student'
-                onClick={() => this.props.dispatch(changeRole('STUDENT'))}
-              >
-                <Text primary>Sign in as student</Text>
-              </MenuItem>
-            )}
-          />
-          <Route
-            path='/student'
-            render={props => (
-              <MenuItem
-                component={Link}
-                to='../teacher'
-                onClick={() => this.props.dispatch(changeRole('TEACHER'))}
-              >
-                <Text primary>Sign in as teacher</Text>
-              </MenuItem>
-            )}
-          />
+          <MenuItem>
+            <Link
+              onClick={() => this.props.dispatch(changeRole('STUDENT'))}
+              to='/'
+            >
+              Sign in as student
+            </Link>
+          </MenuItem>
+          <MenuItem>
+            <Link
+              onClick={() => this.props.dispatch(changeRole('TEACHER'))}
+              to='/'
+            >
+              Sign in as teacher
+            </Link>
+          </MenuItem>
         </Menu>
       </div>
     )
