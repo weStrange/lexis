@@ -29,6 +29,25 @@ export default function courseReducer (
     case 'teacher-composer-start':
       return {
         ...state,
+        course: {
+          ...state.course,
+          name: 'My course',
+          levels: List.of({
+            id: '',
+            name: 'My new level',
+            description: '',
+            lessons: List.of({
+              id: '',
+              name: 'My new lesson',
+              exercises: List.of({
+                id: '',
+                name: 'Introduction',
+                mainActivity: null,
+                secondaryActivity: null
+              })
+            })
+          })
+        },
         selectedActivityArea: 'none',
         currentLevelIdx: -1,
         currentLessonIdx: -1,
@@ -122,6 +141,7 @@ export default function courseReducer (
     case 'teacher-composer-lesson-select':
       return {
         ...state,
+        currentExerciseIdx: 0,
         currentLessonIdx: action.idx
       }
 

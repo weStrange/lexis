@@ -64,25 +64,11 @@ class Breadcrumbs extends React.Component {
   }
 
   renderContent (level: string | null, lesson: string | null) {
-    const contentStyle = { margin: '0 16px', overflow: 'hidden' }
+    const contentStyle = { margin: 0, overflow: 'hidden' }
 
     return (
       <div style={contentStyle}>
         <div>{this.getStepContent(level, lesson)}</div>
-        {/*
-        <div style={{marginTop: 24, marginBottom: 12}}>
-          <FlatButton
-            label='Back'
-            disabled={stepIndex === 0}
-            onClick={this.handlePrev}
-            style={{marginRight: 12}}
-          />
-          <RaisedButton
-            label={stepIndex === 2 ? 'Finish' : 'Next'}
-            primary={true}
-            onClick={this.handleNext}
-          />
-        </div> */}
       </div>
     )
   }
@@ -116,8 +102,19 @@ class Breadcrumbs extends React.Component {
         : null
 
     return (
-      <div style={{ width: '100%', display: 'block' }}>
-        <div>
+      <div
+        style={{
+          width: '100%',
+          marginLeft: '50px',
+          marginTop: '30px',
+          display: 'block'
+        }}
+      >
+        <div
+          style={{
+            marginBottom: '18px'
+          }}
+        >
           <Text
             style={{ cursor: 'pointer' }}
             onClick={() => {

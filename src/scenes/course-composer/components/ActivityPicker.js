@@ -30,10 +30,12 @@ const ListItem = styled(MuiListItem)`
 
 const Wrapper = styled(Paper)`
   height: 100vh;
-  width: 250px;
+  width: 180px;
   position: fixed;
-  top: 56px;
-  right: 0;
+  top: 0px;
+  padding-left: 20px;
+  margin-right: 0px;
+  right: -20px;
   background: ${grey[800]};
   padding-top: 3rem;
 `
@@ -47,7 +49,8 @@ const activities = ImmList.of(
   {
     name: 'Audio',
     kind: 'audio',
-    mainOnly: false
+    mainOnly: false,
+    disabled: true
   },
   {
     name: 'Skype',
@@ -58,6 +61,30 @@ const activities = ImmList.of(
     name: 'Text',
     kind: 'text',
     mainOnly: false
+  },
+  {
+    name: 'Multiple Choice Questions',
+    kind: 'mcq',
+    mainOnly: false,
+    disabled: true
+  },
+  {
+    name: 'Full Answer Questions',
+    kind: 'faq',
+    mainOnly: false,
+    disabled: true
+  },
+  {
+    name: 'Writing Exercise',
+    kind: 'writing',
+    mainOnly: false,
+    disabled: true
+  },
+  {
+    name: 'Word Matching Exercise',
+    kind: 'wme',
+    mainOnly: false,
+    disabled: true
   }
 )
 
@@ -80,12 +107,12 @@ export default function ActivityPicker ({
       <List>
         {activities.map((p, key) => (
           <ListItem
-            disabled={activityArea !== 'main' && p.mainOnly}
+            disabled={(activityArea !== 'main' && p.mainOnly) || p.disabled}
             button
             key={key}
             onClick={() => onItemSelect(p.kind)}
           >
-            <Text normal color='rgba(0,0,0, .84)'>
+            <Text normal color='white'>
               {p.name}
             </Text>
           </ListItem>

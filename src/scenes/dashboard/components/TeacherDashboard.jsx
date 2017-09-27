@@ -30,7 +30,7 @@ type Props = {
   categoryAchievements: List<AchievementCategory>
 }
 
-class TeacherDashboard extends React.Component<Props, void> {
+class TeacherDashboard extends React.Component {
   props: Props
 
   constructor (props: Props) {

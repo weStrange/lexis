@@ -1,6 +1,8 @@
 // @flow
 
 import React from 'react'
+import { connect } from 'react-redux'
+import type { AppState } from 'core/types'
 import { withStyles } from 'material-ui/styles'
 import Grid from 'material-ui/Grid'
 import { Text } from 'common-components'
