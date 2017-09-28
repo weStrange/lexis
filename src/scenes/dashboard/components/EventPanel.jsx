@@ -19,13 +19,15 @@ const styles = theme => ({
   }),
   promoImageContainer: theme.mixins.gutters({
     textAlign: 'center',
-    width: '100%'
+    width: '100%',
+    marginBottom: theme.spacing.unit
   }),
   promoImage: theme.mixins.gutters({
     color: '#FF00CC',
-    width: '150px',
-    height: '150px',
-    display: 'inline'
+    width: '100%',
+    height: '120px',
+    display: 'block !important',
+    margin: 'auto'
   })
 })
 
@@ -68,7 +70,7 @@ class EventPanel extends React.Component {
 
     for (let i = offset; i < coursesEndIndex; i++) {
       coursePanels.push(
-        <Grid item sm={4}>
+        <Grid item xs={12} lg={4}>
           <Paper className={classes.eventPanel} key={i}>
             <Grid container>
               <Grid item sm={9}>
@@ -76,10 +78,10 @@ class EventPanel extends React.Component {
                   <FlightTakeoff className={classes.promoImage} />
                 </div>
                 <div>
-                  <Text fontSize={'1.3em'}>{events.get(i).name}</Text>
+                  <Text fontSize={'1.0rem'}>{events.get(i).name}</Text>
                   <br />
                   <br />
-                  <Text>{events.get(i).description}</Text>
+                  <Text fontSize={'0.8rem'}>{events.get(i).description}</Text>
                 </div>
               </Grid>
             </Grid>

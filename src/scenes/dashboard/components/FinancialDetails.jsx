@@ -145,21 +145,21 @@ class FinancialDetails extends React.Component {
         <Text fontSize='1.5em'>Financial Details</Text>
 
         <Grid container>
-          <Grid item sm={6} className={classes.chartContainer}>
+          <Grid item xs={12} lg={6} className={classes.chartContainer}>
             <Text>Students enrollment</Text>
             <div className={classes.chart}>
               {this.renderStudentEnrollmentChart()}
             </div>
           </Grid>
-          <Grid item sm={6} className={classes.chartContainer}>
+          <Grid item xs={12} lg={6} className={classes.chartContainer}>
             <Text>Income per course for last month</Text>
             <div className={classes.chart}>{this.renderIncomeRateChart()}</div>
           </Grid>
-          <Grid item sm={6} className={classes.chartContainer}>
+          <Grid item xs={12} lg={6} className={classes.chartContainer}>
             <Text>Income per month</Text>
             <div className={classes.chart}>{this.renderLine()}</div>
           </Grid>
-          <Grid item sm={6} className={classes.chartContainer}>
+          <Grid item xs={12} lg={6} className={classes.chartContainer}>
             <Text>Courses with highest income</Text>
             <div className={classes.chart}>{this.renderDonut()}</div>
           </Grid>

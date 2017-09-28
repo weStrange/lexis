@@ -79,11 +79,11 @@ class ProgressCharts extends React.Component {
 
     return (
       <Grid container>
-        <Grid item sm={6} className={classes.chartContainer}>
+        <Grid item xs={12} lg={6} className={classes.chartContainer}>
           <Text>Overall progress</Text>
           <div className={classes.chart}>{this.renderDonut()}</div>
         </Grid>
-        <Grid item sm={6} className={classes.chartContainer}>
+        <Grid item xs={12} lg={6} className={classes.chartContainer}>
           <Text>Lessons complete</Text>
           <div className={classes.chart}>{this.renderLine()}</div>
         </Grid>

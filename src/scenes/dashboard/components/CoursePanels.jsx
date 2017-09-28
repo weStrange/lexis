@@ -12,7 +12,8 @@ import { Carousel } from 'common-components'
 const styles = theme => ({
   coursePanel: theme.mixins.gutters({
     padding: theme.spacing.unit,
-    margin: '10px'
+    margin: '10px',
+    minHeight: '8rem'
   })
 })
 
@@ -55,9 +56,9 @@ class CoursePanels extends Component {
 
     for (let i = offset; i < coursesEndIndex; i++) {
       coursePanels.push(
-        <Grid item sm={4}>
+        <Grid item xs={12} lg={4}>
           <Paper className={classes.coursePanel} key={i}>
-            <Text fontSize={'1.3em'}>{courses[i].name}</Text>
+            <Text fontSize={'1.3rem'}>{courses[i].name}</Text>
             <br />
             <br />
             <Text>Complete 1/12</Text>
@@ -94,7 +95,7 @@ class CoursePanels extends Component {
 
     return (
       <div>
-        <Text fontSize='1.5em'>Courses</Text>
+        <Text fontSize='1.5rem'>Courses</Text>
         <Carousel
           nViews={nViews}
           children={this.renderCoursePanelViews()}
