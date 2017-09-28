@@ -21,39 +21,46 @@ const navigationItems = {
     {
       title: 'Dashboard',
       imgSrc: dashboardIcon,
-      link: '/dashboard'
+      link: '/dashboard',
+      disabled: false
     },
     {
       title: 'My Courses',
       imgSrc: courseIcon,
-      link: '/course-manager'
+      link: '/course-manager',
+      disabled: false
     },
     {
       title: 'Course Composer',
       imgSrc: courseComposerIcon,
-      link: '/course-composer'
+      link: '/course-composer',
+      disabled: false
     },
     {
       title: 'Profile',
       imgSrc: null,
-      link: '/profile'
+      link: '/profile',
+      disabled: true
     }
   ],
   STUDENT: [
     {
       title: 'Dashboard',
       imgSrc: dashboardIcon,
-      link: '/dashboard'
+      link: '/dashboard',
+      disabled: false
     },
     {
       title: 'My Courses',
       imgSrc: courseIcon,
-      link: '/courses'
+      link: '/courses',
+      disabled: true
     },
     {
       title: 'Profile',
       imgSrc: null,
-      link: '/profile'
+      link: '/profile',
+      disabled: true
     }
   ]
 }
@@ -88,6 +95,7 @@ const SideNavigation = props => {
       return (
         <ListItem
           button
+          disabled={item.disabled}
           key={key}
           onClick={() => props.actions.nav.setIndex(key)}
           component={NavLink}

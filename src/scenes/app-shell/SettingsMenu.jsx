@@ -58,7 +58,7 @@ class SettingsMenu extends React.PureComponent {
           <MenuItem>
             <Link
               onClick={() => this.props.dispatch(changeRole('STUDENT'))}
-              to='/'
+              to='/dashboard'
             >
               Sign in as student
             </Link>
@@ -66,7 +66,7 @@ class SettingsMenu extends React.PureComponent {
           <MenuItem>
             <Link
               onClick={() => this.props.dispatch(changeRole('TEACHER'))}
-              to='/'
+              to='/dashboard'
             >
               Sign in as teacher
             </Link>
