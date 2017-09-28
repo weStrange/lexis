@@ -44,23 +44,27 @@ const activities = ImmList.of(
   {
     name: 'Video',
     kind: 'video',
-    mainOnly: true
+    mainOnly: true,
+    disabled: false
   },
   {
     name: 'Audio',
     kind: 'audio',
     mainOnly: false,
-    disabled: true
+    disabled: true,
+    disabled: false
   },
   {
     name: 'Skype',
     kind: 'skype',
-    mainOnly: true
+    mainOnly: true,
+    disabled: false
   },
   {
     name: 'Text',
     kind: 'text',
-    mainOnly: false
+    mainOnly: false,
+    disabled: false
   },
   {
     name: 'Multiple Choice Questions',

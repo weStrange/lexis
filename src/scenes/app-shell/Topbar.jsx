@@ -4,6 +4,11 @@ import { Text, Paper, CenterBox, Icon, Avatar } from '../../components'
 import SearchBox from './SearchBox'
 import logo from 'assets/logo.svg'
 import SettingMenu from './SettingsMenu'
+
+import { connect } from 'react-redux'
+
+import type { Role, AppState } from 'core/types'
+
 const Logo = styled.img`
   width: 3.5rem;
   height: auto;
@@ -35,8 +40,10 @@ const UserFunc = styled(CenterBox)`
   justify-content: flex-end;
   padding-right: 3em;
 `
-
-function Topbar () {
+type TopbarProps = {
+  role: Role
+}
+function Topbar ({ role }: TopbarProps) {
   return (
     <Appbar elevation={3} shadowColor='#5B86E5'>
       <LogoBox>
@@ -58,11 +65,13 @@ function Topbar () {
         <SettingMenu />
         <Avatar size='3rem' style={{ marginRight: 12 }} />
         <Text light normal color={white}>
-          Welcome, Teacher
+          {'Welcome, ' + (role === 'TEACHER' ? 'Teacher' : 'Student')}
         </Text>
       </UserFunc>
     </Appbar>
   )
 }
 
-export default Topbar
+export default connect((state: AppState) => ({
+  role: state.nav.userRole
+}))(Topbar)

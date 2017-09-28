@@ -1,7 +1,7 @@
 /* @flow */
 
 import React, { Component } from 'react'
-import { Route, Switch } from 'react-router'
+import { Route, Switch, Redirect } from 'react-router'
 import { ConnectedRouter } from 'react-router-redux'
 
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles'
@@ -59,6 +59,7 @@ class App extends Component {
           <ConnectedRouter history={history}>
             <div>
               <AppShell>
+                <Redirect from='/' to='/dashboard' />
                 <Switch>
                   <Route path='/course-manager' component={CourseManager} />
                   <Route path='/course-composer' component={CourseComposer} />
