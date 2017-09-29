@@ -14,7 +14,8 @@ function getInitialState (): LessonEditorState {
     },
     activityPicker: {
       open: false
-    }
+    },
+    editedActivityIdx: 0
   }
 }
 
@@ -29,7 +30,20 @@ export default function levelReducer (
         lesson: action.lesson,
         activityPicker: {
           open: false
-        }
+        },
+        editedActivityIdx: -1
+      }
+
+    case 'teacher-composer-activity-edited-idx-set':
+      return {
+        ...state,
+        editedActivityIdx: action.idx
+      }
+
+    case 'teacher-composer-activity-select':
+      return {
+        ...state,
+        editedActivityIdx: -1
       }
 
     case 'teacher-composer-activity-add':
@@ -41,7 +55,7 @@ export default function levelReducer (
         }
       }
 
-    case 'teacher-composer-lesson-remove':
+    case 'teacher-composer-activity-remove':
       return {
         ...state,
         lesson: {

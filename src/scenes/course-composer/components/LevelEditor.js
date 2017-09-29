@@ -8,42 +8,26 @@ import React from 'react'
 import TextField from 'material-ui/TextField'
 import List, { ListItem, ListItemText } from 'material-ui/List'
 import Grid from 'material-ui/Grid'
-import { GridList, GridListTile, GridListTileBar } from 'material-ui/GridList'
+import { GridList, GridListTileBar } from 'material-ui/GridList'
 import { grey } from 'material-ui/colors'
 import SaveIcon from 'material-ui-icons/Save'
-import styled from 'styled-components'
 
 import { Text, ActionButton } from 'common-components'
+import { StyledGridTile, BlockedTextField, InputForm } from '.'
 
 import * as actionCreators from '../action-creators'
 
 import type { Lesson, Level, LevelEditorState } from '../types'
 import type { AppState } from 'core/types'
 
-const StyledGridTile = styled(GridListTile)`
-  border: 1px solid grey;
-  border-radius: 20px;
-  width: 200px !important;
-  height: 60px !important;
-  margin: 10px 7px 10px 7px;
-`
-
-const InputForm = styled.form`
-  float: left;
-  margin-left: 15%;
-`
-
-const BlockedTextField = styled(TextField)`
-  width: 100%;
-  display: block;
-`
-
 type LevelEditorProps = {
   levelEditor: LevelEditorState,
+  match: any, // react router thing
   actions: any
 }
-export function LevelEditor ({ levelEditor, actions }: LevelEditorProps) {
+export function LevelEditor ({ levelEditor, match, actions }: LevelEditorProps) {
   const { level } = levelEditor
+  const levelId = match.params.levelId
 
   return (
     <div style={{ marginLeft: '5%' }}>
@@ -55,7 +39,7 @@ export function LevelEditor ({ levelEditor, actions }: LevelEditorProps) {
         medium
         fontSize={'1.3em'}
       >
-        Course details
+        Chapter details
       </Text>
       <InputForm>
         <BlockedTextField
@@ -84,7 +68,7 @@ export function LevelEditor ({ levelEditor, actions }: LevelEditorProps) {
         medium
         fontSize={'1.3em'}
       >
-        Chapters
+        Lessons
       </Text>
 
       <GridList>
@@ -95,7 +79,7 @@ export function LevelEditor ({ levelEditor, actions }: LevelEditorProps) {
         ))}
 
         <StyledGridTile button>
-          <Link>Add new</Link>
+          <Link to={'/course-composer/' + levelId + '/new'}>Add new</Link>
         </StyledGridTile>
       </GridList>
 

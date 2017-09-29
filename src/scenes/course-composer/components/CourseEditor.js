@@ -5,9 +5,8 @@ import { bindActionCreators } from 'redux'
 import { Link } from 'react-router-dom'
 
 import React from 'react'
-import TextField from 'material-ui/TextField'
 import Grid from 'material-ui/Grid'
-import { GridList, GridListTile, GridListTileBar } from 'material-ui/GridList'
+import { GridList, GridListTileBar } from 'material-ui/GridList'
 import Input, { InputLabel } from 'material-ui/Input'
 import { MenuItem } from 'material-ui/Menu'
 import { FormControl, FormHelperText } from 'material-ui/Form'
@@ -15,32 +14,13 @@ import Select from 'material-ui/Select'
 import { grey } from 'material-ui/colors'
 import SaveIcon from 'material-ui-icons/Save'
 
-import styled from 'styled-components'
-
 import { Text, ActionButton } from 'common-components'
+import { StyledGridTile, BlockedTextField, InputForm } from '.'
 
 import * as actionCreators from '../action-creators'
 
 import type { CourseEditorState } from '../types'
 import type { CourseDifficulty, AppState } from 'core/types'
-
-const StyledGridTile = styled(GridListTile)`
-  border: 1px solid grey;
-  border-radius: 20px;
-  width: 200px !important;
-  height: 60px !important;
-  margin: 10px 7px 10px 7px;
-`
-
-const InputForm = styled.form`
-  margin-left: 5%;
-  margin-bottom: 50px;
-`
-
-const BlockedTextField = styled(TextField)`
-  width: 100%;
-  display: block;
-`
 
 type LevelEditorProps = {
   courseEditor: CourseEditorState,
@@ -119,7 +99,7 @@ export function CourseEditor ({ courseEditor, actions }: LevelEditorProps) {
         ))}
 
         <StyledGridTile button>
-          <Link to={'/course-composer/' + course.levels.size}>Add new</Link>
+          <Link to='/course-composer/new'>Add new</Link>
         </StyledGridTile>
       </GridList>
 

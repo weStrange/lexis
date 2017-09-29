@@ -8,6 +8,7 @@ import * as courseActions from './courseActions'
 import * as lessonActions from './lessonActions'
 import * as levelActions from './levelActions'
 import * as activityPicker from './activityPickerActions'
+import * as activityActions from './activityActions'
 
 export {
   audioActions,
@@ -17,5 +18,6 @@ export {
   courseActions,
   lessonActions,
   levelActions,
-  activityPicker
+  activityPicker,
+  activityActions
 }

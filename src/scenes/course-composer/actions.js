@@ -1,6 +1,12 @@
 /* @flow */
 
-import type { CourseDifficulty, Level, Lesson, Activity } from 'core/types'
+import type {
+  CourseDifficulty,
+  Level,
+  Lesson,
+  Activity,
+  ActivityKind
+} from 'core/types'
 
 import type { ActivityAreaSelect } from './types'
 
@@ -29,6 +35,8 @@ export type CourseComposerAction =
   // Activity picker
   | { type: 'teacher-composer-activity-picker-open' }
   | { type: 'teacher-composer-activity-picker-close' }
+  | { type: 'teacher-composer-activity-select', activityKind: ActivityKind }
+  | { type: 'teacher-composer-activity-edited-idx-set', idx: number }
 
   // Lesson actions
   | { type: 'teacher-composer-lesson-add' }

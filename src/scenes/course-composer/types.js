@@ -76,7 +76,8 @@ export type ActivityPickerState = {
 
 export type LessonEditorState = {
   lesson: Lesson,
-  activityPicker: ActivityPickerState
+  activityPicker: ActivityPickerState,
+  editedActivityIdx: number
 }
 
 export type LevelEditorState = {

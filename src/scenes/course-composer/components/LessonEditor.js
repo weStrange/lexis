@@ -6,13 +6,18 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import Paper from 'material-ui/Paper'
+import Button from 'material-ui/Button'
 import Typography from 'material-ui/Typography'
 import { withStyles } from 'material-ui/styles'
 import List, { ListItem, ListItemText } from 'material-ui/List'
 import { grey } from 'material-ui/colors'
-import Add from 'material-ui-icons/Add'
+import SaveIcon from 'material-ui-icons/Save'
+import EditIcon from 'material-ui-icons/Edit'
+import DeleteIcon from 'material-ui-icons/Delete'
+import styled from 'styled-components'
 
-import { Text } from 'common-components'
+import { Text, ActionButton } from 'common-components'
+import { StyledGridTile, BlockedTextField, InputForm } from '.'
 
 import YouTube from 'react-youtube'
 
@@ -35,32 +40,14 @@ import type {
 } from '../types'
 import type { AppState, Activity } from 'core/types'
 
-const commonStyles = {
-  paddingTop: 16,
-  paddingBottom: 16,
-  marginLeft: window.innerWidth * 0.175,
-  width: window.innerWidth * 0.4,
-  overflow: 'auto'
-}
-const styles = theme => ({
-  mainActivity: theme.mixins.gutters({
-    ...commonStyles,
-    height: window.innerHeight * 0.4,
-    marginTop: theme.spacing.unit * 3
-  }),
-  secondaryActivity: theme.mixins.gutters({
-    ...commonStyles,
-    height: window.innerHeight * 0.2,
-    marginTop: theme.spacing.unit * 3
-  }),
-  exerciseList: theme.mixins.gutters({
-    width: window.innerWidth * 0.1,
-    marginTop: theme.spacing.unit * 3,
-    paddingLeft: 0,
-    marginLeft: 0,
-    float: 'left'
-  })
-})
+const ActivityButton = styled(Button)`
+  width: 40px !important;
+  height: 30px !important;
+  float: right;
+  position: relative;
+  left: 20px;
+  bottom: 15px;
+`
 
 type ActivityType = 'main' | 'secondary'
 
@@ -123,23 +110,8 @@ export class LessonEditor extends Component {
     switch (activity.type) {
       case 'video':
         return activity.url ? (
-          <div
-            style={{
-              position: 'relative',
-              paddingBottom: '50%',
-              paddingRight: '20%',
-              height: 0,
-              overflow: 'hidden'
-            }}
-          >
-            <YouTube
-              opts={{
-                height: window.innerHeight * 0.4,
-                width: window.innerWidth * 0.4,
-                top: 0
-              }}
-              videoId={activity.url}
-            />
+          <div>
+            <YouTube videoId={activity.url} />
           </div>
         ) : null
 
@@ -204,30 +176,72 @@ export class LessonEditor extends Component {
     } = this.props
 
     return (
-      <div
-        style={{
-          width: '100%',
-          height: '100%'
-        }}
-      >
-        {lesson.activities.map(p => this._displayActivity(p))}
-
+      <div style={{ marginLeft: '5%' }}>
+        <Text
+          style={{
+            textDecoration: 'underline'
+          }}
+          primary
+          medium
+          fontSize={'1.3em'}
+        >
+          Lesson details
+        </Text>
+        <InputForm>
+          <BlockedTextField
+            id='lesson-name'
+            label='Lesson name'
+            value={lesson.name}
+            onChange={ev => actions.lesson.editName(ev.target.value)}
+          />
+        </InputForm>
+        <Text
+          style={{
+            textDecoration: 'underline'
+          }}
+          primary
+          medium
+          fontSize={'1.3em'}
+        >
+          Lesson activities (use sidebar to add new ones)
+        </Text>
+        {lesson.activities.map((p, i) => (
+          <Paper
+            style={{
+              width: '70%',
+              margin: '50px 50px 50px 50px'
+            }}
+          >
+            <ActivityButton
+              fab
+              color='accent'
+              style={{ backgroundColor: '#CC0000' }}
+              onClick={() => actions.activity.remove(i)}
+            >
+              <DeleteIcon />
+            </ActivityButton>
+            <ActivityButton fab color='primary'>
+              <EditIcon />
+            </ActivityButton>
+            {this._displayActivity(p)}
+          </Paper>
+        ))}
         <ActivityPicker
           picker={activityPicker}
-          onItemSelect={actions.activityPicker.select}
+          onItemSelect={actions.activity.select}
         />
 
         <VideoModal
           video={videoModal}
           onUrlEdit={actions.video.editUrl}
           onClose={actions.video.close}
-          onSave={() => {}}
+          onSave={actions.activity.add}
         />
         <AudioModal
           audio={audioModal}
           onUrlEdit={actions.audio.editUrl}
           onClose={actions.audio.close}
-          onSave={() => {}}
+          onSave={actions.activity.add}
         />
         <SkypeModal
           skype={skypeModal}
@@ -236,14 +250,18 @@ export class LessonEditor extends Component {
           onDurationChange={actions.skype.editDuration}
           onStartTimeChange={actions.skype.editStartTime}
           onClose={actions.skype.close}
-          onSave={() => {}}
+          onSave={actions.activity.add}
         />
         <TextModal
           text={textModal}
           onTextEdit={actions.text.editContent}
           onClose={actions.text.close}
-          onSave={() => {}}
+          onSave={actions.activity.add}
         />
+
+        <ActionButton style={{ right: '220px' }}>
+          <SaveIcon />
+        </ActionButton>
       </div>
     )
   }
@@ -266,11 +284,10 @@ function mapDispatchToProps (dispatch) {
       audio: bindActionCreators(actionCreators.audioActions, dispatch),
       skype: bindActionCreators(actionCreators.skypeActions, dispatch),
       text: bindActionCreators(actionCreators.textActions, dispatch),
-      video: bindActionCreators(actionCreators.videoActions, dispatch)
+      video: bindActionCreators(actionCreators.videoActions, dispatch),
+      activity: bindActionCreators(actionCreators.activityActions, dispatch)
     }
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  withStyles(styles)(LessonEditor)
-)
+export default connect(mapStateToProps, mapDispatchToProps)(LessonEditor)

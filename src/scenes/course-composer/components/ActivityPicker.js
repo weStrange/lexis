@@ -32,7 +32,7 @@ const Wrapper = styled(Paper)`
   height: 100vh;
   width: 180px;
   position: fixed;
-  top: 0px;
+  top: 80px;
   padding-left: 20px;
   margin-right: 0px;
   right: -20px;
@@ -101,10 +101,10 @@ export default function ActivityPicker ({
   picker,
   onItemSelect = () => {}
 }: ActivityPickerProps) {
-  return picker.open ? (
+  return (
     <Wrapper>
       <Text primary medium fontSize={'1.3em'}>
-        Select activity
+        Add activity
       </Text>
       <List>
         {activities.map((p, key) => (
@@ -121,5 +121,5 @@ export default function ActivityPicker ({
         ))}
       </List>
     </Wrapper>
-  ) : null
+  )
 }

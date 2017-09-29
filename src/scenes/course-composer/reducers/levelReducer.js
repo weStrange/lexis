@@ -10,6 +10,7 @@ function getInitialState (): LevelEditorState {
     level: {
       id: '',
       name: '',
+      description: '',
       lessons: List()
     }
   }
@@ -29,7 +30,7 @@ export default function levelReducer (
     case 'teacher-composer-lesson-add':
       return {
         ...state,
-        course: {
+        level: {
           ...state.level,
           lessons: state.level.lessons.push({
             id: '',
@@ -42,7 +43,7 @@ export default function levelReducer (
     case 'teacher-composer-lesson-remove':
       return {
         ...state,
-        course: {
+        level: {
           ...state.level,
           lessons: state.level.lessons.remove(action.idx)
         }
@@ -51,7 +52,7 @@ export default function levelReducer (
     case 'teacher-composer-lesson-edit':
       return {
         ...state,
-        course: {
+        level: {
           ...state.level,
           lessons: state.level.lessons.set(action.idx, action.lesson)
         }
@@ -60,7 +61,7 @@ export default function levelReducer (
     case 'teacher-composer-level-name-edit':
       return {
         ...state,
-        course: {
+        level: {
           ...state.level,
           name: action.name
         }
@@ -69,7 +70,7 @@ export default function levelReducer (
     case 'teacher-composer-level-description-edit':
       return {
         ...state,
-        course: {
+        level: {
           ...state.level,
           description: action.description
         }

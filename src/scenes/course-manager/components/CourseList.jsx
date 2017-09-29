@@ -7,8 +7,10 @@ import styled from 'styled-components'
 import Grid from 'material-ui/Grid'
 import List, { ListItem } from 'material-ui/List'
 import { GridList, GridListTile, GridListTileBar } from 'material-ui/GridList'
-import { Text } from 'common-components'
+import { Text, ActionButton } from 'common-components'
 import Card from 'material-ui/Card'
+import AddIcon from 'material-ui-icons/Add'
+
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import type { Course } from 'core/types'
@@ -97,6 +99,12 @@ const CourseList = ({ item, courses, ...props }: CourseListProps) => (
         </Card>
       ))}
     </CourseGridList>
+
+    <Link to='/course-composer'>
+      <ActionButton>
+        <AddIcon />
+      </ActionButton>
+    </Link>
   </div>
 )
 
