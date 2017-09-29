@@ -1,6 +1,7 @@
 /* @flow */
 
 import type { Action } from '../../../actions'
+import type { Level } from 'core/types'
 
 export function add (): Action {
   return {
@@ -15,10 +16,11 @@ export function remove (idx: number): Action {
   }
 }
 
-export function select (idx: number): Action {
+export function edit (idx: number, level: Level): Action {
   return {
-    type: 'teacher-composer-level-select',
-    idx: idx
+    type: 'teacher-composer-level-edit-start',
+    idx: idx,
+    level: level
   }
 }
 

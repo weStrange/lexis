@@ -94,13 +94,11 @@ const activities = ImmList.of(
 
 type ActivityPickerProps = {
   picker: ActivityPickerState,
-  activityArea: ActivityAreaSelect,
   onItemSelect: (kind: string) => void
 }
 
 export default function ActivityPicker ({
   picker,
-  activityArea,
   onItemSelect = () => {}
 }: ActivityPickerProps) {
   return picker.open ? (
@@ -111,7 +109,7 @@ export default function ActivityPicker ({
       <List>
         {activities.map((p, key) => (
           <ListItem
-            disabled={(activityArea !== 'main' && p.mainOnly) || p.disabled}
+            disabled={p.disabled}
             button
             key={key}
             onClick={() => onItemSelect(p.kind)}

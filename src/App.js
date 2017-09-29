@@ -14,7 +14,11 @@ import 'animate.css/animate.min.css'
 
 import AppShell from './scenes/app-shell/AppShell'
 
-import CourseComposer from './scenes/course-composer'
+import {
+  CourseEditor,
+  LevelEditor,
+  LessonEditor
+} from './scenes/course-composer/components'
 import CourseManager from './scenes/course-manager'
 import Course from './scenes/course-consumer'
 
@@ -59,10 +63,22 @@ class App extends Component {
           <ConnectedRouter history={history}>
             <div>
               <AppShell>
-                <Redirect from='/' to='/dashboard' />
                 <Switch>
                   <Route path='/course-manager' component={CourseManager} />
-                  <Route path='/course-composer' component={CourseComposer} />
+                  <Route
+                    exact
+                    path='/course-composer'
+                    component={CourseEditor}
+                  />
+                  <Route
+                    exact
+                    path='/course-composer/:levelId'
+                    component={LevelEditor}
+                  />
+                  <Route
+                    path='/course-composer/:levelId/:lessonId'
+                    component={LessonEditor}
+                  />
                   <Route path='/dashboard' component={Dashboard} />
                   {/*<Route exact path='/student/courses' component={Courses} />*/}
                   <Route path='/student/courses/*' component={Course} />

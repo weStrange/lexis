@@ -7,6 +7,7 @@ import { IconBox, SvgIcon, Icon } from './Icon'
 import { FlexBox, CenterBox } from './Layout'
 import Carousel from './Carousel'
 import Wrapper from './Wrapper'
+import ActionButton from './ActionButton'
 
 export {
   Text,
@@ -18,5 +19,6 @@ export {
   FlexBox,
   CenterBox,
   Carousel,
-  Wrapper
+  Wrapper,
+  ActionButton
 }

@@ -3,9 +3,9 @@
 import { List } from 'immutable'
 
 import type { Action } from '../../../actions'
-import type { MainViewState } from '../types'
+import type { CourseEditorState } from '../types'
 
-function getInitialState (): MainViewState {
+function getInitialState (): CourseEditorState {
   return {
     course: {
       id: '',
@@ -13,18 +13,14 @@ function getInitialState (): MainViewState {
       description: '',
       difficulty: 'Beginner',
       levels: List()
-    },
-    selectedActivityArea: 'none',
-    currentLevelIdx: 0,
-    currentLessonIdx: 0,
-    currentExerciseIdx: 0
+    }
   }
 }
 
 export default function courseReducer (
-  state: MainViewState = getInitialState(),
+  state: CourseEditorState = getInitialState(),
   action: Action
-): MainViewState {
+): CourseEditorState {
   switch (action.type) {
     case 'teacher-composer-start':
       return {
@@ -39,19 +35,10 @@ export default function courseReducer (
             lessons: List.of({
               id: '',
               name: 'My new lesson',
-              exercises: List.of({
-                id: '',
-                name: 'Introduction',
-                mainActivity: null,
-                secondaryActivity: null
-              })
+              activities: List()
             })
           })
-        },
-        selectedActivityArea: 'none',
-        currentLevelIdx: -1,
-        currentLessonIdx: -1,
-        currentExerciseIdx: -1
+        }
       }
 
     case 'teacher-composer-level-add':
@@ -77,192 +64,12 @@ export default function courseReducer (
         }
       }
 
-    case 'teacher-composer-level-select':
-      return {
-        ...state,
-        currentLevelIdx: action.idx
-      }
-
-    case 'teacher-composer-level-name-edit':
-      let levelNameAction = action
+    case 'teacher-composer-level-edit':
       return {
         ...state,
         course: {
           ...state.course,
-          levels: state.course.levels.update(action.idx, p => ({
-            ...p,
-            name: levelNameAction.name
-          }))
-        }
-      }
-
-    case 'teacher-composer-level-description-edit':
-      let levelDescAction = action
-      return {
-        ...state,
-        course: {
-          ...state.course,
-          levels: state.course.levels.update(action.idx, p => ({
-            ...p,
-            description: levelDescAction.description
-          }))
-        }
-      }
-
-    case 'teacher-composer-lesson-add':
-      return {
-        ...state,
-        course: {
-          ...state.course,
-          levels: state.course.levels.update(state.currentLevelIdx, p => ({
-            ...p,
-            lessons: p.lessons.push({
-              id: '',
-              name: 'My new lesson',
-              exercises: List()
-            })
-          }))
-        }
-      }
-
-    case 'teacher-composer-lesson-remove':
-      let lessonRemoveAction = action
-      return {
-        ...state,
-        course: {
-          ...state.course,
-          levels: state.course.levels.update(state.currentLevelIdx, p => ({
-            ...p,
-            lessons: p.lessons.remove(lessonRemoveAction.idx)
-          }))
-        }
-      }
-
-    case 'teacher-composer-lesson-select':
-      return {
-        ...state,
-        currentExerciseIdx: 0,
-        currentLessonIdx: action.idx
-      }
-
-    case 'teacher-composer-lesson-name-edit':
-      let lessonNameAction = action
-      return {
-        ...state,
-        course: {
-          ...state.course,
-          levels: state.course.levels.update(state.currentLevelIdx, p => ({
-            ...p,
-            lessons: p.lessons.update(lessonNameAction.idx, s => ({
-              ...s,
-              name: lessonNameAction.name
-            }))
-          }))
-        }
-      }
-
-    case 'teacher-composer-exercise-add':
-      return {
-        ...state,
-        course: {
-          ...state.course,
-          levels: state.course.levels.update(state.currentLevelIdx, p => ({
-            ...p,
-            lessons: p.lessons.update(state.currentLessonIdx, s => ({
-              ...s,
-              exercises: s.exercises.push({
-                id: '',
-                name: s.exercises.isEmpty()
-                  ? 'Introduction'
-                  : 'Part ' + s.exercises.size,
-                mainActivity: null,
-                secondaryActivity: null
-              })
-            }))
-          }))
-        }
-      }
-
-    case 'teacher-composer-exercise-remove':
-      let exerciseRemoveAction = action
-      return {
-        ...state,
-        course: {
-          ...state.course,
-          levels: state.course.levels.update(state.currentLevelIdx, p => ({
-            ...p,
-            lessons: p.lessons.update(state.currentLessonIdx, s => ({
-              id: '',
-              name: '',
-              exercises: s.exercises.remove(exerciseRemoveAction.idx)
-            }))
-          }))
-        }
-      }
-
-    case 'teacher-composer-exercise-select':
-      return {
-        ...state,
-        currentExerciseIdx: action.idx
-      }
-
-    case 'teacher-composer-exercise-name-edit':
-      let exerciseNameAction = action
-      return {
-        ...state,
-        course: {
-          ...state.course,
-          levels: state.course.levels.update(state.currentLevelIdx, p => ({
-            ...p,
-            lessons: p.lessons.update(state.currentLessonIdx, s => ({
-              id: '',
-              name: '',
-              exercises: s.exercises.update(exerciseNameAction.idx, t => ({
-                ...t,
-                name: exerciseNameAction.name
-              }))
-            }))
-          }))
-        }
-      }
-
-    case 'teacher-composer-main-activity-set':
-      let mainActSetAction = action
-      return {
-        ...state,
-        course: {
-          ...state.course,
-          levels: state.course.levels.update(state.currentLevelIdx, p => ({
-            ...p,
-            lessons: p.lessons.update(state.currentLessonIdx, s => ({
-              id: '',
-              name: '',
-              exercises: s.exercises.update(state.currentExerciseIdx, t => ({
-                ...t,
-                mainActivity: mainActSetAction.activity
-              }))
-            }))
-          }))
-        }
-      }
-
-    case 'teacher-composer-secondary-activity-set':
-      let secActSetAction = action
-      return {
-        ...state,
-        course: {
-          ...state.course,
-          levels: state.course.levels.update(state.currentLevelIdx, p => ({
-            ...p,
-            lessons: p.lessons.update(state.currentLessonIdx, s => ({
-              id: '',
-              name: '',
-              exercises: s.exercises.update(state.currentExerciseIdx, t => ({
-                ...t,
-                secondaryActivity: secActSetAction.activity
-              }))
-            }))
-          }))
+          levels: state.course.levels.set(action.idx, action.level)
         }
       }
 
@@ -291,12 +98,6 @@ export default function courseReducer (
           ...state.course,
           difficulty: action.difficulty
         }
-      }
-
-    case 'teacher-composer-activity-area-select':
-      return {
-        ...state,
-        selectedActivityArea: action.area
       }
 
     default:

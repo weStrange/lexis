@@ -2,6 +2,9 @@
 
 import React, { Component } from 'react'
 
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+
 import Paper from 'material-ui/Paper'
 import Typography from 'material-ui/Typography'
 import { withStyles } from 'material-ui/styles'
@@ -13,7 +16,24 @@ import { Text } from 'common-components'
 
 import YouTube from 'react-youtube'
 
-import type { MainViewState, ActivityAreaSelect } from '../types'
+import {
+  ActivityPicker,
+  VideoModal,
+  AudioModal,
+  SkypeModal,
+  TextModal
+} from '.'
+
+import * as actionCreators from '../action-creators'
+
+import type {
+  LessonEditorState,
+  TextModalState,
+  AudioModalState,
+  VideoModalState,
+  SkypeModalState
+} from '../types'
+import type { AppState, Activity } from 'core/types'
 
 const commonStyles = {
   paddingTop: 16,
@@ -44,19 +64,20 @@ const styles = theme => ({
 
 type ActivityType = 'main' | 'secondary'
 
-type ContentAreaProps = {
-  mainView: MainViewState,
-  classes: any, // material-ui thing
-  onActivitySelect: (activity: ActivityAreaSelect) => void,
-  onExerciseAdd: () => void,
-  onExerciseSelect: (idx: number) => void
+type LessonEditorProps = {
+  lessonEditor: LessonEditorState,
+  textModal: TextModalState,
+  audioModal: AudioModalState,
+  videoModal: VideoModalState,
+  skypeModal: SkypeModalState,
+  actions: any
 }
-export class ContentArea extends Component {
-  prop: ContentAreaProps
+export class LessonEditor extends Component {
+  prop: LessonEditorProps
   _displayActivity: () => void
   _getReadableDuration: () => void
 
-  constructor (props: ContentAreaProps) {
+  constructor (props: LessonEditorProps) {
     super(props)
 
     this._displayActivity = this._displayActivity.bind(this)
@@ -94,27 +115,7 @@ export class ContentArea extends Component {
     }
   }
 
-  _displayActivity (activityType: ActivityType) {
-    let mainView = this.props.mainView
-    let level = mainView.course.levels.get(mainView.currentLevelIdx)
-    if (level === undefined) {
-      return null
-    }
-
-    let lesson = level.lessons.get(mainView.currentLessonIdx)
-    if (lesson === undefined) {
-      return null
-    }
-
-    let exercise = lesson.exercises.get(mainView.currentExerciseIdx)
-    if (exercise === undefined) {
-      return null
-    }
-
-    let activity =
-      activityType === 'main'
-        ? exercise.mainActivity
-        : exercise.secondaryActivity
+  _displayActivity (activity: Activity) {
     if (activity === null) {
       return null
     }
@@ -193,17 +194,14 @@ export class ContentArea extends Component {
   }
 
   render () {
+    const { lesson, activityPicker } = this.props.lessonEditor
     const {
-      classes,
-      mainView,
-      onActivitySelect,
-      onExerciseAdd,
-      onExerciseSelect
+      textModal,
+      audioModal,
+      videoModal,
+      skypeModal,
+      actions
     } = this.props
-    let exercise = mainView.course.levels
-      .get(mainView.currentLevelIdx)
-      .lessons.get(mainView.currentLessonIdx)
-      .exercises.get(mainView.currentExerciseIdx)
 
     return (
       <div
@@ -211,97 +209,68 @@ export class ContentArea extends Component {
           width: '100%',
           height: '100%'
         }}
-        onClick={() => onActivitySelect('none')}
       >
-        <List
-          style={{
-            height: window.innerHeight * 0.65,
-            overflow: 'auto'
-          }}
-          className={classes.exerciseList}
-        >
-          {mainView.currentLevelIdx >= 0 &&
-          mainView.currentLessonIdx >= 0 &&
-          mainView.course.levels.get(mainView.currentLevelIdx)
-            ? mainView.course.levels
-                .get(mainView.currentLevelIdx)
-                .lessons.get(mainView.currentLessonIdx)
-                .exercises.map((p, i) => (
-                  <ListItem
-                    key={i}
-                    style={{
-                      backgroundColor:
-                        mainView.currentExerciseIdx === i
-                          ? '#cbdbf4'
-                          : '#ffffff'
-                    }}
-                    onClick={() => onExerciseSelect(i)}
-                    button
-                  >
-                    <ListItemText primary={p.name} />
-                  </ListItem>
-                ))
-            : null}
-          <ListItem
-            style={{
-              marginTop: '10px',
-              backgroundColor: '#36d1dc'
-            }}
-            button
-            onClick={onExerciseAdd}
-          >
-            <span>
-              <Add />
-              <span
-                style={{
-                  float: 'right',
-                  marginLeft: '20px',
-                  marginTop: '5px'
-                }}
-              >
-                Add
-              </span>
-            </span>
-          </ListItem>
-        </List>
-        <Paper
-          className={classes.mainActivity}
-          onClick={ev => {
-            ev.stopPropagation()
+        {lesson.activities.map(p => this._displayActivity(p))}
 
-            onActivitySelect('main')
-          }}
-          elevation={mainView.selectedActivityArea === 'main' ? 15 : 2}
-        >
-          {exercise && exercise.mainActivity === null ? (
-            <label style={{ marginLeft: '25%' }}>
-              Click here to select main activity
-            </label>
-          ) : (
-            this._displayActivity('main')
-          )}
-        </Paper>
+        <ActivityPicker
+          picker={activityPicker}
+          onItemSelect={actions.activityPicker.select}
+        />
 
-        <Paper
-          className={classes.secondaryActivity}
-          onClick={ev => {
-            ev.stopPropagation()
-
-            onActivitySelect('secondary')
-          }}
-          elevation={mainView.selectedActivityArea === 'secondary' ? 15 : 2}
-        >
-          {exercise && exercise.secondaryActivity === null ? (
-            <label style={{ marginLeft: '25%' }}>
-              Click here to select secondary activity
-            </label>
-          ) : (
-            this._displayActivity('secondary')
-          )}
-        </Paper>
+        <VideoModal
+          video={videoModal}
+          onUrlEdit={actions.video.editUrl}
+          onClose={actions.video.close}
+          onSave={() => {}}
+        />
+        <AudioModal
+          audio={audioModal}
+          onUrlEdit={actions.audio.editUrl}
+          onClose={actions.audio.close}
+          onSave={() => {}}
+        />
+        <SkypeModal
+          skype={skypeModal}
+          onTopicEdit={actions.skype.editTopic}
+          onGroupToggle={actions.skype.toggleGroup}
+          onDurationChange={actions.skype.editDuration}
+          onStartTimeChange={actions.skype.editStartTime}
+          onClose={actions.skype.close}
+          onSave={() => {}}
+        />
+        <TextModal
+          text={textModal}
+          onTextEdit={actions.text.editContent}
+          onClose={actions.text.close}
+          onSave={() => {}}
+        />
       </div>
     )
   }
 }
 
-export default withStyles(styles)(ContentArea)
+function mapStateToProps (state: AppState) {
+  return {
+    lessonEditor: state.courseComposer.lessonEditor,
+    textModal: state.courseComposer.textModal,
+    audioModal: state.courseComposer.audioModal,
+    videoModal: state.courseComposer.videoModal,
+    skypeModal: state.courseComposer.skypeModal
+  }
+}
+
+function mapDispatchToProps (dispatch) {
+  return {
+    actions: {
+      lesson: bindActionCreators(actionCreators.lessonActions, dispatch),
+      audio: bindActionCreators(actionCreators.audioActions, dispatch),
+      skype: bindActionCreators(actionCreators.skypeActions, dispatch),
+      text: bindActionCreators(actionCreators.textActions, dispatch),
+      video: bindActionCreators(actionCreators.videoActions, dispatch)
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(
+  withStyles(styles)(LessonEditor)
+)

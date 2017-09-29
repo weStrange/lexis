@@ -2,8 +2,8 @@
 
 export { default as ActivityPicker } from './ActivityPicker'
 export { default as AudioModal } from './AudioModal'
-export { default as Navigation } from './Navigation'
-export { default as ContentArea } from './ContentArea'
+export { default as Breadcrumbs } from './Breadcrumbs'
+export { default as LessonEditor } from './LessonEditor'
 export { default as SkypeModal } from './SkypeModal'
 export { default as TextModal } from './TextModal'
 export { default as VideoModal } from './VideoModal'

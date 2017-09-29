@@ -1,6 +1,7 @@
 /* @flow */
 
 import type { Action } from '../../../actions'
+import type { Lesson } from 'core/types'
 
 export function add (): Action {
   return {
@@ -15,9 +16,17 @@ export function remove (idx: number): Action {
   }
 }
 
-export function select (idx: number): Action {
+export function startEdit (lesson: Lesson): Action {
   return {
-    type: 'teacher-composer-lesson-select',
+    type: 'teacher-composer-lesson-edit-start',
+    lesson: lesson
+  }
+}
+
+export function edit (idx: number, lesson: Lesson): Action {
+  return {
+    type: 'teacher-composer-lesson-edit',
+    lesson: lesson,
     idx: idx
   }
 }

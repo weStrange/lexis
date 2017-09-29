@@ -1,37 +1,40 @@
 /* @flow */
 
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { Link } from 'react-router-dom'
+
 import React from 'react'
 import TextField from 'material-ui/TextField'
-import List, { ListItem, ListItemText } from 'material-ui/List'
+import Grid from 'material-ui/Grid'
+import { GridList, GridListTile, GridListTileBar } from 'material-ui/GridList'
 import Input, { InputLabel } from 'material-ui/Input'
 import { MenuItem } from 'material-ui/Menu'
 import { FormControl, FormHelperText } from 'material-ui/Form'
 import Select from 'material-ui/Select'
 import { grey } from 'material-ui/colors'
-import Add from 'material-ui-icons/Add'
+import SaveIcon from 'material-ui-icons/Save'
+
 import styled from 'styled-components'
 
-import { Text } from 'common-components'
+import { Text, ActionButton } from 'common-components'
 
-import type { Course } from '../types'
-import type { CourseDifficulty } from 'core/types'
+import * as actionCreators from '../action-creators'
 
-const LevelOverview = styled.div`
-  position: fixed;
-  top: 0px;
-  padding-left: 20px;
-  padding-right: 20px;
-  margin-right: 0px;
-  right: -20px;
-  color: white;
-  background: ${grey[800]};
-  padding-top: 3rem;
-  height: 150%;
+import type { CourseEditorState } from '../types'
+import type { CourseDifficulty, AppState } from 'core/types'
+
+const StyledGridTile = styled(GridListTile)`
+  border: 1px solid grey;
+  border-radius: 20px;
+  width: 200px !important;
+  height: 60px !important;
+  margin: 10px 7px 10px 7px;
 `
 
 const InputForm = styled.form`
-  float: left;
-  margin-left: 15%;
+  margin-left: 5%;
+  margin-bottom: 50px;
 `
 
 const BlockedTextField = styled(TextField)`
@@ -40,29 +43,30 @@ const BlockedTextField = styled(TextField)`
 `
 
 type LevelEditorProps = {
-  course: Course,
-  onNameEdit: (name: string) => void,
-  onDescriptionEdit: (desc: string) => void,
-  onDifficultyEdit: (diff: CourseDifficulty) => void,
-  onLevelAdd: () => void,
-  onLevelSelect: (idx: number) => void
+  courseEditor: CourseEditorState,
+  actions: any
 }
-export default function CourseEditor ({
-  course,
-  onNameEdit,
-  onLevelAdd,
-  onLevelSelect,
-  onDescriptionEdit,
-  onDifficultyEdit
-}: LevelEditorProps) {
+export function CourseEditor ({ courseEditor, actions }: LevelEditorProps) {
+  const { course } = courseEditor
+
   return (
-    <div>
+    <div style={{ marginLeft: '5%' }}>
+      <Text
+        style={{
+          textDecoration: 'underline'
+        }}
+        primary
+        medium
+        fontSize={'1.3em'}
+      >
+        Course details
+      </Text>
       <InputForm>
         <BlockedTextField
           id='course-name'
           label='Course name'
           value={course.name}
-          onChange={ev => onNameEdit(ev.target.value)}
+          onChange={ev => actions.course.editName(ev.target.value)}
         />
         <BlockedTextField
           id='course-description'
@@ -71,12 +75,11 @@ export default function CourseEditor ({
           rows='10'
           rowsMax='20'
           value={course.description}
-          onChange={ev => onDescriptionEdit(ev.target.value)}
+          onChange={ev => actions.course.editDescription(ev.target.value)}
           margin='normal'
         />
         <FormControl
           style={{
-            float: 'right',
             width: '40%',
             marginTop: '30px'
           }}
@@ -84,7 +87,7 @@ export default function CourseEditor ({
           <InputLabel htmlFor='course-difficulty'>Difficulty</InputLabel>
           <Select
             value={course.difficulty}
-            onChange={ev => onDifficultyEdit(ev.target.value)}
+            onChange={ev => actions.course.editDifficulty(ev.target.value)}
             input={<Input id='course-difficulty' />}
           >
             <MenuItem value={'Beginner'}>Beginner</MenuItem>
@@ -96,32 +99,49 @@ export default function CourseEditor ({
           <FormHelperText>Assess difficulty of the course</FormHelperText>
         </FormControl>
       </InputForm>
-      <LevelOverview>
-        <Text primary medium fontSize={'1.3em'}>
-          Levels
-        </Text>
-        <List>
-          {course.levels.map((p, i) => (
-            <ListItem key={i} button onClick={() => onLevelSelect(i)}>
-              {p.name}
-            </ListItem>
-          ))}
-          <ListItem style={{ marginTop: '10px' }} button onClick={onLevelAdd}>
-            <span>
-              <Add />
-              <span
-                style={{
-                  float: 'right',
-                  marginLeft: '20px',
-                  marginTop: '5px'
-                }}
-              >
-                Add
-              </span>
-            </span>
-          </ListItem>
-        </List>
-      </LevelOverview>
+      <Text
+        style={{
+          textDecoration: 'underline',
+          marginTop: '50px'
+        }}
+        primary
+        medium
+        fontSize={'1.3em'}
+      >
+        Chapters
+      </Text>
+
+      <GridList>
+        {course.levels.map((p, i) => (
+          <StyledGridTile key={i} button>
+            {p.name}
+          </StyledGridTile>
+        ))}
+
+        <StyledGridTile button>
+          <Link to={'/course-composer/' + course.levels.size}>Add new</Link>
+        </StyledGridTile>
+      </GridList>
+
+      <ActionButton>
+        <SaveIcon />
+      </ActionButton>
     </div>
   )
 }
+
+function mapStateToProps (state: AppState) {
+  return {
+    courseEditor: state.courseComposer.courseEditor
+  }
+}
+
+function mapDispatchToProps (dispatch) {
+  return {
+    actions: {
+      course: bindActionCreators(actionCreators.courseActions, dispatch)
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CourseEditor)
