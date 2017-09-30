@@ -3,6 +3,7 @@
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Link } from 'react-router-dom'
+import { graphql } from 'react-apollo'
 
 import React from 'react'
 import Grid from 'material-ui/Grid'
@@ -19,14 +20,21 @@ import { StyledGridTile, BlockedTextField, InputForm } from '.'
 
 import * as actionCreators from '../action-creators'
 
+import { addCourseMutation } from '../mutations'
+
 import type { CourseEditorState } from '../types'
 import type { CourseDifficulty, AppState } from 'core/types'
 
 type LevelEditorProps = {
   courseEditor: CourseEditorState,
+  mutate: any,
   actions: any
 }
-export function CourseEditor ({ courseEditor, actions }: LevelEditorProps) {
+export function CourseEditor ({
+  courseEditor,
+  mutate,
+  actions
+}: LevelEditorProps) {
   const { course } = courseEditor
 
   return (
@@ -103,7 +111,19 @@ export function CourseEditor ({ courseEditor, actions }: LevelEditorProps) {
         </StyledGridTile>
       </GridList>
 
-      <ActionButton>
+      <ActionButton
+        onClick={() =>
+          mutate({
+            variables: {
+              name: course.name,
+              description: course.description,
+              difficulty: course.difficulty.toUpperC,
+              levels: course.levels
+            }
+          })
+            .then(rs => console.log('success'))
+            .catch(error => console.error(error))}
+      >
         <SaveIcon />
       </ActionButton>
     </div>
@@ -124,4 +144,8 @@ function mapDispatchToProps (dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CourseEditor)
+const connetedComposer = connect(mapStateToProps, mapDispatchToProps)(
+  CourseEditor
+)
+
+export default graphql(addCourseMutation)(connetedComposer)
