@@ -30,3 +30,17 @@ export function editDifficulty (difficulty: CourseDifficulty): Action {
     difficulty: difficulty
   }
 }
+
+export function editImageUrl (url: string): Action {
+  return {
+    type: 'teacher-composer-course-image-url-edit',
+    imageUrl: url
+  }
+}
+
+export function editImageFile (file: File): Action {
+  return {
+    type: 'teacher-composer-course-image-file-edit',
+    file: file
+  }
+}

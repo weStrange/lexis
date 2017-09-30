@@ -8,15 +8,18 @@ export const addCourseMutation = gql`
     $description: String!
     $difficulty: Difficulty!
     $levels: [LevelInput]
+    $imageUrl: String
   ) {
     addCourse(
       name: $name
       description: $description
       difficulty: $difficulty
       levels: $levels
+      imageUrl: $imageUrl
     ) {
       id
       name
+      imageUrl
     }
   }
 `

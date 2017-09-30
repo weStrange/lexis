@@ -5,8 +5,12 @@ import { bindActionCreators } from 'redux'
 import { Link } from 'react-router-dom'
 import { graphql } from 'react-apollo'
 
+import defaultCourseImage from '../../../assets/course-space.svg'
+import { handleFileUpload } from 'core/utils/image'
+
 import React from 'react'
 import Grid from 'material-ui/Grid'
+import Button from 'material-ui/Button'
 import { GridList, GridListTileBar } from 'material-ui/GridList'
 import Input, { InputLabel } from 'material-ui/Input'
 import { MenuItem } from 'material-ui/Menu'
@@ -35,7 +39,7 @@ export function CourseEditor ({
   mutate,
   actions
 }: LevelEditorProps) {
-  const { course } = courseEditor
+  const { course, imageFile } = courseEditor
 
   return (
     <div style={{ marginLeft: '5%' }}>
@@ -50,6 +54,33 @@ export function CourseEditor ({
         Course details
       </Text>
       <InputForm>
+        <div>
+          <div
+            style={{
+              float: 'left',
+              width: '300px',
+              height: '300px',
+              backgroundImage: `url('${course.imageUrl || defaultCourseImage}')`
+            }}
+          />
+          <input
+            accept='jpg,jpeg,JPG,JPEG,png,PNG,svg,SVG,ico,ICO'
+            style={{ display: 'none' }}
+            id='file'
+            onChange={e =>
+              handleFileUpload(
+                e,
+                actions.course.editImageFile,
+                actions.course.editImageUrl
+              )}
+            type='file'
+          />
+          <label htmlFor='file'>
+            <Button raised component='span'>
+              Upload
+            </Button>
+          </label>
+        </div>
         <BlockedTextField
           id='course-name'
           label='Course name'
@@ -117,8 +148,9 @@ export function CourseEditor ({
             variables: {
               name: course.name,
               description: course.description,
-              difficulty: course.difficulty.toUpperC,
-              levels: course.levels
+              difficulty: course.difficulty.toUpperCase(),
+              levels: course.levels,
+              image: imageFile
             }
           })
             .then(rs => console.log('success'))

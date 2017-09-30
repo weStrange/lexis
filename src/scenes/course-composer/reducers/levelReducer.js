@@ -12,7 +12,8 @@ function getInitialState (): LevelEditorState {
       name: '',
       description: '',
       lessons: List()
-    }
+    },
+    imageFile: null
   }
 }
 
@@ -73,6 +74,21 @@ export default function levelReducer (
           ...state.level,
           description: action.description
         }
+      }
+
+    case 'teacher-composer-level-image-url-edit':
+      return {
+        ...state,
+        level: {
+          ...state.level,
+          imageUrl: action.imageUrl
+        }
+      }
+
+    case 'teacher-composer-level-image-file-edit':
+      return {
+        ...state,
+        imageFile: action.imageFile
       }
 
     default:

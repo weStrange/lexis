@@ -145,7 +145,7 @@ export type Course = {
   description: string,
   difficulty: CourseDifficulty,
   levels: List<Level>,
-  image?: string
+  imageUrl?: string
 }
 
 export type CourseDifficulty =

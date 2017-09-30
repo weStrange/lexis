@@ -21,6 +21,8 @@ export type CourseComposerAction =
     description: string,
     idx: number
   }
+  | { type: 'teacher-composer-level-image-url-edit', imageUrl: string }
+  | { type: 'teacher-composer-level-image-file-edit', imageFile: File | null }
   | { type: 'teacher-composer-level-edit-start', level: Level }
   | { type: 'teacher-composer-level-edit-clean' }
   | { type: 'teacher-composer-level-save', idx: number, level: Level }
@@ -33,6 +35,8 @@ export type CourseComposerAction =
     type: 'teacher-composer-course-difficulty-edit',
     difficulty: CourseDifficulty
   }
+  | { type: 'teacher-composer-course-image-url-edit', imageUrl: string }
+  | { type: 'teacher-composer-course-image-file-edit', file: File }
 
   // Activity picker
   | { type: 'teacher-composer-activity-picker-open' }
