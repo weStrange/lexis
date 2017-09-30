@@ -3,9 +3,10 @@
 import type { Action } from '../../../actions'
 import type { Lesson } from 'core/types'
 
-export function add (): Action {
+export function add (lesson: Lesson): Action {
   return {
-    type: 'teacher-composer-lesson-add'
+    type: 'teacher-composer-lesson-add',
+    lesson: lesson
   }
 }
 
@@ -20,6 +21,12 @@ export function startEdit (lesson: Lesson): Action {
   return {
     type: 'teacher-composer-lesson-edit-start',
     lesson: lesson
+  }
+}
+
+export function cleanEdit (): Action {
+  return {
+    type: 'teacher-composer-lesson-edit-clean'
   }
 }
 

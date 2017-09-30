@@ -27,16 +27,15 @@ export default function levelReducer (
         level: action.level
       }
 
+    case 'teacher-composer-level-edit-clean':
+      return getInitialState()
+
     case 'teacher-composer-lesson-add':
       return {
         ...state,
         level: {
           ...state.level,
-          lessons: state.level.lessons.push({
-            id: '',
-            name: 'My new lesson',
-            activities: List()
-          })
+          lessons: state.level.lessons.push(action.lesson)
         }
       }
 

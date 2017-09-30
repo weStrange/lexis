@@ -115,6 +115,7 @@ export type Activity =
   | MultiOptionEx
 
 export type Header = {
+  type: 'header',
   text: string
 }
 /*

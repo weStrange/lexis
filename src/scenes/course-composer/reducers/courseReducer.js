@@ -46,12 +46,7 @@ export default function courseReducer (
         ...state,
         course: {
           ...state.course,
-          levels: state.course.levels.push({
-            id: '',
-            name: 'My new level',
-            description: '',
-            lessons: List()
-          })
+          levels: state.course.levels.push(action.level)
         }
       }
 

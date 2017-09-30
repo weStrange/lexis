@@ -1,5 +1,7 @@
 /* @flow */
 
+import { List as ListImm } from 'immutable'
+
 import React, { Component } from 'react'
 
 import { connect } from 'react-redux'
@@ -39,7 +41,7 @@ import type {
   VideoModalState,
   SkypeModalState
 } from '../types'
-import type { AppState, Activity, Header } from 'core/types'
+import type { AppState, Activity, Header, Lesson } from 'core/types'
 
 const ActivityButton = styled(Button)`
   width: 40px !important;
@@ -54,6 +56,7 @@ type ActivityType = 'main' | 'secondary'
 
 type LessonEditorProps = {
   lessonEditor: LessonEditorState,
+  lessons: ListImm<Lesson>,
   textModal: TextModalState,
   audioModal: AudioModalState,
   videoModal: VideoModalState,
@@ -62,7 +65,26 @@ type LessonEditorProps = {
   actions: any
 }
 export class LessonEditor extends Component {
-  prop: LessonEditorProps
+  props: LessonEditorProps
+
+  constructor (props: LessonEditorProps) {
+    super(props)
+
+    let lessonId = props.match.params.lessonId
+    if (lessonId !== 'new') {
+      let editedLesson = props.lessons.get(lessonId)
+
+      if (!editedLesson) {
+        return
+      }
+
+      props.actions.lesson.startEdit(editedLesson)
+    }
+  }
+
+  componentWillUnmount () {
+    this.props.actions.lesson.cleanEdit()
+  }
 
   render () {
     const {
@@ -113,7 +135,7 @@ export class LessonEditor extends Component {
         {/* Check if it is an Activity or a Header and select rendering respectively */}
         {lesson.activities.map(
           (p, i) =>
-            p.type ? (
+            p.type !== 'header' ? (
               <ActivityWrapper
                 key={i}
                 activity={p}
@@ -171,7 +193,13 @@ export class LessonEditor extends Component {
         <Link to={'/course-composer/' + levelId}>
           <ActionButton
             style={{ right: '220px' }}
-            onClick={() => actions.lesson.save(lessonId, lesson)}
+            onClick={() => {
+              if (lessonId === 'new') {
+                actions.lesson.add(lesson)
+              } else {
+                actions.lesson.save(lessonId, lesson)
+              }
+            }}
           >
             <SaveIcon />
           </ActionButton>
@@ -228,7 +256,11 @@ class HeaderComponent extends Component {
           <ActivityButton
             fab
             color='primary'
-            onClick={() => onEdit({ text: this.state.editedText })}
+            onClick={() =>
+              onEdit({
+                text: this.state.editedText,
+                type: 'header'
+              })}
           >
             <SaveIcon />
           </ActivityButton>
@@ -390,6 +422,7 @@ function getReadableDuration (duration: number): string {
 function mapStateToProps (state: AppState) {
   return {
     lessonEditor: state.courseComposer.lessonEditor,
+    lessons: state.courseComposer.levelEditor.level.lessons,
     textModal: state.courseComposer.textModal,
     audioModal: state.courseComposer.audioModal,
     videoModal: state.courseComposer.videoModal,

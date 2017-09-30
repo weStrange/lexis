@@ -12,7 +12,7 @@ type BreadcrumbsProps = {
   mainView: MainViewState,
   actions: any
 }
-export function Breadcrumbs ({}) {
+export function Breadcrumbs () {
   return null
   /*
   return (

@@ -3,9 +3,10 @@
 import type { Action } from '../../../actions'
 import type { Level } from 'core/types'
 
-export function add (): Action {
+export function add (level: Level): Action {
   return {
-    type: 'teacher-composer-level-add'
+    type: 'teacher-composer-level-add',
+    level: level
   }
 }
 
@@ -16,11 +17,16 @@ export function remove (idx: number): Action {
   }
 }
 
-export function edit (idx: number, level: Level): Action {
+export function startEdit (level: Level): Action {
   return {
     type: 'teacher-composer-level-edit-start',
-    idx: idx,
     level: level
+  }
+}
+
+export function cleanEdit (): Action {
+  return {
+    type: 'teacher-composer-level-edit-clean'
   }
 }
 

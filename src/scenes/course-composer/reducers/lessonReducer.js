@@ -34,6 +34,9 @@ export default function levelReducer (
         editedActivityIdx: -1
       }
 
+    case 'teacher-composer-lesson-edit-clean':
+      return getInitialState()
+
     case 'teacher-composer-activity-edited-idx-set':
       return {
         ...state,
@@ -113,6 +116,7 @@ export default function levelReducer (
         lesson: {
           ...state.lesson,
           activities: state.lesson.activities.push({
+            type: 'header',
             text: 'My new header'
           })
         },

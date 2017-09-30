@@ -13,7 +13,7 @@ import type { ActivityAreaSelect } from './types'
 
 export type CourseComposerAction =
   // Level actions
-  | { type: 'teacher-composer-level-add' }
+  | { type: 'teacher-composer-level-add', level: Level }
   | { type: 'teacher-composer-level-remove', idx: number }
   | { type: 'teacher-composer-level-name-edit', name: string, idx: number }
   | {
@@ -22,6 +22,7 @@ export type CourseComposerAction =
     idx: number
   }
   | { type: 'teacher-composer-level-edit-start', level: Level }
+  | { type: 'teacher-composer-level-edit-clean' }
   | { type: 'teacher-composer-level-save', idx: number, level: Level }
 
   // Course actions
@@ -50,10 +51,11 @@ export type CourseComposerAction =
   | { type: 'teacher-composer-header-edit-start', idx: number }
 
   // Lesson actions
-  | { type: 'teacher-composer-lesson-add' }
+  | { type: 'teacher-composer-lesson-add', lesson: Lesson }
   | { type: 'teacher-composer-lesson-remove', idx: number }
   | { type: 'teacher-composer-lesson-save', idx: number, lesson: Lesson }
   | { type: 'teacher-composer-lesson-edit-start', lesson: Lesson }
+  | { type: 'teacher-composer-lesson-edit-clean' }
   | { type: 'teacher-composer-lesson-name-edit', name: string, idx: number }
 
   // Activity actions

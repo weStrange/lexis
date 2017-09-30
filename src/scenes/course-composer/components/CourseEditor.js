@@ -94,7 +94,7 @@ export function CourseEditor ({ courseEditor, actions }: LevelEditorProps) {
       <GridList>
         {course.levels.map((p, i) => (
           <StyledGridTile key={i} button>
-            {p.name}
+            <Link to={'/course-composer/' + i}>{p.name}</Link>
           </StyledGridTile>
         ))}
 
