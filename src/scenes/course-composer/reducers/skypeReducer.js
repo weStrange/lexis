@@ -62,6 +62,10 @@ export default function videoReducer (
     case 'teacher-composer-activity-select':
       return {
         ...state,
+        skype:
+          action.activity && action.activity.type === 'skype'
+            ? action.activity
+            : state.skype,
         open: action.activityKind === 'skype'
       }
 

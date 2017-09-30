@@ -3,9 +3,9 @@
 import type { Action } from '../../../actions'
 import type { Activity, ActivityKind } from 'core/types'
 
-export function add (activity: Activity): Action {
+export function save (activity: Activity): Action {
   return {
-    type: 'teacher-composer-activity-add',
+    type: 'teacher-composer-activity-save',
     activity: activity
   }
 }
@@ -17,10 +17,11 @@ export function remove (idx: number): Action {
   }
 }
 
-export function select (activityKind: ActivityKind) {
+export function select (activityKind: ActivityKind, activity?: Activity) {
   return {
     type: 'teacher-composer-activity-select',
-    activityKind: activityKind
+    activityKind: activityKind,
+    activity: activity
   }
 }
 

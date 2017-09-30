@@ -51,8 +51,7 @@ const activities = ImmList.of(
     name: 'Audio',
     kind: 'audio',
     mainOnly: false,
-    disabled: true,
-    disabled: false
+    disabled: true
   },
   {
     name: 'Skype',

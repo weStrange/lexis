@@ -39,19 +39,26 @@ export default function levelReducer (
         ...state,
         editedActivityIdx: action.idx
       }
-
+    /*
     case 'teacher-composer-activity-select':
       return {
         ...state,
         editedActivityIdx: -1
       }
+*/
+    case 'teacher-composer-activity-save':
+      let idx = state.editedActivityIdx
+      let editedActivity = state.lesson.activities.get(idx)
 
-    case 'teacher-composer-activity-add':
       return {
         ...state,
+        editedActivityIdx: -1,
         lesson: {
           ...state.lesson,
-          activities: state.lesson.activities.push(action.activity)
+          activities:
+            idx >= 0 && editedActivity
+              ? state.lesson.activities.set(idx, action.activity)
+              : state.lesson.activities.push(action.activity)
         }
       }
 

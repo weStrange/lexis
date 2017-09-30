@@ -24,6 +24,14 @@ export function edit (idx: number, level: Level): Action {
   }
 }
 
+export function save (idx: number, level: Level): Action {
+  return {
+    type: 'teacher-composer-level-save',
+    idx: idx,
+    level: level
+  }
+}
+
 export function editName (name: string, idx: number): Action {
   return {
     type: 'teacher-composer-level-name-edit',

@@ -22,7 +22,7 @@ export type CourseComposerAction =
     idx: number
   }
   | { type: 'teacher-composer-level-edit-start', level: Level }
-  | { type: 'teacher-composer-level-edit', idx: number, level: Level }
+  | { type: 'teacher-composer-level-save', idx: number, level: Level }
 
   // Course actions
   | { type: 'teacher-composer-start' }
@@ -36,7 +36,11 @@ export type CourseComposerAction =
   // Activity picker
   | { type: 'teacher-composer-activity-picker-open' }
   | { type: 'teacher-composer-activity-picker-close' }
-  | { type: 'teacher-composer-activity-select', activityKind: ActivityKind }
+  | {
+    type: 'teacher-composer-activity-select',
+    activityKind: ActivityKind,
+    activity?: Activity
+  }
   | { type: 'teacher-composer-activity-edited-idx-set', idx: number }
 
   // Header actions
@@ -48,13 +52,13 @@ export type CourseComposerAction =
   // Lesson actions
   | { type: 'teacher-composer-lesson-add' }
   | { type: 'teacher-composer-lesson-remove', idx: number }
-  | { type: 'teacher-composer-lesson-edit', idx: number, lesson: Lesson }
+  | { type: 'teacher-composer-lesson-save', idx: number, lesson: Lesson }
   | { type: 'teacher-composer-lesson-edit-start', lesson: Lesson }
   | { type: 'teacher-composer-lesson-name-edit', name: string, idx: number }
 
   // Activity actions
   | { type: 'teacher-composer-activity-edit', idx: number, activity: Activity }
-  | { type: 'teacher-composer-activity-add', activity: Activity }
+  | { type: 'teacher-composer-activity-save', activity: Activity }
   | { type: 'teacher-composer-activity-remove', idx: number }
 
   // Video actions

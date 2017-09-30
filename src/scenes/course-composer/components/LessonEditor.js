@@ -4,6 +4,7 @@ import React, { Component } from 'react'
 
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { Link } from 'react-router-dom'
 
 import Paper from 'material-ui/Paper'
 import Button from 'material-ui/Button'
@@ -57,6 +58,7 @@ type LessonEditorProps = {
   audioModal: AudioModalState,
   videoModal: VideoModalState,
   skypeModal: SkypeModalState,
+  match: any,
   actions: any
 }
 export class LessonEditor extends Component {
@@ -73,8 +75,10 @@ export class LessonEditor extends Component {
       audioModal,
       videoModal,
       skypeModal,
+      match,
       actions
     } = this.props
+    const { lessonId, levelId } = match.params
 
     return (
       <div style={{ marginLeft: '5%' }}>
@@ -113,7 +117,10 @@ export class LessonEditor extends Component {
               <ActivityWrapper
                 key={i}
                 activity={p}
-                onEditStart={() => actions.activity.startEdit(i)}
+                onEditStart={() => {
+                  actions.activity.startEdit(i)
+                  actions.activity.select(p.type, p)
+                }}
                 onRemove={() => actions.activity.remove(i)}
               />
             ) : (
@@ -137,13 +144,13 @@ export class LessonEditor extends Component {
           video={videoModal}
           onUrlEdit={actions.video.editUrl}
           onClose={actions.video.close}
-          onSave={actions.activity.add}
+          onSave={actions.activity.save}
         />
         <AudioModal
           audio={audioModal}
           onUrlEdit={actions.audio.editUrl}
           onClose={actions.audio.close}
-          onSave={actions.activity.add}
+          onSave={actions.activity.save}
         />
         <SkypeModal
           skype={skypeModal}
@@ -152,18 +159,23 @@ export class LessonEditor extends Component {
           onDurationChange={actions.skype.editDuration}
           onStartTimeChange={actions.skype.editStartTime}
           onClose={actions.skype.close}
-          onSave={actions.activity.add}
+          onSave={actions.activity.save}
         />
         <TextModal
           text={textModal}
           onTextEdit={actions.text.editContent}
           onClose={actions.text.close}
-          onSave={actions.activity.add}
+          onSave={actions.activity.save}
         />
 
-        <ActionButton style={{ right: '220px' }}>
-          <SaveIcon />
-        </ActionButton>
+        <Link to={'/course-composer/' + levelId}>
+          <ActionButton
+            style={{ right: '220px' }}
+            onClick={() => actions.lesson.save(lessonId, lesson)}
+          >
+            <SaveIcon />
+          </ActionButton>
+        </Link>
       </div>
     )
   }
@@ -203,29 +215,43 @@ class HeaderComponent extends Component {
   }
 
   render () {
-    const { header, isEdited, onEdit, onEditStart } = this.props
+    const { header, isEdited, onEdit, onEditStart, onRemove } = this.props
 
     if (isEdited) {
       return (
-        <div>
-          <Button onClick={() => onEdit({ text: this.state.editedText })}>
-            Save
-          </Button>
+        <div style={{ width: '50%' }}>
           <BlockedTextField
-            style={{ width: '50%' }}
+            style={{ width: '100%' }}
             value={this.state.editedText}
             onChange={ev => this.handleEdit(ev.target.value)}
           />
+          <ActivityButton
+            fab
+            color='primary'
+            onClick={() => onEdit({ text: this.state.editedText })}
+          >
+            <SaveIcon />
+          </ActivityButton>
         </div>
       )
     }
 
     return (
-      <div>
-        <Button onClick={onEditStart}>Edit</Button>
+      <div style={{ width: '50%' }}>
         <Text medium fontSize={'2rem'}>
           {header.text}
         </Text>
+        <ActivityButton
+          fab
+          color='accent'
+          style={{ backgroundColor: '#CC0000' }}
+          onClick={onRemove}
+        >
+          <DeleteIcon />
+        </ActivityButton>
+        <ActivityButton fab color='primary' onClick={onEditStart}>
+          <EditIcon />
+        </ActivityButton>
       </div>
     )
   }

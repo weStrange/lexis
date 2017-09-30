@@ -64,7 +64,7 @@ export default function courseReducer (
         }
       }
 
-    case 'teacher-composer-level-edit':
+    case 'teacher-composer-level-save':
       return {
         ...state,
         course: {

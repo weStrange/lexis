@@ -49,7 +49,7 @@ export default function levelReducer (
         }
       }
 
-    case 'teacher-composer-lesson-edit':
+    case 'teacher-composer-lesson-save':
       return {
         ...state,
         level: {

@@ -23,9 +23,9 @@ export function startEdit (lesson: Lesson): Action {
   }
 }
 
-export function edit (idx: number, lesson: Lesson): Action {
+export function save (idx: number, lesson: Lesson): Action {
   return {
-    type: 'teacher-composer-lesson-edit',
+    type: 'teacher-composer-lesson-save',
     lesson: lesson,
     idx: idx
   }
