@@ -2,7 +2,7 @@
     "name": "lexus-front",
     "version": "0.1.0",
     "private": true,
-    "proxy": "https://localhost:7000",
+    "proxy": "http://localhost:7000",
     "dependencies": {
         "animate.css": "^3.5.2",
         "apollo-client": "^1.9.3",
