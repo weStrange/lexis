@@ -6,7 +6,7 @@ import React, { Component } from 'react'
 
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 
 import Paper from 'material-ui/Paper'
 import Button from 'material-ui/Button'
@@ -19,7 +19,7 @@ import EditIcon from 'material-ui-icons/Edit'
 import DeleteIcon from 'material-ui-icons/Delete'
 import styled from 'styled-components'
 
-import { Text, ActionButton } from 'common-components'
+import { Text, ActionButton, BackButton } from 'common-components'
 import { StyledGridTile, BlockedTextField, InputForm } from '.'
 
 import YouTube from 'react-youtube'
@@ -61,6 +61,7 @@ type LessonEditorProps = {
   audioModal: AudioModalState,
   videoModal: VideoModalState,
   skypeModal: SkypeModalState,
+  history: any,
   match: any,
   actions: any
 }
@@ -104,6 +105,9 @@ export class LessonEditor extends Component {
 
     return (
       <div style={{ marginLeft: '5%' }}>
+        <Link to={'/course-composer/' + levelId}>
+          <BackButton style={{ display: 'block' }} />
+        </Link>
         <Text
           style={{
             textDecoration: 'underline'
@@ -190,20 +194,21 @@ export class LessonEditor extends Component {
           onSave={actions.activity.save}
         />
 
-        <Link to={'/course-composer/' + levelId}>
-          <ActionButton
-            style={{ right: '220px' }}
-            onClick={() => {
-              if (lessonId === 'new') {
-                actions.lesson.add(lesson)
-              } else {
-                actions.lesson.save(lessonId, lesson)
-              }
-            }}
-          >
-            <SaveIcon />
-          </ActionButton>
-        </Link>
+        <ActionButton
+          style={{ right: '220px' }}
+          onClick={() => {
+            if (lessonId === 'new') {
+              actions.lesson.add(lesson)
+              this.props.history.push(
+                '/course-composer/' + levelId + '/' + this.props.lessons.size
+              )
+            } else {
+              actions.lesson.save(lessonId, lesson)
+            }
+          }}
+        >
+          <SaveIcon />
+        </ActionButton>
       </div>
     )
   }
@@ -444,4 +449,6 @@ function mapDispatchToProps (dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(LessonEditor)
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(LessonEditor)
+)

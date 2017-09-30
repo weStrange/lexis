@@ -4,7 +4,7 @@ import { List as ListImm } from 'immutable'
 
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 
 import React, { Component } from 'react'
 import TextField from 'material-ui/TextField'
@@ -14,7 +14,7 @@ import { GridList, GridListTileBar } from 'material-ui/GridList'
 import { grey } from 'material-ui/colors'
 import SaveIcon from 'material-ui-icons/Save'
 
-import { Text, ActionButton } from 'common-components'
+import { Text, ActionButton, BackButton } from 'common-components'
 import { StyledGridTile, BlockedTextField, InputForm } from '.'
 
 import * as actionCreators from '../action-creators'
@@ -25,6 +25,7 @@ import type { AppState } from 'core/types'
 type LevelEditorProps = {
   levelEditor: LevelEditorState,
   levels: ListImm<Level>,
+  history: any, // react router thing
   match: any, // react router thing
   actions: any
 }
@@ -53,6 +54,12 @@ export class LevelEditor extends Component {
 
     return (
       <div style={{ marginLeft: '5%' }}>
+        <Link to={'/course-composer'}>
+          <BackButton
+            onClick={() => actions.level.cleanEdit()}
+            style={{ display: 'block' }}
+          />
+        </Link>
         <Text
           style={{
             textDecoration: 'underline'
@@ -105,20 +112,20 @@ export class LevelEditor extends Component {
           </StyledGridTile>
         </GridList>
 
-        <Link to='/course-composer'>
-          <ActionButton
-            onClick={() => {
-              if (levelId === 'new') {
-                actions.level.add(level)
-              } else {
-                actions.level.save(levelId, level)
-              }
-              actions.level.cleanEdit()
-            }}
-          >
-            <SaveIcon />
-          </ActionButton>
-        </Link>
+        <ActionButton
+          onClick={() => {
+            if (levelId === 'new') {
+              actions.level.add(level)
+              this.props.history.push(
+                '/course-composer/' + this.props.levels.size
+              )
+            } else {
+              actions.level.save(levelId, level)
+            }
+          }}
+        >
+          <SaveIcon />
+        </ActionButton>
       </div>
     )
   }
@@ -139,4 +146,6 @@ function mapDispatchToProps (dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(LevelEditor)
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(LevelEditor)
+)
