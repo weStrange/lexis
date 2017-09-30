@@ -73,9 +73,7 @@ export type MultiOptionEx = {
     options: List<string>
   }>
 }
-
-export type ActivityKind = MainActivityKind | SecondaryActivityKind
-
+/*
 export type MainActivityKind =
   | 'video'
   | 'audio'
@@ -99,18 +97,39 @@ export type SecondaryActivityKind =
   | 'multi-option'
 
 export type SecondaryActivity = Audio | Text | WrittenAnswerEx | MultiOptionEx
+*/
+export type ActivityKind =
+  | 'video'
+  | 'audio'
+  | 'text'
+  | 'skype'
+  | 'written-answer'
+  | 'multi-option'
 
+export type Activity =
+  | Video
+  | Audio
+  | Text
+  | Skype
+  | WrittenAnswerEx
+  | MultiOptionEx
+
+export type Header = {
+  type: 'header',
+  text: string
+}
+/*
 export type Exercise = {
   id: string,
   name: string,
   mainActivity: MainActivity | null,
   secondaryActivity: SecondaryActivity | null
 }
-
+*/
 export type Lesson = {
   id: string,
   name: string,
-  exercises: List<Exercise>
+  activities: List<Activity | Header>
 }
 
 export type Level = {

@@ -2,11 +2,13 @@
 
 import type { Action } from '../../../actions'
 import type { ActivityAreaSelect } from '../types'
-import type {
-  CourseDifficulty,
-  MainActivity,
-  SecondaryActivity
-} from 'core/types'
+import type { CourseDifficulty } from 'core/types'
+
+export function start (): Action {
+  return {
+    type: 'teacher-composer-start'
+  }
+}
 
 export function editName (name: string): Action {
   return {
@@ -26,26 +28,5 @@ export function editDifficulty (difficulty: CourseDifficulty): Action {
   return {
     type: 'teacher-composer-course-difficulty-edit',
     difficulty: difficulty
-  }
-}
-
-export function setMainActivity (activity: MainActivity): Action {
-  return {
-    type: 'teacher-composer-main-activity-set',
-    activity: activity
-  }
-}
-
-export function setSecondaryActivity (activity: SecondaryActivity): Action {
-  return {
-    type: 'teacher-composer-secondary-activity-set',
-    activity: activity
-  }
-}
-
-export function selectActivityArea (area: ActivityAreaSelect): Action {
-  return {
-    type: 'teacher-composer-activity-area-select',
-    area: area
   }
 }

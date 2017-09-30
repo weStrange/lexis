@@ -31,12 +31,6 @@ const navigationItems = {
       disabled: false
     },
     {
-      title: 'Course Composer',
-      imgSrc: courseComposerIcon,
-      link: '/course-composer',
-      disabled: false
-    },
-    {
       title: 'Profile',
       imgSrc: null,
       link: '/profile',

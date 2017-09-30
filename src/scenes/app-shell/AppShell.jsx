@@ -8,7 +8,7 @@ import styled from 'styled-components'
 const Content = styled.div`
   width: calc(100% - 265px);
   height: calc(100% - 88px);
-  transform: translate3d(250px, 100px, 0);
+  padding: 100px 0 0 250px;
 `
 
 export function AppShell ({ children }: any) {

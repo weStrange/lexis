@@ -54,6 +54,10 @@ export default function audioReducer (
     case 'teacher-composer-activity-select':
       return {
         ...state,
+        text:
+          action.activity && action.activity.type === 'text'
+            ? action.activity
+            : state.text,
         open: action.activityKind === 'text'
       }
 

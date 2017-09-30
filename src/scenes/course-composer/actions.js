@@ -2,56 +2,66 @@
 
 import type {
   CourseDifficulty,
-  MainActivity,
-  SecondaryActivity,
-  ActivityKind
+  Level,
+  Lesson,
+  Activity,
+  ActivityKind,
+  Header
 } from 'core/types'
 
 import type { ActivityAreaSelect } from './types'
 
 export type CourseComposerAction =
-  | { type: 'teacher-composer-start' }
   // Level actions
-  | { type: 'teacher-composer-level-add' }
+  | { type: 'teacher-composer-level-add', level: Level }
   | { type: 'teacher-composer-level-remove', idx: number }
-  | { type: 'teacher-composer-level-select', idx: number }
   | { type: 'teacher-composer-level-name-edit', name: string, idx: number }
   | {
-      type: 'teacher-composer-level-description-edit',
-      description: string,
-      idx: number
-    }
+    type: 'teacher-composer-level-description-edit',
+    description: string,
+    idx: number
+  }
+  | { type: 'teacher-composer-level-edit-start', level: Level }
+  | { type: 'teacher-composer-level-edit-clean' }
+  | { type: 'teacher-composer-level-save', idx: number, level: Level }
 
   // Course actions
+  | { type: 'teacher-composer-start' }
   | { type: 'teacher-composer-course-name-edit', name: string }
   | { type: 'teacher-composer-course-description-edit', description: string }
   | {
-      type: 'teacher-composer-course-difficulty-edit',
-      difficulty: CourseDifficulty
-    }
-  | { type: 'teacher-composer-main-activity-set', activity: MainActivity }
-  | {
-      type: 'teacher-composer-secondary-activity-set',
-      activity: SecondaryActivity
-    }
-  | { type: 'teacher-composer-activity-area-select', area: ActivityAreaSelect }
+    type: 'teacher-composer-course-difficulty-edit',
+    difficulty: CourseDifficulty
+  }
 
   // Activity picker
-  | { type: 'teacher-composer-activity-select', activityKind: ActivityKind }
   | { type: 'teacher-composer-activity-picker-open' }
   | { type: 'teacher-composer-activity-picker-close' }
+  | {
+    type: 'teacher-composer-activity-select',
+    activityKind: ActivityKind,
+    activity?: Activity
+  }
+  | { type: 'teacher-composer-activity-edited-idx-set', idx: number }
+
+  // Header actions
+  | { type: 'teacher-composer-header-add' }
+  | { type: 'teacher-composer-header-remove', idx: number }
+  | { type: 'teacher-composer-header-edit', idx: number, header: Header }
+  | { type: 'teacher-composer-header-edit-start', idx: number }
 
   // Lesson actions
-  | { type: 'teacher-composer-lesson-add' }
+  | { type: 'teacher-composer-lesson-add', lesson: Lesson }
   | { type: 'teacher-composer-lesson-remove', idx: number }
-  | { type: 'teacher-composer-lesson-select', idx: number }
+  | { type: 'teacher-composer-lesson-save', idx: number, lesson: Lesson }
+  | { type: 'teacher-composer-lesson-edit-start', lesson: Lesson }
+  | { type: 'teacher-composer-lesson-edit-clean' }
   | { type: 'teacher-composer-lesson-name-edit', name: string, idx: number }
 
-  // Exercise actions
-  | { type: 'teacher-composer-exercise-add' }
-  | { type: 'teacher-composer-exercise-remove', idx: number }
-  | { type: 'teacher-composer-exercise-select', idx: number }
-  | { type: 'teacher-composer-exercise-name-edit', name: string, idx: number }
+  // Activity actions
+  | { type: 'teacher-composer-activity-edit', idx: number, activity: Activity }
+  | { type: 'teacher-composer-activity-save', activity: Activity }
+  | { type: 'teacher-composer-activity-remove', idx: number }
 
   // Video actions
   | { type: 'teacher-composer-video-modal-open' }
@@ -68,10 +78,10 @@ export type CourseComposerAction =
   | { type: 'teacher-composer-text-modal-close' }
   | { type: 'teacher-composer-text-content-edit', text: string }
   | {
-      type: 'teacher-composer-text-highlight-add',
-      length: number,
-      offset: number
-    }
+    type: 'teacher-composer-text-highlight-add',
+    length: number,
+    offset: number
+  }
   | { type: 'teacher-composer-text-highlight-remove', idx: number }
 
   // Skype actions
@@ -81,7 +91,3 @@ export type CourseComposerAction =
   | { type: 'teacher-composer-skype-duration-edit', duration: number }
   | { type: 'teacher-composer-skype-topic-edit', topic: string }
   | { type: 'teacher-composer-skype-group-toggle' }
-
-  // Breadcrumbs actions
-  | { type: 'teacher-composer-breadcrumbs-level-set', level: string | null }
-  | { type: 'teacher-composer-breadcrumbs-lesson-set', lesson: string | null }

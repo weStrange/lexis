@@ -32,6 +32,10 @@ export default function videoReducer (
     case 'teacher-composer-activity-select':
       return {
         ...state,
+        video:
+          action.activity && action.activity.type === 'video'
+            ? action.activity
+            : state.video,
         open: action.activityKind === 'video'
       }
 

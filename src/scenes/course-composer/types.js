@@ -67,24 +67,43 @@ export type ActivityAreaSelect = 'main' | 'secondary' | 'none'
 
 export type MainViewState = {
   course: Course,
-  selectedActivityArea: ActivityAreaSelect,
-  currentLevelIdx: number,
-  currentLessonIdx: number,
-  currentExerciseIdx: number
+  selectedActivityArea: ActivityAreaSelect
 }
 
 export type ActivityPickerState = {
   open: boolean
 }
 
-export type CourseComposerState = {
-  mainView: MainViewState,
+export type LessonEditorState = {
+  lesson: Lesson,
   activityPicker: ActivityPickerState,
+  editedActivityIdx: number
+}
+
+export type LevelEditorState = {
+  level: Level
+}
+
+export type CourseEditorState = {
+  course: Course
+}
+
+export type CourseComposerState = {
+  courseEditor: CourseEditorState,
+  levelEditor: LevelEditorState,
+  lessonEditor: LessonEditorState,
   breadcrumbs: BreadcrumbsState,
   audioModal: AudioModalState,
   videoModal: VideoModalState,
   skypeModal: SkypeModalState,
   textModal: TextModalState
+}
+/*
+export type CourseComposerState = {
+  mainView: MainViewState,
+
+
+
   // writtenAnswerModal: WrittenAnswerModal,
   // multiOptionModal: MultiOptionModal
-}
+} */

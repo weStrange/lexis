@@ -32,7 +32,7 @@ const Wrapper = styled(Paper)`
   height: 100vh;
   width: 180px;
   position: fixed;
-  top: 0px;
+  top: 80px;
   padding-left: 20px;
   margin-right: 0px;
   right: -20px;
@@ -51,8 +51,7 @@ const activities = ImmList.of(
     name: 'Audio',
     kind: 'audio',
     mainOnly: false,
-    disabled: true,
-    disabled: false
+    disabled: true
   },
   {
     name: 'Skype',
@@ -94,24 +93,34 @@ const activities = ImmList.of(
 
 type ActivityPickerProps = {
   picker: ActivityPickerState,
-  activityArea: ActivityAreaSelect,
-  onItemSelect: (kind: string) => void
+  onItemSelect: (kind: string) => void,
+  onHeaderAdd: () => void
 }
 
 export default function ActivityPicker ({
   picker,
-  activityArea,
-  onItemSelect = () => {}
+  onItemSelect = () => {},
+  onHeaderAdd = () => {}
 }: ActivityPickerProps) {
-  return picker.open ? (
+  return (
     <Wrapper>
       <Text primary medium fontSize={'1.3em'}>
-        Select activity
+        Add header
+      </Text>
+      <List>
+        <ListItem button onClick={() => onHeaderAdd()}>
+          <Text normal color='white'>
+            Add a Header
+          </Text>
+        </ListItem>
+      </List>
+      <Text primary medium fontSize={'1.3em'}>
+        Add activity
       </Text>
       <List>
         {activities.map((p, key) => (
           <ListItem
-            disabled={(activityArea !== 'main' && p.mainOnly) || p.disabled}
+            disabled={p.disabled}
             button
             key={key}
             onClick={() => onItemSelect(p.kind)}
@@ -123,5 +132,5 @@ export default function ActivityPicker ({
         ))}
       </List>
     </Wrapper>
-  ) : null
+  )
 }

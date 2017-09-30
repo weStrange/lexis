@@ -14,13 +14,8 @@ import Dialog, {
 import type { Video, VideoModalState } from '../types'
 
 const styles = theme => ({
-  root: {
-    width: '100%',
-    maxWidth: 360
-  },
+  root: {},
   dialog: {
-    width: '100%',
-    maxHeight: 435,
     padding: '20px 20px 20px 20px'
   },
   input: {
@@ -32,7 +27,7 @@ type VideoModalProps = {
   video: VideoModalState,
   onUrlEdit: (url: string) => void,
   onClose: () => void,
-  onSave: (audio: Video) => void,
+  onSave: (video: Video) => void,
   classes: any
 }
 export function VideoModal ({
