@@ -53,3 +53,17 @@ export function editDescription (description: string, idx: number): Action {
     idx: idx
   }
 }
+
+export function editImageUrl (url: string): Action {
+  return {
+    type: 'teacher-composer-level-image-url-edit',
+    imageUrl: url
+  }
+}
+
+export function editImageFile (file: File | null): Action {
+  return {
+    type: 'teacher-composer-level-image-file-edit',
+    imageFile: file
+  }
+}

@@ -8,6 +8,7 @@ import { FlexBox, CenterBox } from './Layout'
 import Carousel from './Carousel'
 import Wrapper from './Wrapper'
 import ActionButton from './ActionButton'
+import BackButton from './BackButton'
 
 export {
   Text,
@@ -20,5 +21,6 @@ export {
   CenterBox,
   Carousel,
   Wrapper,
-  ActionButton
+  ActionButton,
+  BackButton
 }

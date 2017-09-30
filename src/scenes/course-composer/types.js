@@ -81,11 +81,13 @@ export type LessonEditorState = {
 }
 
 export type LevelEditorState = {
-  level: Level
+  level: Level,
+  imageFile: File | null
 }
 
 export type CourseEditorState = {
-  course: Course
+  course: Course,
+  imageFile: File | null
 }
 
 export type CourseComposerState = {

@@ -13,7 +13,8 @@ function getInitialState (): CourseEditorState {
       description: '',
       difficulty: 'Beginner',
       levels: List()
-    }
+    },
+    imageFile: null
   }
 }
 
@@ -93,6 +94,21 @@ export default function courseReducer (
           ...state.course,
           difficulty: action.difficulty
         }
+      }
+
+    case 'teacher-composer-course-image-url-edit':
+      return {
+        ...state,
+        course: {
+          ...state.course,
+          imageUrl: action.imageUrl
+        }
+      }
+
+    case 'teacher-composer-course-image-file-edit':
+      return {
+        ...state,
+        imageFile: action.file
       }
 
     default:
