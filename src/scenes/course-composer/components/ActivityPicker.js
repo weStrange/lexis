@@ -94,15 +94,27 @@ const activities = ImmList.of(
 
 type ActivityPickerProps = {
   picker: ActivityPickerState,
-  onItemSelect: (kind: string) => void
+  onItemSelect: (kind: string) => void,
+  onHeaderAdd: () => void
 }
 
 export default function ActivityPicker ({
   picker,
-  onItemSelect = () => {}
+  onItemSelect = () => {},
+  onHeaderAdd = () => {}
 }: ActivityPickerProps) {
   return (
     <Wrapper>
+      <Text primary medium fontSize={'1.3em'}>
+        Add header
+      </Text>
+      <List>
+        <ListItem button onClick={() => onHeaderAdd()}>
+          <Text normal color='white'>
+            Add a Header
+          </Text>
+        </ListItem>
+      </List>
       <Text primary medium fontSize={'1.3em'}>
         Add activity
       </Text>

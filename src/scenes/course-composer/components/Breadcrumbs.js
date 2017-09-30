@@ -3,7 +3,7 @@
 import React from 'react'
 
 import { Text } from 'common-components'
-import { ContentArea, CourseEditor, LevelEditor } from '.'
+import { CourseEditor, LevelEditor } from '.'
 
 import type { BreadcrumbsState, MainViewState } from '../types'
 

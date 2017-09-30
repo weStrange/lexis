@@ -32,7 +32,7 @@ export function edit (idx: number, activity: Activity): Action {
   }
 }
 
-export function setEdited (idx: number): Action {
+export function startEdit (idx: number): Action {
   return {
     type: 'teacher-composer-activity-edited-idx-set',
     idx: idx

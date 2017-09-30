@@ -100,6 +100,28 @@ export default function levelReducer (
         }
       }
 
+    case 'teacher-composer-header-add':
+      return {
+        ...state,
+        lesson: {
+          ...state.lesson,
+          activities: state.lesson.activities.push({
+            text: 'My new header'
+          })
+        },
+        editedActivityIdx: state.lesson.activities.size
+      }
+
+    case 'teacher-composer-header-edit':
+      return {
+        ...state,
+        editedActivityIdx: -1,
+        lesson: {
+          ...state.lesson,
+          activities: state.lesson.activities.set(action.idx, action.header)
+        }
+      }
+
     default:
       return state
   }

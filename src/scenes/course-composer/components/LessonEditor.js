@@ -38,7 +38,7 @@ import type {
   VideoModalState,
   SkypeModalState
 } from '../types'
-import type { AppState, Activity } from 'core/types'
+import type { AppState, Activity, Header } from 'core/types'
 
 const ActivityButton = styled(Button)`
   width: 40px !important;
@@ -61,112 +61,13 @@ type LessonEditorProps = {
 }
 export class LessonEditor extends Component {
   prop: LessonEditorProps
-  _displayActivity: () => void
-  _getReadableDuration: () => void
-
-  constructor (props: LessonEditorProps) {
-    super(props)
-
-    this._displayActivity = this._displayActivity.bind(this)
-    this._getReadableDuration = this._getReadableDuration.bind(this)
-  }
-
-  _getReadableDuration (duration: number): string {
-    switch (duration) {
-      case 0:
-        return 'No duration limit'
-
-      case 30 * 60:
-        return '30 minutes'
-
-      case 45 * 60:
-        return '45 minutes'
-
-      case 1 * 60 * 60:
-        return '1 hour'
-
-      case 1.5 * 60 * 60:
-        return '1.5 hour'
-
-      case 2 * 60 * 60:
-        return '2 hours'
-
-      case 2.5 * 60 * 60:
-        return '2.5 hours'
-
-      case 3 * 60 * 60:
-        return '3 hours'
-
-      default:
-        return 'No duration limit'
-    }
-  }
-
-  _displayActivity (activity: Activity) {
-    if (activity === null) {
-      return null
-    }
-
-    switch (activity.type) {
-      case 'video':
-        return activity.url ? (
-          <div>
-            <YouTube videoId={activity.url} />
-          </div>
-        ) : null
-
-      case 'audio':
-        return null
-
-      case 'text':
-        return (
-          <Text>
-            {activity.content.split('\n').map(p => (
-              <span>
-                {p}
-                <br />
-              </span>
-            ))}
-          </Text>
-        )
-
-      case 'skype':
-        return (
-          <div>
-            <img
-              height={window.innerHeight * 0.39}
-              width={window.innerWidth * 0.4}
-              src='https://secure.skypeassets.com/i/common/images/icons/skype-logo-open-graph.png'
-            />
-            <div
-              style={{
-                position: 'absolute',
-                bottom: window.innerHeight * 0.55,
-                left: window.innerWidth * 0.25
-              }}
-            >
-              <Text style={{ marginBottom: '20px' }} color='white'>
-                {activity.topic}
-              </Text>
-              <br />
-              <Text style={{ marginBottom: '20px' }} color='white'>
-                {activity.group ? 'Group session' : 'Individual session'}
-              </Text>
-              <br />
-              <Text style={{ marginBottom: '20px' }} color='white'>
-                {this._getReadableDuration(activity.duration)}
-              </Text>
-            </div>
-          </div>
-        )
-
-      default:
-        return null
-    }
-  }
 
   render () {
-    const { lesson, activityPicker } = this.props.lessonEditor
+    const {
+      lesson,
+      activityPicker,
+      editedActivityIdx
+    } = this.props.lessonEditor
     const {
       textModal,
       audioModal,
@@ -205,30 +106,31 @@ export class LessonEditor extends Component {
         >
           Lesson activities (use sidebar to add new ones)
         </Text>
-        {lesson.activities.map((p, i) => (
-          <Paper
-            style={{
-              width: '70%',
-              margin: '50px 50px 50px 50px'
-            }}
-          >
-            <ActivityButton
-              fab
-              color='accent'
-              style={{ backgroundColor: '#CC0000' }}
-              onClick={() => actions.activity.remove(i)}
-            >
-              <DeleteIcon />
-            </ActivityButton>
-            <ActivityButton fab color='primary'>
-              <EditIcon />
-            </ActivityButton>
-            {this._displayActivity(p)}
-          </Paper>
-        ))}
+        {/* Check if it is an Activity or a Header and select rendering respectively */}
+        {lesson.activities.map(
+          (p, i) =>
+            p.type ? (
+              <ActivityWrapper
+                key={i}
+                activity={p}
+                onEditStart={() => actions.activity.startEdit(i)}
+                onRemove={() => actions.activity.remove(i)}
+              />
+            ) : (
+              <HeaderComponent
+                key={i}
+                header={p}
+                isEdited={editedActivityIdx === i}
+                onEdit={header => actions.header.edit(i, header)}
+                onEditStart={() => actions.activity.startEdit(i)}
+                onRemove={() => actions.activity.remove(i)}
+              />
+            )
+        )}
         <ActivityPicker
           picker={activityPicker}
           onItemSelect={actions.activity.select}
+          onHeaderAdd={actions.header.add}
         />
 
         <VideoModal
@@ -267,6 +169,198 @@ export class LessonEditor extends Component {
   }
 }
 
+type HeaderProps = {
+  header: Header,
+  isEdited: boolean,
+  onRemove: () => void,
+  onEditStart: () => void,
+  onEdit: (header: Header) => void
+}
+type HeaderState = {
+  editedText: string
+}
+class HeaderComponent extends Component {
+  props: HeaderProps
+  state: HeaderState
+
+  constructor (props: HeaderProps) {
+    super(props)
+
+    this.state = {
+      editedText: ''
+    }
+  }
+
+  componentWillReceiveProps (nextProps) {
+    this.setState({ editedText: nextProps.header.text })
+  }
+
+  handleEdit (text: string) {
+    this.setState(prevState => ({
+      ...prevState,
+      editedText: text
+    }))
+  }
+
+  render () {
+    const { header, isEdited, onEdit, onEditStart } = this.props
+
+    if (isEdited) {
+      return (
+        <div>
+          <Button onClick={() => onEdit({ text: this.state.editedText })}>
+            Save
+          </Button>
+          <BlockedTextField
+            style={{ width: '50%' }}
+            value={this.state.editedText}
+            onChange={ev => this.handleEdit(ev.target.value)}
+          />
+        </div>
+      )
+    }
+
+    return (
+      <div>
+        <Button onClick={onEditStart}>Edit</Button>
+        <Text medium fontSize={'2rem'}>
+          {header.text}
+        </Text>
+      </div>
+    )
+  }
+}
+
+type ActivityWrapperProps = {
+  activity: Activity,
+  onRemove: () => void,
+  onEditStart: () => void
+}
+function ActivityWrapper ({
+  activity,
+  onRemove,
+  onEditStart
+}: ActivityWrapperProps) {
+  return (
+    <Paper
+      style={{
+        width: '70%',
+        margin: '50px 50px 50px 50px'
+      }}
+    >
+      <ActivityButton
+        fab
+        color='accent'
+        style={{ backgroundColor: '#CC0000' }}
+        onClick={onRemove}
+      >
+        <DeleteIcon />
+      </ActivityButton>
+      <ActivityButton fab color='primary' onClick={onEditStart}>
+        <EditIcon />
+      </ActivityButton>
+      <ActivityContent activity={activity} />
+    </Paper>
+  )
+}
+
+type ActivityContentProps = {
+  activity: Activity
+}
+function ActivityContent ({ activity }: ActivityContentProps) {
+  if (activity === null) {
+    return null
+  }
+
+  switch (activity.type) {
+    case 'video':
+      return activity.url ? (
+        <div>
+          <YouTube videoId={activity.url} />
+        </div>
+      ) : null
+
+    case 'audio':
+      return null
+
+    case 'text':
+      return (
+        <Text>
+          {activity.content.split('\n').map(p => (
+            <span>
+              {p}
+              <br />
+            </span>
+          ))}
+        </Text>
+      )
+
+    case 'skype':
+      return (
+        <div>
+          <img
+            height={window.innerHeight * 0.39}
+            width={window.innerWidth * 0.4}
+            src='https://secure.skypeassets.com/i/common/images/icons/skype-logo-open-graph.png'
+          />
+          <div
+            style={{
+              position: 'absolute',
+              bottom: window.innerHeight * 0.55,
+              left: window.innerWidth * 0.25
+            }}
+          >
+            <Text style={{ marginBottom: '20px' }} color='white'>
+              {activity.topic}
+            </Text>
+            <br />
+            <Text style={{ marginBottom: '20px' }} color='white'>
+              {activity.group ? 'Group session' : 'Individual session'}
+            </Text>
+            <br />
+            <Text style={{ marginBottom: '20px' }} color='white'>
+              {getReadableDuration(activity.duration)}
+            </Text>
+          </div>
+        </div>
+      )
+
+    default:
+      return null
+  }
+}
+
+function getReadableDuration (duration: number): string {
+  switch (duration) {
+    case 0:
+      return 'No duration limit'
+
+    case 30 * 60:
+      return '30 minutes'
+
+    case 45 * 60:
+      return '45 minutes'
+
+    case 1 * 60 * 60:
+      return '1 hour'
+
+    case 1.5 * 60 * 60:
+      return '1.5 hour'
+
+    case 2 * 60 * 60:
+      return '2 hours'
+
+    case 2.5 * 60 * 60:
+      return '2.5 hours'
+
+    case 3 * 60 * 60:
+      return '3 hours'
+
+    default:
+      return 'No duration limit'
+  }
+}
+
 function mapStateToProps (state: AppState) {
   return {
     lessonEditor: state.courseComposer.lessonEditor,
@@ -285,7 +379,8 @@ function mapDispatchToProps (dispatch) {
       skype: bindActionCreators(actionCreators.skypeActions, dispatch),
       text: bindActionCreators(actionCreators.textActions, dispatch),
       video: bindActionCreators(actionCreators.videoActions, dispatch),
-      activity: bindActionCreators(actionCreators.activityActions, dispatch)
+      activity: bindActionCreators(actionCreators.activityActions, dispatch),
+      header: bindActionCreators(actionCreators.headerActions, dispatch)
     }
   }
 }

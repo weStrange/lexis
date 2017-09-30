@@ -5,7 +5,8 @@ import type {
   Level,
   Lesson,
   Activity,
-  ActivityKind
+  ActivityKind,
+  Header
 } from 'core/types'
 
 import type { ActivityAreaSelect } from './types'
@@ -37,6 +38,12 @@ export type CourseComposerAction =
   | { type: 'teacher-composer-activity-picker-close' }
   | { type: 'teacher-composer-activity-select', activityKind: ActivityKind }
   | { type: 'teacher-composer-activity-edited-idx-set', idx: number }
+
+  // Header actions
+  | { type: 'teacher-composer-header-add' }
+  | { type: 'teacher-composer-header-remove', idx: number }
+  | { type: 'teacher-composer-header-edit', idx: number, header: Header }
+  | { type: 'teacher-composer-header-edit-start', idx: number }
 
   // Lesson actions
   | { type: 'teacher-composer-lesson-add' }
