@@ -1,5 +1,6 @@
 // @flow
 
-import Course from './Course'
+import CourseConsumer from './CourseConsumer'
+import CourseList from './CourseList'
 
-export { Course }
+export { CourseConsumer, CourseList }

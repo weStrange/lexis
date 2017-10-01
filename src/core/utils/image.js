@@ -12,8 +12,8 @@ export function handleFileUpload (
   let file = event.target.files[0]
   console.log(file)
   reader.onloadend = () => {
-    console.log(file)
-    console.log(reader.result)
+    // console.log(file)
+    // console.log(reader.result)
     editFileAction(file)
     editUrlAction(reader.result)
   }

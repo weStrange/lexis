@@ -7,6 +7,7 @@ import { createNetworkInterface } from 'apollo-upload-client'
 
 import * as rootReducer from './reducers'
 import history from './history'
+
 const apolloClient = new ApolloClient({
   networkInterface: createNetworkInterface({
     uri: '/graphql'

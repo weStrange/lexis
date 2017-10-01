@@ -10,6 +10,7 @@ import Wrapper from './Wrapper'
 import ActionButton from './ActionButton'
 import BackButton from './BackButton'
 import StyledPopover from './StyledPopover'
+import ListPanel from './ListPanel'
 
 export {
   Text,
@@ -24,5 +25,6 @@ export {
   Wrapper,
   ActionButton,
   BackButton,
-  StyledPopover
+  StyledPopover,
+  ListPanel
 }

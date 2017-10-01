@@ -32,9 +32,9 @@ class CategoryAchievements extends React.Component {
   renderCourseAchievementPanels () {
     const { achievementCategories } = this.props
 
-    return achievementCategories.map(achievementCategory => (
+    return achievementCategories.map((achievementCategory, key) => (
       <CategoryAchievementsPanel
-        key={achievementCategory.name}
+        key={key}
         achievementCategory={achievementCategory}
       />
     ))

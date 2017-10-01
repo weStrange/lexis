@@ -57,7 +57,9 @@ class CategoryAchievementsPanel extends React.Component {
   renderAchivementIcons () {
     const { achievements } = this.props.achievementCategory
 
-    return achievements.map(achievement => <AchievementIcon src={trophy} />)
+    return achievements.map((achievement, key) => (
+      <AchievementIcon key={key} src={trophy} />
+    ))
   }
 
   renderCollapsed () {
