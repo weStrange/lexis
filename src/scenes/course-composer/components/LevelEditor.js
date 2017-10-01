@@ -5,6 +5,7 @@ import { List as ListImm } from 'immutable'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Link, withRouter } from 'react-router-dom'
+import { findDOMNode } from 'react-dom'
 
 import React, { Component } from 'react'
 import TextField from 'material-ui/TextField'
@@ -14,7 +15,12 @@ import { GridList, GridListTileBar } from 'material-ui/GridList'
 import { grey } from 'material-ui/colors'
 import SaveIcon from 'material-ui-icons/Save'
 
-import { Text, ActionButton, BackButton } from 'common-components'
+import {
+  Text,
+  ActionButton,
+  BackButton,
+  StyledPopover
+} from 'common-components'
 import { StyledGridTile, BlockedTextField, InputForm } from '.'
 
 import * as actionCreators from '../action-creators'
@@ -29,11 +35,21 @@ type LevelEditorProps = {
   match: any, // react router thing
   actions: any
 }
+type EditorState = {
+  popoverOpen: boolean,
+  anchorEl: any
+}
 export class LevelEditor extends Component {
   props: LevelEditorProps
+  state: EditorState
 
   constructor (props: LevelEditorProps) {
     super(props)
+
+    this.state = {
+      popoverOpen: false,
+      anchorEl: null
+    }
 
     let levelId = props.match.params.levelId
     if (levelId !== 'new') {
@@ -46,6 +62,32 @@ export class LevelEditor extends Component {
       props.actions.level.startEdit(editedLevel)
     }
   }
+
+  handlePopoverOpen () {
+    this.setState(prev => ({
+      ...prev,
+      popoverOpen: true,
+      // $FlowIgnore
+      anchorEl: findDOMNode(this.saveButton)
+    }))
+
+    setTimeout(
+      () =>
+        this.setState(prev => ({
+          ...prev,
+          popoverOpen: false
+        })),
+      3000
+    )
+  }
+
+  handleRequestClose = () => {
+    this.setState({
+      popoverOpen: false
+    })
+  }
+
+  saveButton = null
 
   render () {
     const { levelEditor, match, actions } = this.props
@@ -113,6 +155,9 @@ export class LevelEditor extends Component {
         </GridList>
 
         <ActionButton
+          ref={node => {
+            this.saveButton = node
+          }}
           onClick={() => {
             if (levelId === 'new') {
               actions.level.add(level)
@@ -122,10 +167,26 @@ export class LevelEditor extends Component {
             } else {
               actions.level.save(levelId, level)
             }
+            this.handlePopoverOpen()
           }}
         >
           <SaveIcon />
         </ActionButton>
+        <StyledPopover
+          open={this.state.popoverOpen}
+          anchorEl={this.state.anchorEl}
+          onRequestClose={this.handleRequestClose}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'right'
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'center'
+          }}
+        >
+          <Text>The changes have been saved</Text>
+        </StyledPopover>
       </div>
     )
   }
