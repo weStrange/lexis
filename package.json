@@ -80,7 +80,8 @@
         "precommit": "lint-staged",
         "start": "node scripts/start.js",
         "build": "node scripts/build.js",
-        "test": "standard \"src/**/*.js\"&&node scripts/test.js --env=jsdom",
+        "test-full": "standard \"src/**/*.js\"&&node scripts/test.js --env=jsdom",
+        "test": "node scripts/test.js --env=jsdom",
         "storybook": "start-storybook -p 9009 -s public",
         "build-storybook": "build-storybook -s public"
     },
@@ -91,8 +92,12 @@
         "babel-cli": "^6.26.0",
         "babel-plugin-transform-decorators": "^6.24.1",
         "babel-preset-flow": "^6.23.0",
+        "enzyme": "^3.0.0",
+        "enzyme-adapter-react-15": "^1.0.0",
+        "enzyme-to-json": "^3.0.1",
         "flow-bin": "^0.54.1",
         "prettier-standard": "^5.1.0",
+        "react-test-renderer": "^15.6.2",
         "standard": "^10.0.3"
     },
     "lint-staged": {
