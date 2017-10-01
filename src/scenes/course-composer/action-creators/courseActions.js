@@ -2,11 +2,19 @@
 
 import type { Action } from '../../../actions'
 import type { ActivityAreaSelect } from '../types'
-import type { CourseDifficulty } from 'core/types'
+import type { CourseDifficulty, Course } from 'core/types'
 
-export function start (): Action {
+export function start (course?: Course): Action {
   return {
-    type: 'teacher-composer-start'
+    type: 'teacher-composer-start',
+    course: course
+  }
+}
+
+export function editId (id: string): Action {
+  return {
+    type: 'teacher-composer-course-id-edit',
+    id: id
   }
 }
 

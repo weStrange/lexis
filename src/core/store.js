@@ -22,8 +22,10 @@ const store = createStore(
     router: routerReducer,
     apollo: apolloClient.reducer()
   }),
-  applyMiddleware(middleware),
-  compose(window.devToolsExtension ? window.devToolsExtension() : f => f)
+  compose(
+    applyMiddleware(middleware, apolloClient.middleware()),
+    window.devToolsExtension ? window.devToolsExtension() : f => f
+  )
 )
 
 export default store

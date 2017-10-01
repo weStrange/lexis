@@ -8,13 +8,17 @@ import Grid from 'material-ui/Grid'
 import List, { ListItem, ListItemText } from 'material-ui/List'
 import { Text } from 'common-components'
 import Avatar from 'material-ui/Avatar'
-import Youtube from 'react-youtube'
 import { connect } from 'react-redux'
 import avatar from 'assets/default-avatar.svg'
+import EditIcon from 'material-ui-icons/Edit'
 import _ from 'lodash'
+
+import { ActionButton } from 'common-components'
 
 import { graphql } from 'react-apollo'
 import { Course as CourseQuery } from '../queries'
+
+import { Link } from 'react-router-dom'
 
 const Wrapper = styled(Grid)`
   width: 100vw;
@@ -84,6 +88,12 @@ const CourseDetail = ({ match, data }: CourseDetailProps) => {
           </ListItem>
         </List>
       </Grid>
+
+      <Link to={'/course-composer/' + course.id}>
+        <ActionButton>
+          <EditIcon />
+        </ActionButton>
+      </Link>
     </Wrapper>
   ) : null
 }

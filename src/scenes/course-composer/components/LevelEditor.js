@@ -59,7 +59,7 @@ export class LevelEditor extends Component {
         return
       }
 
-      props.actions.level.startEdit(editedLevel)
+      // props.actions.level.startEdit(editedLevel)
     }
   }
 
@@ -92,11 +92,11 @@ export class LevelEditor extends Component {
   render () {
     const { levelEditor, match, actions } = this.props
     const { level } = levelEditor
-    const levelId = match.params.levelId
+    const { levelId, courseId } = match.params
 
     return (
       <div style={{ marginLeft: '5%' }}>
-        <Link to={'/course-composer'}>
+        <Link to={'/course-composer/' + courseId}>
           <BackButton
             onClick={() => actions.level.cleanEdit()}
             style={{ display: 'block' }}
@@ -145,12 +145,18 @@ export class LevelEditor extends Component {
         <GridList>
           {level.lessons.map((p, i) => (
             <StyledGridTile key={i} button>
-              <Link to={'/course-composer/' + levelId + '/' + i}>{p.name}</Link>
+              <Link
+                to={'/course-composer/' + courseId + '/' + levelId + '/' + i}
+              >
+                {p.name}
+              </Link>
             </StyledGridTile>
           ))}
 
           <StyledGridTile button>
-            <Link to={'/course-composer/' + levelId + '/new'}>Add new</Link>
+            <Link to={'/course-composer/' + courseId + '/' + levelId + '/new'}>
+              Add new
+            </Link>
           </StyledGridTile>
         </GridList>
 
@@ -162,7 +168,7 @@ export class LevelEditor extends Component {
             if (levelId === 'new') {
               actions.level.add(level)
               this.props.history.push(
-                '/course-composer/' + this.props.levels.size
+                '/course-composer/' + courseId + '/' + this.props.levels.size
               )
             } else {
               actions.level.save(levelId, level)

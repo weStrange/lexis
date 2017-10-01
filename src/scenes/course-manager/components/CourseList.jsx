@@ -124,7 +124,7 @@ class CourseList extends Component {
           ))}
         </CourseGridList>
 
-        <Link to='/course-composer'>
+        <Link to='/course-composer/new'>
           <ActionButton>
             <AddIcon />
           </ActionButton>

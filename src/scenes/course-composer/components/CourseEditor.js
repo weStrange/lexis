@@ -3,7 +3,7 @@
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Link } from 'react-router-dom'
-import { graphql } from 'react-apollo'
+import { graphql, compose } from 'react-apollo'
 import { findDOMNode } from 'react-dom'
 
 import defaultCourseImage from '../../../assets/course-space.svg'
@@ -25,14 +25,18 @@ import { StyledGridTile, BlockedTextField, InputForm } from '.'
 
 import * as actionCreators from '../action-creators'
 
-import { addCourseMutation } from '../mutations'
+import { addCourseMutation, updateCourseMutation } from '../mutations'
+import { Course as CourseQuery } from '../queries'
 
 import type { CourseEditorState } from '../types'
-import type { CourseDifficulty, AppState } from 'core/types'
+import type { CourseDifficulty, AppState, Course } from 'core/types'
 
 type LevelEditorProps = {
   courseEditor: CourseEditorState,
-  mutate: any,
+  addCourse: any,
+  updateCourse: any,
+  match: any,
+  data: any,
   actions: any
 }
 type EditorState = {
@@ -49,6 +53,63 @@ export class CourseEditor extends Component {
     this.state = {
       popoverOpen: false,
       anchorEl: null
+    }
+
+    this.props.actions.course.start()
+  }
+  /*
+  componentWillReceiveProps (newProps: LevelEditorProps) {
+    if (
+      !this.props.data.course &&
+      newProps.data.course &&
+      newProps.data.course[0]
+    ) {
+      this.props.actions.course.start(newProps.data.course[0])
+    }
+  }
+*/
+  persistChanges (course: Course, imageFile: any) {
+    const { updateCourse, addCourse } = this.props
+
+    if (course.id) {
+      updateCourse({
+        variables: {
+          id: course.id,
+          name: course.name,
+          description: course.description,
+          difficulty: course.difficulty.toUpperCase(),
+          levels: course.levels.map(p => ({
+            name: p.name,
+            description: p.description,
+            lessons: JSON.stringify(p.lessons)
+          })),
+          image: imageFile
+        }
+      })
+        .then(rs => {
+          this.handlePopoverOpen()
+        })
+        .catch(error => console.error(error))
+    } else {
+      addCourse({
+        variables: {
+          name: course.name,
+          description: course.description,
+          difficulty: course.difficulty.toUpperCase(),
+          levels: course.levels.map(p => ({
+            name: p.name,
+            description: p.description,
+            lessons: JSON.stringify(p.lessons)
+          })),
+          image: imageFile
+        }
+      })
+        .then(rs => {
+          this.props.actions.course.editId(rs.data.addCourse.id)
+
+          this.handlePopoverOpen()
+        })
+        .catch(error => console.error(error))
     }
   }
 
@@ -79,7 +140,7 @@ export class CourseEditor extends Component {
   saveButton = null
 
   render () {
-    const { courseEditor, mutate, actions } = this.props
+    const { courseEditor, updateCourse, addCourse, actions, match } = this.props
     const { course, imageFile } = courseEditor
 
     return (
@@ -176,13 +237,23 @@ export class CourseEditor extends Component {
 
         <GridList>
           {course.levels.map((p, i) => (
-            <StyledGridTile key={i} button>
-              <Link to={'/course-composer/' + i}>{p.name}</Link>
+            <StyledGridTile
+              key={i}
+              onClick={() => actions.level.startEdit(p)}
+              button
+            >
+              <Link to={'/course-composer/' + match.params.courseId + '/' + i}>
+                {p.name}
+              </Link>
             </StyledGridTile>
           ))}
 
           <StyledGridTile button>
-            <Link to='/course-composer/new'>Add new</Link>
+            <Link
+              to={'/course-composer/' + match.params.courseId + '/' + 'new'}
+            >
+              Add new
+            </Link>
           </StyledGridTile>
         </GridList>
 
@@ -190,20 +261,7 @@ export class CourseEditor extends Component {
           ref={node => {
             this.saveButton = node
           }}
-          onClick={() =>
-            mutate({
-              variables: {
-                name: course.name,
-                description: course.description,
-                difficulty: course.difficulty.toUpperCase(),
-                levels: course.levels,
-                image: imageFile
-              }
-            })
-              .then(rs => {
-                this.handlePopoverOpen()
-              })
-              .catch(error => console.error(error))}
+          onClick={() => this.persistChanges(course, imageFile)}
         >
           <SaveIcon />
         </ActionButton>
@@ -236,7 +294,8 @@ function mapStateToProps (state: AppState) {
 function mapDispatchToProps (dispatch) {
   return {
     actions: {
-      course: bindActionCreators(actionCreators.courseActions, dispatch)
+      course: bindActionCreators(actionCreators.courseActions, dispatch),
+      level: bindActionCreators(actionCreators.levelActions, dispatch)
     }
   }
 }
@@ -245,4 +304,10 @@ const connetedComposer = connect(mapStateToProps, mapDispatchToProps)(
   CourseEditor
 )
 
-export default graphql(addCourseMutation)(connetedComposer)
+export default compose(
+  graphql(addCourseMutation, { name: 'addCourse' }),
+  graphql(updateCourseMutation, { name: 'updateCourse' }),
+  graphql(CourseQuery, {
+    options: ({ match }) => ({ variables: { id: match.params.courseId } })
+  })
+)(connetedComposer)

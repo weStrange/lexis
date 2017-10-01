@@ -143,11 +143,11 @@ export class LessonEditor extends Component {
       match,
       actions
     } = this.props
-    const { lessonId, levelId } = match.params
+    const { lessonId, levelId, courseId } = match.params
 
     return (
       <div style={{ marginLeft: '5%' }}>
-        <Link to={'/course-composer/' + levelId}>
+        <Link to={'/course-composer/' + courseId + '/' + levelId}>
           <BackButton style={{ display: 'block' }} />
         </Link>
         <Text
@@ -245,10 +245,15 @@ export class LessonEditor extends Component {
             if (lessonId === 'new') {
               actions.lesson.add(lesson)
               this.props.history.push(
-                '/course-composer/' + levelId + '/' + this.props.lessons.size
+                '/course-composer/' +
+                  courseId +
+                  '/' +
+                  levelId +
+                  '/' +
+                  this.props.lessons.size
               )
             } else {
-              actions.lesson.save(lessonId, lesson)
+              actions.lesson.save(levelId, lessonId, lesson)
             }
             this.handlePopoverOpen()
           }}

@@ -67,16 +67,16 @@ class App extends Component {
                   <Route path='/course-manager' component={CourseManager} />
                   <Route
                     exact
-                    path='/course-composer'
+                    path='/course-composer/:courseId'
                     component={CourseEditor}
                   />
                   <Route
                     exact
-                    path='/course-composer/:levelId'
+                    path='/course-composer/:courseId/:levelId'
                     component={LevelEditor}
                   />
                   <Route
-                    path='/course-composer/:levelId/:lessonId'
+                    path='/course-composer/:courseId/:levelId/:lessonId'
                     component={LessonEditor}
                   />
                   <Route path='/dashboard' component={Dashboard} />
