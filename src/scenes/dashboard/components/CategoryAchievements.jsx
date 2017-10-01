@@ -22,18 +22,21 @@ const styles = theme => ({
 })
 
 type Props = {
-  achievementData: List<AchievementCategory>,
+  achievementCategories: List<AchievementCategory>,
   classes: any
 }
 
-class CourseAchievements extends React.Component {
+class CategoryAchievements extends React.Component {
   props: Props
 
   renderCourseAchievementPanels () {
-    const { achievementData } = this.props
+    const { achievementCategories } = this.props
 
-    return achievementData.map(course => (
-      <CategoryAchievementsPanel course={course} />
+    return achievementCategories.map(achievementCategory => (
+      <CategoryAchievementsPanel
+        key={achievementCategory.name}
+        achievementCategory={achievementCategory}
+      />
     ))
   }
 
@@ -48,4 +51,4 @@ class CourseAchievements extends React.Component {
   }
 }
 
-export default withStyles(styles)(CourseAchievements)
+export default withStyles(styles)(CategoryAchievements)

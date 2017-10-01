@@ -80,7 +80,7 @@ const StudentDashboard = (props: Props) => {
       </Paper>
       <CourseAchievements
         className={classes.panel}
-        achievementData={courseAchievements}
+        achievementCategories={courseAchievements}
       />
     </Wrapper>
   )

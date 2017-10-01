@@ -56,7 +56,7 @@ class TeacherDashboard extends React.Component {
         <Paper className={classes.panel}>
           <GeneralAchievements achievements={generalAchievements} />
         </Paper>
-        <CategoryAchievements achievementData={categoryAchievements} />
+        <CategoryAchievements achievementCategories={categoryAchievements} />
       </Wrapper>
     )
   }
