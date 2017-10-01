@@ -3,7 +3,7 @@
 import { gql } from 'react-apollo'
 
 export const Course = gql`
-  query Course($id: String!) {
+  query CourseForUpdate($id: String!) {
     course(id: $id) {
       id
       creatorEmail

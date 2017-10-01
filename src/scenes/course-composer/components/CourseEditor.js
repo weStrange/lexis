@@ -8,6 +8,7 @@ import { findDOMNode } from 'react-dom'
 
 import defaultCourseImage from '../../../assets/course-space.svg'
 import { handleFileUpload } from 'core/utils/image'
+import { CourseUtils } from 'core/type-methods'
 
 import React, { Component } from 'react'
 import Grid from 'material-ui/Grid'
@@ -77,7 +78,7 @@ export class CourseEditor extends Component {
           id: course.id,
           name: course.name,
           description: course.description,
-          difficulty: course.difficulty.toUpperCase(),
+          difficulty: CourseUtils.difficultyToStored(course.difficulty),
           levels: course.levels.map(p => ({
             name: p.name,
             description: p.description,
@@ -95,7 +96,7 @@ export class CourseEditor extends Component {
         variables: {
           name: course.name,
           description: course.description,
-          difficulty: course.difficulty.toUpperCase(),
+          difficulty: CourseUtils.difficultyToStored(course.difficulty),
           levels: course.levels.map(p => ({
             name: p.name,
             description: p.description,
