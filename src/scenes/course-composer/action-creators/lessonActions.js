@@ -30,11 +30,16 @@ export function cleanEdit (): Action {
   }
 }
 
-export function save (idx: number, lesson: Lesson): Action {
+export function save (
+  levelIdx: number,
+  lessonIdx: number,
+  lesson: Lesson
+): Action {
   return {
     type: 'teacher-composer-lesson-save',
     lesson: lesson,
-    idx: idx
+    lessonIdx: lessonIdx,
+    levelIdx: levelIdx
   }
 }
 

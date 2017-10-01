@@ -5,6 +5,7 @@ import { List as ListImm } from 'immutable'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Link, withRouter } from 'react-router-dom'
+import { findDOMNode } from 'react-dom'
 
 import React, { Component } from 'react'
 import TextField from 'material-ui/TextField'
@@ -14,7 +15,12 @@ import { GridList, GridListTileBar } from 'material-ui/GridList'
 import { grey } from 'material-ui/colors'
 import SaveIcon from 'material-ui-icons/Save'
 
-import { Text, ActionButton, BackButton } from 'common-components'
+import {
+  Text,
+  ActionButton,
+  BackButton,
+  StyledPopover
+} from 'common-components'
 import { StyledGridTile, BlockedTextField, InputForm } from '.'
 
 import * as actionCreators from '../action-creators'
@@ -29,11 +35,21 @@ type LevelEditorProps = {
   match: any, // react router thing
   actions: any
 }
+type EditorState = {
+  popoverOpen: boolean,
+  anchorEl: any
+}
 export class LevelEditor extends Component {
   props: LevelEditorProps
+  state: EditorState
 
   constructor (props: LevelEditorProps) {
     super(props)
+
+    this.state = {
+      popoverOpen: false,
+      anchorEl: null
+    }
 
     let levelId = props.match.params.levelId
     if (levelId !== 'new') {
@@ -43,18 +59,44 @@ export class LevelEditor extends Component {
         return
       }
 
-      props.actions.level.startEdit(editedLevel)
+      // props.actions.level.startEdit(editedLevel)
     }
   }
+
+  handlePopoverOpen () {
+    this.setState(prev => ({
+      ...prev,
+      popoverOpen: true,
+      // $FlowIgnore
+      anchorEl: findDOMNode(this.saveButton)
+    }))
+
+    setTimeout(
+      () =>
+        this.setState(prev => ({
+          ...prev,
+          popoverOpen: false
+        })),
+      3000
+    )
+  }
+
+  handleRequestClose = () => {
+    this.setState({
+      popoverOpen: false
+    })
+  }
+
+  saveButton = null
 
   render () {
     const { levelEditor, match, actions } = this.props
     const { level } = levelEditor
-    const levelId = match.params.levelId
+    const { levelId, courseId } = match.params
 
     return (
       <div style={{ marginLeft: '5%' }}>
-        <Link to={'/course-composer'}>
+        <Link to={'/course-composer/' + courseId}>
           <BackButton
             onClick={() => actions.level.cleanEdit()}
             style={{ display: 'block' }}
@@ -103,29 +145,54 @@ export class LevelEditor extends Component {
         <GridList>
           {level.lessons.map((p, i) => (
             <StyledGridTile key={i} button>
-              <Link to={'/course-composer/' + levelId + '/' + i}>{p.name}</Link>
+              <Link
+                to={'/course-composer/' + courseId + '/' + levelId + '/' + i}
+              >
+                {p.name}
+              </Link>
             </StyledGridTile>
           ))}
 
           <StyledGridTile button>
-            <Link to={'/course-composer/' + levelId + '/new'}>Add new</Link>
+            <Link to={'/course-composer/' + courseId + '/' + levelId + '/new'}>
+              Add new
+            </Link>
           </StyledGridTile>
         </GridList>
 
         <ActionButton
+          ref={node => {
+            this.saveButton = node
+          }}
           onClick={() => {
             if (levelId === 'new') {
               actions.level.add(level)
               this.props.history.push(
-                '/course-composer/' + this.props.levels.size
+                '/course-composer/' + courseId + '/' + this.props.levels.size
               )
             } else {
               actions.level.save(levelId, level)
             }
+            this.handlePopoverOpen()
           }}
         >
           <SaveIcon />
         </ActionButton>
+        <StyledPopover
+          open={this.state.popoverOpen}
+          anchorEl={this.state.anchorEl}
+          onRequestClose={this.handleRequestClose}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'right'
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'center'
+          }}
+        >
+          <Text>The changes have been saved</Text>
+        </StyledPopover>
       </div>
     )
   }

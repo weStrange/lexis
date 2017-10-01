@@ -16,4 +16,5 @@ export type CourseManagerAction =
       students: List<User>
     }
   | { type: 'course-manager-details-load-failure' }
+  | { type: 'course-manager-details-start', course: Course }
   | { type: 'course-manager-search-edit', search: string }

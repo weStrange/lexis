@@ -54,7 +54,7 @@ export default function levelReducer (
         ...state,
         level: {
           ...state.level,
-          lessons: state.level.lessons.set(action.idx, action.lesson)
+          lessons: state.level.lessons.set(action.lessonIdx, action.lesson)
         }
       }
 

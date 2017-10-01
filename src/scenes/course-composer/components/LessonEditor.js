@@ -7,6 +7,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Link, withRouter } from 'react-router-dom'
+import { findDOMNode } from 'react-dom'
 
 import Paper from 'material-ui/Paper'
 import Button from 'material-ui/Button'
@@ -19,7 +20,12 @@ import EditIcon from 'material-ui-icons/Edit'
 import DeleteIcon from 'material-ui-icons/Delete'
 import styled from 'styled-components'
 
-import { Text, ActionButton, BackButton } from 'common-components'
+import {
+  Text,
+  ActionButton,
+  BackButton,
+  StyledPopover
+} from 'common-components'
 import { StyledGridTile, BlockedTextField, InputForm } from '.'
 
 import YouTube from 'react-youtube'
@@ -65,11 +71,21 @@ type LessonEditorProps = {
   match: any,
   actions: any
 }
+type EditorState = {
+  popoverOpen: boolean,
+  anchorEl: any
+}
 export class LessonEditor extends Component {
   props: LessonEditorProps
+  state: EditorState
 
   constructor (props: LessonEditorProps) {
     super(props)
+
+    this.state = {
+      popoverOpen: false,
+      anchorEl: null
+    }
 
     let lessonId = props.match.params.lessonId
     if (lessonId !== 'new') {
@@ -87,6 +103,32 @@ export class LessonEditor extends Component {
     this.props.actions.lesson.cleanEdit()
   }
 
+  handlePopoverOpen () {
+    this.setState(prev => ({
+      ...prev,
+      popoverOpen: true,
+      // $FlowIgnore
+      anchorEl: findDOMNode(this.saveButton)
+    }))
+
+    setTimeout(
+      () =>
+        this.setState(prev => ({
+          ...prev,
+          popoverOpen: false
+        })),
+      3000
+    )
+  }
+
+  handleRequestClose = () => {
+    this.setState({
+      popoverOpen: false
+    })
+  }
+
+  saveButton = null
+
   render () {
     const {
       lesson,
@@ -101,11 +143,11 @@ export class LessonEditor extends Component {
       match,
       actions
     } = this.props
-    const { lessonId, levelId } = match.params
+    const { lessonId, levelId, courseId } = match.params
 
     return (
       <div style={{ marginLeft: '5%' }}>
-        <Link to={'/course-composer/' + levelId}>
+        <Link to={'/course-composer/' + courseId + '/' + levelId}>
           <BackButton style={{ display: 'block' }} />
         </Link>
         <Text
@@ -195,20 +237,44 @@ export class LessonEditor extends Component {
         />
 
         <ActionButton
+          ref={node => {
+            this.saveButton = node
+          }}
           style={{ right: '220px' }}
           onClick={() => {
             if (lessonId === 'new') {
               actions.lesson.add(lesson)
               this.props.history.push(
-                '/course-composer/' + levelId + '/' + this.props.lessons.size
+                '/course-composer/' +
+                  courseId +
+                  '/' +
+                  levelId +
+                  '/' +
+                  this.props.lessons.size
               )
             } else {
-              actions.lesson.save(lessonId, lesson)
+              actions.lesson.save(levelId, lessonId, lesson)
             }
+            this.handlePopoverOpen()
           }}
         >
           <SaveIcon />
         </ActionButton>
+        <StyledPopover
+          open={this.state.popoverOpen}
+          anchorEl={this.state.anchorEl}
+          onRequestClose={this.handleRequestClose}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'right'
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'center'
+          }}
+        >
+          <Text>The changes have been saved</Text>
+        </StyledPopover>
       </div>
     )
   }
