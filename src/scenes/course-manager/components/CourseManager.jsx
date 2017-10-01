@@ -35,7 +35,11 @@ export class CourseManager extends Component {
     return (
       <Wrapper container spacing={24}>
         <Switch>
-          <Route path='/course-manager/course-detail' component={CourseDetail}>
+          <Route
+            exact
+            path='/course-manager/:courseId'
+            component={CourseDetail}
+          >
             {/* have direct asses the selected course in redux */}
           </Route>
           <Route path='/course-manager' component={CourseList}>

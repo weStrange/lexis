@@ -1,3 +1,7 @@
+/* @flow */
+
+import defaultImage from '../../../assets/course-space.svg'
+
 import React from 'react'
 import styled from 'styled-components'
 import Grid from 'material-ui/Grid'
@@ -9,88 +13,83 @@ import { connect } from 'react-redux'
 import avatar from 'assets/default-avatar.svg'
 import _ from 'lodash'
 
+import { graphql } from 'react-apollo'
+import { Course as CourseQuery } from '../queries'
+
 const Wrapper = styled(Grid)`
   width: 100vw;
   height: 100vh;
 `
-const CourseDetail = ({ course }) => (
-  <Wrapper container>
-    <Grid item xs={8}>
-      <Youtube videoId={'3tmd-ClpJxA'} />
-      <br />
-      <Text medium primary fontSize={'2rem'}>
-        COURSE INFORMATION
-      </Text>
-      <List>
-        {_.map(course.info, (item, key) => (
-          <ListItem key={key}>
-            <ListItemText primary={key.toUpperCase()} secondary={item} />
-          </ListItem>
-        ))}
-      </List>
-    </Grid>
-    <Grid item xs={4}>
-      <Text medium primary fontSize={'2rem'}>
-        BEST STUDENT
-      </Text>
-      <List>
-        {course.studentList.map((student, key) => (
-          <ListItem key={key}>
-            <Avatar src={student.avatar} />
-            <ListItemText primary={student.name} secondary={student.score} />
-          </ListItem>
-        ))}
-      </List>
-      <Text medium primary fontSize={'2rem'}>
-        FEEDBACK
-      </Text>
-      <List>
-        {course.studentList.map((student, key) => (
-          <ListItem key={key}>
-            <Avatar src={student.avatar} />
-            <ListItemText primary={student.name} secondary={student.score} />
-          </ListItem>
-        ))}
-      </List>
-    </Grid>
-  </Wrapper>
-)
 
-export default connect(state => ({
-  course: {
-    studentList: [
-      {
-        name: 'Thanh Nguyen',
-        score: 100,
-        avatar
-      },
-      {
-        name: 'Arsenii',
-        score: 100,
-        avatar
-      },
-      {
-        name: 'Alex',
-        score: 100,
-        avatar
-      },
-      {
-        name: 'Hung',
-        score: 100,
-        avatar
-      },
-      {
-        name: 'Nobody',
-        score: 100,
-        avatar
-      }
-    ],
-    info: {
-      name: 'Intermediate English',
-      description: 'A good course',
-      difficulty: 'Hard',
-      'number of lesson': 10,
-      created: 'Thu 26th September 2017'
-    }
+type CourseDetailProps = {
+  match: any,
+  data: any
+}
+const CourseDetail = ({ match, data }: CourseDetailProps) => {
+  console.log(data)
+  let course
+  if (data.course) {
+    course = data.course[0]
   }
-}))(CourseDetail)
+
+  return course ? (
+    <Wrapper container>
+      <Grid item xs={8}>
+        <img
+          style={{ width: '80%', height: '80%' }}
+          src={course.imageUrl || defaultImage}
+        />
+        <br />
+        <Text medium primary fontSize={'2rem'}>
+          BEST STUDENTS
+        </Text>
+        <List>
+          {course.students.map((student, key) => (
+            <ListItem key={key}>
+              <Avatar src={student.avatarUrl} />
+              <ListItemText primary={student.name} secondary={546} />
+            </ListItem>
+          ))}
+        </List>
+      </Grid>
+
+      <Grid item xs={4}>
+        <Text medium primary fontSize={'2rem'}>
+          COURSE INFORMATION
+        </Text>
+        <List>
+          <ListItem>
+            <ListItemText primary='Name' secondary={course.name} />
+          </ListItem>
+          <ListItem>
+            <ListItemText
+              primary='Description'
+              secondary={course.description}
+            />
+          </ListItem>
+          <ListItem>
+            <ListItemText primary='Difficulty' secondary={course.difficulty} />
+          </ListItem>
+          <ListItem>
+            <ListItemText
+              primary='Number of participants'
+              secondary={course.students.length}
+            />
+          </ListItem>
+          <ListItem>
+            <ListItemText
+              primary='Number of chapters'
+              secondary={course.levels.length}
+            />
+          </ListItem>
+        </List>
+      </Grid>
+    </Wrapper>
+  ) : null
+}
+
+export default graphql(CourseQuery, {
+  options: ({ match, data }) => {
+    return { variables: { id: match.params.courseId } }
+  }
+})(CourseDetail)
