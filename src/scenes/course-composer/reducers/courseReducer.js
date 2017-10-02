@@ -2,7 +2,7 @@
 
 import { List } from 'immutable'
 
-import { LessonUtils } from 'core/type-methods'
+import { LessonUtils, CourseUtils } from 'core/type-methods'
 
 import type { Action } from '../../../actions'
 import type { CourseEditorState } from '../types'
@@ -29,13 +29,16 @@ export default function courseReducer (
     // apollo-dispatched actions
     case 'APOLLO_QUERY_RESULT':
     case 'APOLLO_QUERY_RESULT_CLIENT':
-      if (action.operationName === 'Course') {
+      if (
+        // make sure the operation is the one caused by the course-consumer
+        action.operationName === 'CourseForUpdate' &&
+        // ...and that it's the start of course-editing
+        state.course.id !== action.result.data.course[0].id
+      ) {
+        console.log('here')
         return {
           ...state,
-          course: {
-            ...action.result.data.course[0],
-            levels: List(action.result.data.course[0].levels)
-          }
+          course: parseFetchedCourse(action.result.data.course[0])
         }
       }
       return state
@@ -182,7 +185,7 @@ function parseFetchedCourse (fetchedCourse: any): Course {
     id: fetchedCourse.id,
     name: fetchedCourse.name,
     description: fetchedCourse.description,
-    difficulty: fetchedCourse.difficulty,
+    difficulty: CourseUtils.difficultyFromStored(fetchedCourse.difficulty),
     levels: List(fetchedCourse.levels).map(p => ({
       ...p,
       lessons: LessonUtils.fromStored(p.lessons)
