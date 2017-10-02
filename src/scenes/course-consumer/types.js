@@ -1,21 +1,24 @@
 // @flow
 
+import type { Course } from 'core/types'
+
 export type CourseListItem = {
   name: string,
   description: string,
   id: string
 }
 
-export type CourseList = {
-  selectedCourse: string
+export type CourseListState = {
+  selectedCourse: ?string
 }
 
-export type CourseContents = {
-  selectedChapterId: string,
-  selectedLessonId: string
+export type CourseContentsState = {
+  selectedChapterIdx: ?number,
+  selectedLessonIdx: ?number,
+  course: ?Course
 }
 
 export type CourseConsumerState = {
-  courseContents: CourseContents,
-  courseList: CourseList
+  courseContents: CourseContentsState,
+  courseList: CourseListState
 }

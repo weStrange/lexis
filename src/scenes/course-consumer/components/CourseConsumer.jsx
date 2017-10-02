@@ -2,42 +2,42 @@
 
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { gql, graphql } from 'react-apollo'
-import type { CourseListItem } from '../types'
 import CourseList from './CourseList'
+import type { AppState } from 'core/types'
+import CourseContents from './CourseContents'
+import { Redirect, Route } from 'react-router'
+import Lesson from './Lesson'
 
 type Props = {
-  data: {
-    coursesByStudentEmail: Array<CourseListItem>
-  }
+  selectedCourse: ?string
 }
 
 class CourseConsumer extends React.Component {
+  props: Props
+
   render () {
-    const courses = this.props.data.coursesByStudentEmail
+    const { selectedCourse } = this.props
 
     return (
       <div>
-        <CourseList courses={courses} />
+        {!selectedCourse && <Redirect to='/courses' />}
+
+        <Route path='/courses' exact component={CourseList} />
+        <Route path='/courses/:courseName' exact component={CourseContents} />
+        <Route
+          path='/courses/:courseName/:chapterName/:lessonName'
+          exact
+          component={Lesson}
+        />
       </div>
     )
   }
 }
 
-// export default CourseConsumer
-
-const CourseConsumerWithData = graphql(gql`
-  query courseConsumerCourseList {
-    coursesByStudentEmail(email: "test@test.test") {
-      name
-      description
-      id
-    }
+function mapStateToProps (state: AppState) {
+  return {
+    selectedCourse: state.courseConsumer.courseList.selectedCourse
   }
-`)(CourseConsumer)
-
-function mapStateToProps (state) {
-  return {}
 }
 
-export default connect(mapStateToProps)(CourseConsumerWithData)
+export default connect(mapStateToProps)(CourseConsumer)

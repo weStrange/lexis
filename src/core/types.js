@@ -3,6 +3,7 @@
 import { List } from 'immutable'
 import type { CourseComposerState } from '../scenes/course-composer/types'
 import type { CourseManagerState } from '../scenes/course-manager/types'
+import type { CourseConsumerState } from '../scenes/course-consumer/types'
 
 export type Gender = 'Male' | 'Female' | 'Other'
 
@@ -159,7 +160,8 @@ export type CourseDifficulty =
 export type AppState = {
   courseComposer: CourseComposerState,
   courseManager: CourseManagerState,
-  nav: NavigationState
+  nav: NavigationState,
+  courseConsumer: CourseConsumerState
 }
 
 export type PromoEvent = { name: string, description: string }
