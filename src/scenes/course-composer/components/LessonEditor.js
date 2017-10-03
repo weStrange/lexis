@@ -10,6 +10,7 @@ import { Link, withRouter } from 'react-router-dom'
 import { findDOMNode } from 'react-dom'
 
 import Paper from 'material-ui/Paper'
+import Divider from 'material-ui/Divider'
 import Button from 'material-ui/Button'
 import Typography from 'material-ui/Typography'
 import { withStyles } from 'material-ui/styles'
@@ -17,6 +18,7 @@ import List, { ListItem, ListItemText } from 'material-ui/List'
 import { grey } from 'material-ui/colors'
 import SaveIcon from 'material-ui-icons/Save'
 import EditIcon from 'material-ui-icons/Edit'
+import CloseIcon from 'material-ui-icons/Close'
 import DeleteIcon from 'material-ui-icons/Delete'
 import styled from 'styled-components'
 
@@ -341,9 +343,6 @@ class HeaderComponent extends Component {
 
     return (
       <div style={{ width: '50%' }}>
-        <Text medium fontSize={'2rem'}>
-          {header.text}
-        </Text>
         <ActivityButton
           fab
           color='accent'
@@ -355,6 +354,10 @@ class HeaderComponent extends Component {
         <ActivityButton fab color='primary' onClick={onEditStart}>
           <EditIcon />
         </ActivityButton>
+
+        <Text medium fontSize={'2rem'}>
+          {header.text}
+        </Text>
       </div>
     )
   }
@@ -377,17 +380,11 @@ function ActivityWrapper ({
         margin: '50px 50px 50px 50px'
       }}
     >
-      <ActivityButton
-        fab
-        color='accent'
-        style={{ backgroundColor: '#CC0000' }}
-        onClick={onRemove}
-      >
-        <DeleteIcon />
-      </ActivityButton>
-      <ActivityButton fab color='primary' onClick={onEditStart}>
-        <EditIcon />
-      </ActivityButton>
+      <div style={{ width: '100%', height: '30px' }}>
+        <CloseIcon style={{ float: 'right' }} onClick={onRemove} />
+        <EditIcon style={{ float: 'right' }} onClick={onEditStart} />
+      </div>
+      <Divider />
       <ActivityContent activity={activity} />
     </Paper>
   )
@@ -404,7 +401,7 @@ function ActivityContent ({ activity }: ActivityContentProps) {
   switch (activity.type) {
     case 'video':
       return activity.url ? (
-        <div>
+        <div style={{ padding: '15px 6% 15px 6%' }}>
           <YouTube videoId={activity.url} />
         </div>
       ) : null
@@ -428,29 +425,34 @@ function ActivityContent ({ activity }: ActivityContentProps) {
       return (
         <div>
           <img
-            height={window.innerHeight * 0.39}
-            width={window.innerWidth * 0.4}
+            width='50%'
             src='https://secure.skypeassets.com/i/common/images/icons/skype-logo-open-graph.png'
           />
-          <div
-            style={{
-              position: 'absolute',
-              bottom: window.innerHeight * 0.55,
-              left: window.innerWidth * 0.25
-            }}
-          >
-            <Text style={{ marginBottom: '20px' }} color='white'>
-              {activity.topic}
-            </Text>
-            <br />
-            <Text style={{ marginBottom: '20px' }} color='white'>
-              {activity.group ? 'Group session' : 'Individual session'}
-            </Text>
-            <br />
-            <Text style={{ marginBottom: '20px' }} color='white'>
-              {getReadableDuration(activity.duration)}
-            </Text>
-          </div>
+          <List style={{ display: 'inline', width: '50%', float: 'right' }}>
+            <ListItem>
+              <ListItemText
+                primary='Session topic'
+                secondary={activity.topic}
+              />
+            </ListItem>
+            <Divider />
+            <ListItem>
+              <ListItemText
+                primary='Duration'
+                secondary={getReadableDuration(activity.duration)}
+              />
+            </ListItem>
+            <Divider />
+            <ListItem>
+              <ListItemText
+                primary={
+                  activity.group
+                    ? 'It is a group session'
+                    : 'It is an individual session'
+                }
+              />
+            </ListItem>
+          </List>
         </div>
       )
 

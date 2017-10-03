@@ -2,11 +2,12 @@
 
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { Link } from 'react-router-dom'
 import { graphql, compose } from 'react-apollo'
 import { findDOMNode } from 'react-dom'
 
 import defaultCourseImage from '../../../assets/course-space.svg'
+import yellowBackground from '../../../assets/yellow-abstract-background.png'
+import redBackground from '../../../assets/red-abstract-background.png'
 import { handleFileUpload } from 'core/utils/image'
 import { CourseUtils } from 'core/type-methods'
 
@@ -22,7 +23,7 @@ import { grey } from 'material-ui/colors'
 import SaveIcon from 'material-ui-icons/Save'
 
 import { Text, ActionButton, StyledPopover } from 'common-components'
-import { StyledGridTile, BlockedTextField, InputForm } from '.'
+import { StyledGridTile, BlockedTextField, InputForm, PlainLink } from '.'
 
 import * as actionCreators from '../action-creators'
 
@@ -181,7 +182,7 @@ export class CourseEditor extends Component {
             />
             <label htmlFor='file'>
               <Button raised component='span'>
-                Upload
+                Upload image
               </Button>
             </label>
           </div>
@@ -236,26 +237,29 @@ export class CourseEditor extends Component {
           Chapters
         </Text>
 
-        <GridList>
+        <GridList style={{ marginLeft: '30px' }}>
           {course.levels.map((p, i) => (
-            <StyledGridTile
-              key={i}
-              onClick={() => actions.level.startEdit(p)}
-              button
+            <PlainLink
+              to={'/course-composer/' + match.params.courseId + '/' + i}
             >
-              <Link to={'/course-composer/' + match.params.courseId + '/' + i}>
+              <StyledGridTile
+                key={i}
+                image={`url('${yellowBackground}')`}
+                onClick={() => actions.level.startEdit(p)}
+                button
+              >
                 {p.name}
-              </Link>
-            </StyledGridTile>
+              </StyledGridTile>
+            </PlainLink>
           ))}
 
-          <StyledGridTile button>
-            <Link
-              to={'/course-composer/' + match.params.courseId + '/' + 'new'}
-            >
+          <PlainLink
+            to={'/course-composer/' + match.params.courseId + '/' + 'new'}
+          >
+            <StyledGridTile image={`url('${redBackground}')`} button>
               Add new
-            </Link>
-          </StyledGridTile>
+            </StyledGridTile>
+          </PlainLink>
         </GridList>
 
         <ActionButton

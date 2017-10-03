@@ -7,6 +7,9 @@ import { bindActionCreators } from 'redux'
 import { Link, withRouter } from 'react-router-dom'
 import { findDOMNode } from 'react-dom'
 
+import yellowBackground from '../../../assets/yellow-abstract-background.png'
+import redBackground from '../../../assets/red-abstract-background.png'
+
 import React, { Component } from 'react'
 import TextField from 'material-ui/TextField'
 import List, { ListItem, ListItemText } from 'material-ui/List'
@@ -21,7 +24,7 @@ import {
   BackButton,
   StyledPopover
 } from 'common-components'
-import { StyledGridTile, BlockedTextField, InputForm } from '.'
+import { StyledGridTile, BlockedTextField, InputForm, PlainLink } from '.'
 
 import * as actionCreators from '../action-creators'
 
@@ -142,22 +145,24 @@ export class LevelEditor extends Component {
           Lessons
         </Text>
 
-        <GridList>
+        <GridList style={{ marginLeft: '30px' }}>
           {level.lessons.map((p, i) => (
-            <StyledGridTile key={i} button>
-              <Link
-                to={'/course-composer/' + courseId + '/' + levelId + '/' + i}
-              >
+            <PlainLink
+              to={'/course-composer/' + courseId + '/' + levelId + '/' + i}
+            >
+              <StyledGridTile image={`url(${yellowBackground})`} key={i} button>
                 {p.name}
-              </Link>
-            </StyledGridTile>
+              </StyledGridTile>
+            </PlainLink>
           ))}
 
-          <StyledGridTile button>
-            <Link to={'/course-composer/' + courseId + '/' + levelId + '/new'}>
+          <PlainLink
+            to={'/course-composer/' + courseId + '/' + levelId + '/new'}
+          >
+            <StyledGridTile image={`url(${redBackground})`} button>
               Add new
-            </Link>
-          </StyledGridTile>
+            </StyledGridTile>
+          </PlainLink>
         </GridList>
 
         <ActionButton
