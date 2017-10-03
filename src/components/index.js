@@ -11,6 +11,7 @@ import ActionButton from './ActionButton'
 import BackButton from './BackButton'
 import StyledPopover from './StyledPopover'
 import ListPanel from './ListPanel'
+import SearchBox from './SearchBox'
 
 export {
   Text,
@@ -26,5 +27,6 @@ export {
   ActionButton,
   BackButton,
   StyledPopover,
-  ListPanel
+  ListPanel,
+  SearchBox
 }

@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SearchBox Component renders a snapshot 1`] = `
+<Styled(withStyles(Paper))
+  elevation={3}
+>
+  <Icon
+    iconClassName="fa fa-search"
+    size="1.5em"
+    spacing="18px"
+  />
+  <TextField
+    fullWidth={true}
+    id="full-width"
+    margin="normal"
+    onChange={[Function]}
+    placeholder="Search"
+    required={false}
+    select={false}
+  />
+</Styled(withStyles(Paper))>
+`;

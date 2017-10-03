@@ -19,7 +19,7 @@ export type DetailsState = {
 }
 
 export type CourseManagerState = {
-  fitler: FilterState,
+  filter: FilterState,
   course: CourseState,
   details: DetailsState
 }

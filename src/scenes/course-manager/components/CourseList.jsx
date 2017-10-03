@@ -1,15 +1,17 @@
 /* @flow */
 
 import { List as ImmList } from 'immutable'
+import Fuse from 'fuse.js'
 
 import defaultImage from '../../../assets/course-space.svg'
 
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import Grid from 'material-ui/Grid'
-import List, { ListItem } from 'material-ui/List'
+import Divider from 'material-ui/Divider'
+import List, { ListItem, ListItemText } from 'material-ui/List'
 import { GridList, GridListTile, GridListTileBar } from 'material-ui/GridList'
-import { Text, ActionButton } from 'common-components'
+import { Text, ActionButton, CenterBox, SearchBox } from 'common-components'
 import Card from 'material-ui/Card'
 import AddIcon from 'material-ui-icons/Add'
 
@@ -23,12 +25,14 @@ import { AllCourses as CourseQuery } from '../queries'
 import * as actionCreators from '../action-creators'
 
 import type { Course, AppState } from 'core/types'
-import type { CourseState } from '../types'
+import type { CourseState, FilterState } from '../types'
 
 const CourseGridList = styled(GridList)`
   width: 100%;
   height: 450;
 `
+
+const CourseTitle = styled(ListItemText)`color: #5b86e5 !important;`
 
 const PropertyList = styled(List)``
 
@@ -54,9 +58,16 @@ const CourseItem = styled(ListItem)`
     content: '';
   }
 `
+
+const SearchSection = styled(CenterBox)`
+  flex-basis: 70%;
+  margin: 20px 20px 20px 20px;
+`
+
 type CourseListProps = {
   item: any,
   course: CourseState,
+  filter: FilterState,
   actions: any,
   data: any,
   props?: any
@@ -72,8 +83,8 @@ class CourseList extends Component {
   }
 
   render () {
-    const { item, course, actions, data } = this.props
-    const courses = data.course || []
+    const { item, course, actions, filter } = this.props
+    // const courses = data.course || []
 
     return (
       <div
@@ -81,18 +92,26 @@ class CourseList extends Component {
           display: 'flex',
           flexWrap: 'wrap',
           justifyContent: 'space-around',
-          overflow: 'hidden'
+          overflow: 'hidden',
+          width: '100%'
         }}
       >
-        <Text primary medium fontSize={'1.3em'}>
+        {/*  <Text primary medium fontSize={'1.3em'}>
           Your courses
-        </Text>
+        </Text>  */}
+        <SearchSection>
+          <SearchBox
+            onChange={actions.filter.editSearch}
+            text={filter.search}
+          />
+        </SearchSection>
         <CourseGridList cellHeight={180}>
-          {courses.map((p, i) => (
+          {filterCourses(course.all, filter.search).map((p, i) => (
             <Card
               key={i}
               style={{
                 margin: '10px 10px 10px 10px',
+                textDecoration: 'none',
                 width: '45%',
                 color: 'black'
               }}
@@ -103,21 +122,26 @@ class CourseList extends Component {
                 <img src={p.imageUrl || defaultImage} alt={p.name} />
               </ImageGridListTile>
               <PropertyList>
-                <ListItem>
-                  <StrongAndUp>Name: </StrongAndUp>
-                  <span style={{ textAlign: 'left' }}>{p.name}</span>
+                <ListItem style={{ paddingBottom: '10px', paddingTop: '0px' }}>
+                  <CourseTitle disableTypography primary={p.name} />
                 </ListItem>
-                <ListItem>
-                  <StrongAndUp>Number of participants: </StrongAndUp>
-                  <span style={{ textAlign: 'left' }}>{p.students.length}</span>
+                <Divider />
+                <ListItem style={{ paddingBottom: '0px', paddingTop: '0px' }}>
+                  <ListItemText
+                    primary='Number of participants'
+                    secondary={(p.students || List()).size}
+                  />
                 </ListItem>
-                <ListItem>
-                  <StrongAndUp>Difficulty: </StrongAndUp>
-                  <span style={{ textAlign: 'left' }}>{p.difficulty}</span>
+                <Divider />
+                <ListItem style={{ paddingBottom: '0px', paddingTop: '0px' }}>
+                  <ListItemText primary='Difficulty' secondary={p.difficulty} />
                 </ListItem>
-                <ListItem>
-                  <StrongAndUp>Number of chapters: </StrongAndUp>
-                  <span style={{ textAlign: 'left' }}>{p.levels.length}</span>
+                <Divider />
+                <ListItem style={{ paddingBottom: '0px', paddingTop: '0px' }}>
+                  <ListItemText
+                    primary='Number of chapters'
+                    secondary={p.levels.size}
+                  />
                 </ListItem>
               </PropertyList>
             </Card>
@@ -134,9 +158,24 @@ class CourseList extends Component {
   }
 }
 
+function filterCourses (courses: ImmList<Course>, search: string) {
+  if (search === '') {
+    return courses
+  }
+  return ImmList(
+    new Fuse(courses.toArray(), {
+      distance: 100,
+      location: 0,
+      threshold: 0.08,
+      keys: ['description', 'name']
+    }).search(search)
+  )
+}
+
 function mapStateToProps (state: AppState) {
   return {
-    course: state.courseManager.course
+    course: state.courseManager.course,
+    filter: state.courseManager.filter
   }
 }
 
@@ -144,7 +183,8 @@ function mapDispatchToProps (dispatch) {
   return {
     actions: {
       details: bindActionCreators(actionCreators.detailsActions, dispatch),
-      main: bindActionCreators(actionCreators.mainActions, dispatch)
+      main: bindActionCreators(actionCreators.mainActions, dispatch),
+      filter: bindActionCreators(actionCreators.filterActions, dispatch)
     }
   }
 }

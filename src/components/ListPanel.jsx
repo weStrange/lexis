@@ -12,7 +12,7 @@ const ContentContainer = styled(ListItem)`
 `
 
 type Props = {
-  children: Node
+  children?: Node
 }
 
 const ListPanel = ({ children }: Props) => {
