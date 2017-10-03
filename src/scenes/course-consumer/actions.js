@@ -7,3 +7,4 @@ export type CourseConsumerAction =
       chapterIdx: ?number,
       lessonIdx: ?number
     }
+  | { type: 'course-consumer-chapter-lesson-reset' }

@@ -30,16 +30,16 @@ const DescriptionContainer = styled.div`
 `
 
 type Props = {
-  onItemClick: (courseId: string) => void,
   actions: {
     courseList: typeof courseListActions
   },
   data: {
     coursesByStudentEmail: Array<CourseListItem>
-  }
+  },
+  history: any
 }
 
-const CourseList = ({ data, onItemClick, actions, history }: Props) => {
+const CourseList = ({ data, actions, history }: Props) => {
   const courses = data.coursesByStudentEmail
 
   if (!courses) return null

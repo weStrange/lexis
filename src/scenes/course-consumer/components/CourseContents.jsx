@@ -6,10 +6,13 @@ import { connect } from 'react-redux'
 import { graphql } from 'react-apollo'
 import { courseContentsQuery } from '../queries/index'
 import { Wrapper, Text } from 'common-components'
-import { List, ListItem } from 'material-ui'
+import { Grid, List, ListItem } from 'material-ui'
 import { courseContentsActions } from '../actions-creators'
 import { bindActionCreators } from 'redux'
 import { withRouter } from 'react-router'
+import styled from 'styled-components'
+
+const Container = styled(Grid)`padding: 3rem;`
 
 type Props = {
   course: Course,
@@ -60,7 +63,7 @@ class CourseContents extends React.Component {
     const { course } = this.props
 
     return (
-      <Wrapper>
+      <Container container>
         {course ? (
           <div>
             <p>
@@ -69,7 +72,6 @@ class CourseContents extends React.Component {
             <p>
               <Text fontSize={'1.5rem'}>{course.description}</Text>
             </p>
-            <hr />
             <p>
               <Text fontSize={'2rem'}>Contents</Text>
             </p>
@@ -79,7 +81,7 @@ class CourseContents extends React.Component {
         ) : (
           <div>No course data available</div>
         )}
-      </Wrapper>
+      </Container>
     )
   }
 }

@@ -7,3 +7,9 @@ export function selectChapterAndLesson (chapterIdx: number, lessonIdx: number) {
     lessonIdx
   }
 }
+
+export function resetChapterAndLesson () {
+  return {
+    type: 'course-consumer-chapter-lesson-reset'
+  }
+}

@@ -35,6 +35,12 @@ export default function courseContentsReducer (
         selectedChapterIdx: action.chapterIdx,
         selectedLessonIdx: action.lessonIdx
       }
+    case 'course-consumer-chapter-lesson-select':
+      return {
+        ...state,
+        selectedChapterIdx: null,
+        selectedLessonIdx: null
+      }
     default:
       return state
   }
