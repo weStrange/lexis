@@ -13,6 +13,7 @@ import 'assets/font-awesome-4.7.0/css/font-awesome.min.css'
 import 'animate.css/animate.min.css'
 
 import AppShell from './scenes/app-shell/AppShell'
+import Registration from './scenes/registration/index'
 
 import {
   CourseEditor,
@@ -63,8 +64,9 @@ class App extends Component {
         <ThemeProvider theme={styledTheme}>
           <ConnectedRouter history={history}>
             <div>
-              <AppShell>
-                <Switch>
+              <Switch>
+                <Route path='/register' component={Registration} />
+                <Route component={AppShell}>
                   <Route path='/course-manager' component={CourseManager} />
                   <Route
                     exact
@@ -87,8 +89,8 @@ class App extends Component {
                     path='*'
                     component={() => <div>Page not found!</div>}
                   />
-                </Switch>
-              </AppShell>
+                </Route>
+              </Switch>
             </div>
           </ConnectedRouter>
         </ThemeProvider>
