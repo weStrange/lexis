@@ -12,10 +12,7 @@ import { findDOMNode } from 'react-dom'
 import Paper from 'material-ui/Paper'
 import Divider from 'material-ui/Divider'
 import Button from 'material-ui/Button'
-import Typography from 'material-ui/Typography'
-import { withStyles } from 'material-ui/styles'
 import List, { ListItem, ListItemText } from 'material-ui/List'
-import { grey } from 'material-ui/colors'
 import SaveIcon from 'material-ui-icons/Save'
 import EditIcon from 'material-ui-icons/Edit'
 import CloseIcon from 'material-ui-icons/Close'
@@ -26,7 +23,8 @@ import {
   Text,
   ActionButton,
   BackButton,
-  StyledPopover
+  StyledPopover,
+  ActivityContent
 } from 'common-components'
 import { StyledGridTile, BlockedTextField, InputForm } from '.'
 
@@ -388,77 +386,6 @@ function ActivityWrapper ({
       <ActivityContent activity={activity} />
     </Paper>
   )
-}
-
-type ActivityContentProps = {
-  activity: Activity
-}
-function ActivityContent ({ activity }: ActivityContentProps) {
-  if (activity === null) {
-    return null
-  }
-
-  switch (activity.type) {
-    case 'video':
-      return activity.url ? (
-        <div style={{ padding: '15px 6% 15px 6%' }}>
-          <YouTube videoId={activity.url} />
-        </div>
-      ) : null
-
-    case 'audio':
-      return null
-
-    case 'text':
-      return (
-        <Text>
-          {activity.content.split('\n').map(p => (
-            <span>
-              {p}
-              <br />
-            </span>
-          ))}
-        </Text>
-      )
-
-    case 'skype':
-      return (
-        <div>
-          <img
-            width='50%'
-            src='https://secure.skypeassets.com/i/common/images/icons/skype-logo-open-graph.png'
-          />
-          <List style={{ display: 'inline', width: '50%', float: 'right' }}>
-            <ListItem>
-              <ListItemText
-                primary='Session topic'
-                secondary={activity.topic}
-              />
-            </ListItem>
-            <Divider />
-            <ListItem>
-              <ListItemText
-                primary='Duration'
-                secondary={getReadableDuration(activity.duration)}
-              />
-            </ListItem>
-            <Divider />
-            <ListItem>
-              <ListItemText
-                primary={
-                  activity.group
-                    ? 'It is a group session'
-                    : 'It is an individual session'
-                }
-              />
-            </ListItem>
-          </List>
-        </div>
-      )
-
-    default:
-      return null
-  }
 }
 
 function getReadableDuration (duration: number): string {

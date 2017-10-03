@@ -6,7 +6,7 @@ import CourseList from './CourseList'
 import type { AppState } from 'core/types'
 import CourseContents from './CourseContents'
 import { Redirect, Route } from 'react-router'
-import Lesson from './Lesson'
+import LessonConsumer from './LessonConsumer'
 
 type Props = {
   selectedCourse: ?string
@@ -27,7 +27,7 @@ class CourseConsumer extends React.Component {
         <Route
           path='/courses/:courseName/:chapterName/:lessonName'
           exact
-          component={Lesson}
+          component={LessonConsumer}
         />
       </div>
     )
