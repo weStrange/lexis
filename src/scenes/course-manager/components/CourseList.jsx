@@ -7,7 +7,8 @@ import defaultImage from '../../../assets/course-space.svg'
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import Grid from 'material-ui/Grid'
-import List, { ListItem } from 'material-ui/List'
+import Divider from 'material-ui/Divider'
+import List, { ListItem, ListItemText } from 'material-ui/List'
 import { GridList, GridListTile, GridListTileBar } from 'material-ui/GridList'
 import { Text, ActionButton } from 'common-components'
 import Card from 'material-ui/Card'
@@ -29,6 +30,8 @@ const CourseGridList = styled(GridList)`
   width: 100%;
   height: 450;
 `
+
+const CourseTitle = styled(ListItemText)`color: #5b86e5 !important;`
 
 const PropertyList = styled(List)``
 
@@ -93,6 +96,7 @@ class CourseList extends Component {
               key={i}
               style={{
                 margin: '10px 10px 10px 10px',
+                textDecoration: 'none',
                 width: '45%',
                 color: 'black'
               }}
@@ -103,21 +107,26 @@ class CourseList extends Component {
                 <img src={p.imageUrl || defaultImage} alt={p.name} />
               </ImageGridListTile>
               <PropertyList>
-                <ListItem>
-                  <StrongAndUp>Name: </StrongAndUp>
-                  <span style={{ textAlign: 'left' }}>{p.name}</span>
+                <ListItem style={{ paddingBottom: '10px', paddingTop: '0px' }}>
+                  <CourseTitle disableTypography primary={p.name} />
                 </ListItem>
-                <ListItem>
-                  <StrongAndUp>Number of participants: </StrongAndUp>
-                  <span style={{ textAlign: 'left' }}>{p.students.length}</span>
+                <Divider />
+                <ListItem style={{ paddingBottom: '0px', paddingTop: '0px' }}>
+                  <ListItemText
+                    primary='Number of participants'
+                    secondary={p.students.length}
+                  />
                 </ListItem>
-                <ListItem>
-                  <StrongAndUp>Difficulty: </StrongAndUp>
-                  <span style={{ textAlign: 'left' }}>{p.difficulty}</span>
+                <Divider />
+                <ListItem style={{ paddingBottom: '0px', paddingTop: '0px' }}>
+                  <ListItemText primary='Difficulty' secondary={p.difficulty} />
                 </ListItem>
-                <ListItem>
-                  <StrongAndUp>Number of chapters: </StrongAndUp>
-                  <span style={{ textAlign: 'left' }}>{p.levels.length}</span>
+                <Divider />
+                <ListItem style={{ paddingBottom: '0px', paddingTop: '0px' }}>
+                  <ListItemText
+                    primary='Number of chapters'
+                    secondary={p.levels.length}
+                  />
                 </ListItem>
               </PropertyList>
             </Card>
