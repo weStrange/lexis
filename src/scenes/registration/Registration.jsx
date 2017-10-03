@@ -81,6 +81,7 @@ const Registration = props => (
           <RadioGroup
             aria-label='gender'
             name='gender'
+            row
             // value={this.state.value}
             // onChange={this.handleChange}
           >
