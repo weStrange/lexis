@@ -1,5 +1,5 @@
 // @flow
 
-import { Course } from './components'
+import { CourseConsumer } from './components'
 
-export default Course
+export default CourseConsumer

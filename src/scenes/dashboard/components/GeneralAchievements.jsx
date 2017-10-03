@@ -62,7 +62,7 @@ class GeneralAchievements extends React.Component {
 
     for (let i = offset; i < coursesEndIndex; i++) {
       coursePanels.push(
-        <Grid item xs={12} lg={4}>
+        <Grid item xs={12} lg={4} key={i}>
           <Paper className={classes.achievementPanel} key={i}>
             <Grid container>
               <Grid item md={2} lg={4}>
@@ -94,7 +94,7 @@ class GeneralAchievements extends React.Component {
 
     for (let i = 0; i < nViews; i++) {
       views.push(
-        <Grid container spacing={12} key={i} style={{ padding: '10px' }}>
+        <Grid container spacing={0} key={i} style={{ padding: '10px' }}>
           {this.renderAchievementPanels(
             i * nAchievementsPerView,
             nAchievementsPerView

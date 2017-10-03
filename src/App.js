@@ -24,6 +24,7 @@ import Course from './scenes/course-consumer'
 
 import history from './core/history'
 import Dashboard from './scenes/dashboard/components/Dashboard'
+import CourseConsumer from './scenes/course-consumer/components/CourseConsumer'
 
 const primaryColor = '#5B86E5'
 const styledTheme = {
@@ -81,8 +82,7 @@ class App extends Component {
                   />
                   <Route path='/dashboard' component={Dashboard} />
                   {/*<Route exact path='/student/courses' component={Courses} />*/}
-                  <Route path='/student/courses/*' component={Course} />
-                  <Route path='/dashboard' component={Dashboard} />
+                  <Route path='/courses' component={CourseConsumer} />
                   <Route
                     path='*'
                     component={() => <div>Page not found!</div>}

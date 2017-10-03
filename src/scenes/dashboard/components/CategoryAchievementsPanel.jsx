@@ -8,6 +8,7 @@ import trophy from 'assets/trophy.svg'
 
 import styled from 'styled-components'
 import { ArrowDropDown, ArrowDropUp } from 'material-ui-icons'
+import type { AchievementCategory, Achievement } from 'core/types'
 
 const AchievementIcon = styled(Avatar)`
   width: 3em !important;
@@ -27,7 +28,7 @@ const DropDownButton = styled(Button)`
 `
 
 type Props = {
-  course: any,
+  achievementCategory: AchievementCategory,
   classes?: any
 }
 
@@ -54,9 +55,11 @@ class CategoryAchievementsPanel extends React.Component {
   }
 
   renderAchivementIcons () {
-    const { achievements } = this.props.course
+    const { achievements } = this.props.achievementCategory
 
-    return achievements.map(achievement => <AchievementIcon src={trophy} />)
+    return achievements.map((achievement, key) => (
+      <AchievementIcon key={key} src={trophy} />
+    ))
   }
 
   renderCollapsed () {
@@ -93,7 +96,7 @@ class CategoryAchievementsPanel extends React.Component {
   }
 
   renderAchivementItems () {
-    const { achievements } = this.props.course
+    const { achievements } = this.props.achievementCategory
 
     return achievements.map(achievement => {
       return (
@@ -113,12 +116,12 @@ class CategoryAchievementsPanel extends React.Component {
   }
 
   render () {
-    const { course } = this.props
+    const { achievementCategory } = this.props
     const { collapsed } = this.state
 
     return (
       <Container>
-        <Text fontSize={'1.3em'}>{course.name}</Text>
+        <Text fontSize={'1.3em'}>{achievementCategory.name}</Text>
         {collapsed ? this.renderCollapsed() : this.renderExpanded()}
       </Container>
     )

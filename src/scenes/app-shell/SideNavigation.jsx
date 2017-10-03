@@ -48,7 +48,7 @@ const navigationItems = {
       title: 'My Courses',
       imgSrc: courseIcon,
       link: '/courses',
-      disabled: true
+      disabled: false
     },
     {
       title: 'Profile',
