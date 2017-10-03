@@ -7,8 +7,8 @@ import { bindActionCreators } from 'redux'
 import { Link, withRouter } from 'react-router-dom'
 import { findDOMNode } from 'react-dom'
 
-import yellowBackground from '../../../assets/yellow-abstract-background.png'
-import redBackground from '../../../assets/red-abstract-background.png'
+import yellowBackground from 'assets/yellow-abstract-background.png'
+import redBackground from 'assets/red-abstract-background.png'
 
 import React, { Component } from 'react'
 import TextField from 'material-ui/TextField'

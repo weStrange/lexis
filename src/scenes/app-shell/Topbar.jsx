@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Text, Paper, CenterBox, Icon, Avatar } from '../../components'
-import SearchBox from './SearchBox'
 import logo from 'assets/logo.svg'
 import SettingMenu from './SettingsMenu'
 
@@ -34,9 +33,9 @@ const LogoBox = styled(CenterBox)`
   padding-left: 3rem;
   padding-right: 3rem;
 `
-const SearchSection = styled(CenterBox)`flex-basis: 40%;`
+
 const UserFunc = styled(CenterBox)`
-  flex-basis: 50%;
+  flex-basis: 100%;
   justify-content: flex-end;
   padding-right: 3em;
 `
@@ -52,9 +51,6 @@ function Topbar ({ role }: TopbarProps) {
           Lexis
         </Text>
       </LogoBox>
-      <SearchSection>
-        <SearchBox />
-      </SearchSection>
       <UserFunc>
         <Icon
           color={white}

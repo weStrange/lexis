@@ -16,15 +16,20 @@ export default function courseReducer (
   action: Action
 ): CourseState {
   switch (action.type) {
-    case 'course-manager-courses-load-success':
+    case 'APOLLO_QUERY_RESULT':
+    case 'APOLLO_QUERY_RESULT_CLIENT':
       return {
         ...state,
-        all: action.courses
+        all: List(action.result.data.course).map(p => ({
+          ...p,
+          students: List(p.students),
+          levels: List(p.levels)
+        }))
       }
 
     case 'course-manager-start':
       return {
-        ...getInitialState(),
+        ...getInitialState() /*,
         all: List([
           {
             name: 'Intermediate english 1',
@@ -131,7 +136,7 @@ export default function courseReducer (
             description: '',
             difficulty: 'Beginner'
           }
-        ])
+        ])  */
       }
 
     default:

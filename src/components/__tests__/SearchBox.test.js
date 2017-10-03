@@ -1,6 +1,5 @@
 /* eslint-env jest */
 
-
 import React from 'react'
 import SearchBox from '../SearchBox'
 import { shallow } from 'enzyme'

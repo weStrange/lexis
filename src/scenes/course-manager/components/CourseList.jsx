@@ -1,6 +1,7 @@
 /* @flow */
 
 import { List as ImmList } from 'immutable'
+import Fuse from 'fuse.js'
 
 import defaultImage from '../../../assets/course-space.svg'
 
@@ -10,7 +11,7 @@ import Grid from 'material-ui/Grid'
 import Divider from 'material-ui/Divider'
 import List, { ListItem, ListItemText } from 'material-ui/List'
 import { GridList, GridListTile, GridListTileBar } from 'material-ui/GridList'
-import { Text, ActionButton } from 'common-components'
+import { Text, ActionButton, CenterBox, SearchBox } from 'common-components'
 import Card from 'material-ui/Card'
 import AddIcon from 'material-ui-icons/Add'
 
@@ -24,7 +25,7 @@ import { AllCourses as CourseQuery } from '../queries'
 import * as actionCreators from '../action-creators'
 
 import type { Course, AppState } from 'core/types'
-import type { CourseState } from '../types'
+import type { CourseState, FilterState } from '../types'
 
 const CourseGridList = styled(GridList)`
   width: 100%;
@@ -57,9 +58,16 @@ const CourseItem = styled(ListItem)`
     content: '';
   }
 `
+
+const SearchSection = styled(CenterBox)`
+  flex-basis: 70%;
+  margin: 20px 20px 20px 20px;
+`
+
 type CourseListProps = {
   item: any,
   course: CourseState,
+  filter: FilterState,
   actions: any,
   data: any,
   props?: any
@@ -75,8 +83,8 @@ class CourseList extends Component {
   }
 
   render () {
-    const { item, course, actions, data } = this.props
-    const courses = data.course || []
+    const { item, course, actions, filter } = this.props
+    // const courses = data.course || []
 
     return (
       <div
@@ -84,14 +92,21 @@ class CourseList extends Component {
           display: 'flex',
           flexWrap: 'wrap',
           justifyContent: 'space-around',
-          overflow: 'hidden'
+          overflow: 'hidden',
+          width: '100%'
         }}
       >
-        <Text primary medium fontSize={'1.3em'}>
+        {/*  <Text primary medium fontSize={'1.3em'}>
           Your courses
-        </Text>
+        </Text>  */}
+        <SearchSection>
+          <SearchBox
+            onChange={actions.filter.editSearch}
+            text={filter.search}
+          />
+        </SearchSection>
         <CourseGridList cellHeight={180}>
-          {courses.map((p, i) => (
+          {filterCourses(course.all, filter.search).map((p, i) => (
             <Card
               key={i}
               style={{
@@ -114,7 +129,7 @@ class CourseList extends Component {
                 <ListItem style={{ paddingBottom: '0px', paddingTop: '0px' }}>
                   <ListItemText
                     primary='Number of participants'
-                    secondary={p.students.length}
+                    secondary={(p.students || List()).size}
                   />
                 </ListItem>
                 <Divider />
@@ -125,7 +140,7 @@ class CourseList extends Component {
                 <ListItem style={{ paddingBottom: '0px', paddingTop: '0px' }}>
                   <ListItemText
                     primary='Number of chapters'
-                    secondary={p.levels.length}
+                    secondary={p.levels.size}
                   />
                 </ListItem>
               </PropertyList>
@@ -143,9 +158,24 @@ class CourseList extends Component {
   }
 }
 
+function filterCourses (courses: ImmList<Course>, search: string) {
+  if (search === '') {
+    return courses
+  }
+  return ImmList(
+    new Fuse(courses.toArray(), {
+      distance: 100,
+      location: 0,
+      threshold: 0.08,
+      keys: ['description', 'name']
+    }).search(search)
+  )
+}
+
 function mapStateToProps (state: AppState) {
   return {
-    course: state.courseManager.course
+    course: state.courseManager.course,
+    filter: state.courseManager.filter
   }
 }
 
@@ -153,7 +183,8 @@ function mapDispatchToProps (dispatch) {
   return {
     actions: {
       details: bindActionCreators(actionCreators.detailsActions, dispatch),
-      main: bindActionCreators(actionCreators.mainActions, dispatch)
+      main: bindActionCreators(actionCreators.mainActions, dispatch),
+      filter: bindActionCreators(actionCreators.filterActions, dispatch)
     }
   }
 }

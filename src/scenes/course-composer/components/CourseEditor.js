@@ -5,9 +5,9 @@ import { bindActionCreators } from 'redux'
 import { graphql, compose } from 'react-apollo'
 import { findDOMNode } from 'react-dom'
 
-import defaultCourseImage from '../../../assets/course-space.svg'
-import yellowBackground from '../../../assets/yellow-abstract-background.png'
-import redBackground from '../../../assets/red-abstract-background.png'
+import defaultCourseImage from 'assets/course-space.svg'
+import yellowBackground from 'assets/yellow-abstract-background.png'
+import redBackground from 'assets/red-abstract-background.png'
 import { handleFileUpload } from 'core/utils/image'
 import { CourseUtils } from 'core/type-methods'
 
