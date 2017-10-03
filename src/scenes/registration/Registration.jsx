@@ -14,16 +14,16 @@ import Button from 'material-ui/Button'
 
 const Wrapper = styled.div`
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
   background-color: #fed756;
   display: flex;
   justify-content: center;
   box-sizing: border-box;
+  padding-bottom: 5rem;
 `
 const Illustration = styled.img`
   right: 5rem;
-  width: 40vw;
-  max-width: 500px;
+  width: 600px;
   height: auto;
   animation: fadeIn 1s ease 1;
 `

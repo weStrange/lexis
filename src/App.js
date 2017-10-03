@@ -14,6 +14,7 @@ import 'animate.css/animate.min.css'
 
 import AppShell from './scenes/app-shell/AppShell'
 import Registration from './scenes/registration/index'
+import Login from './scenes/login/index'
 
 import {
   CourseEditor,
@@ -66,6 +67,7 @@ class App extends Component {
             <div>
               <Switch>
                 <Route path='/register' component={Registration} />
+                <Route path='/login' component={Login} />
                 <Route component={AppShell}>
                   <Route path='/course-manager' component={CourseManager} />
                   <Route
