@@ -15,7 +15,7 @@ import Button from 'material-ui/Button'
 import { connect } from 'react-redux'
 import moment from 'moment'
 import { registrationError, register } from './actions'
-import { Redirect } from 'react-router-dom'
+import { Redirect, Link } from 'react-router-dom'
 
 const Wrapper = styled.div`
   width: 100vw;
@@ -25,6 +25,7 @@ const Wrapper = styled.div`
   justify-content: center;
   box-sizing: border-box;
   padding-bottom: 5rem;
+  animation: slideInLeft 0.7s ease 1;
 `
 const Illustration = styled.img`
   right: 5rem;
@@ -190,6 +191,20 @@ class Registration extends React.Component {
                 {!this.props.message
                   ? 'We need a few information from you. Please fill them all in'
                   : this.props.message}
+              </Text>
+              <Text
+                style={{ marginBottom: '1rem' }}
+                color={!this.props.message ? 'rgba(0,0,0, .76)' : 'red'}
+                light
+                fontSize={'0.8rem'}
+              >
+                Already have an account?{' '}
+                <Link
+                  to='/login'
+                  style={{ fontWeight: 'bold', color: 'white' }}
+                >
+                  Log in here
+                </Link>
               </Text>
               <TextField
                 error={this.state.input.email.error}

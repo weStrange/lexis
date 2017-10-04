@@ -5,6 +5,7 @@ import { Text, Icon } from 'common-components'
 import { Link, Route } from 'react-router-dom'
 import { connect, bindActionCreators } from 'react-redux'
 import { changeRole } from 'core/action-creators/navActions'
+import logout from './actions/logout'
 
 const white = 'rgba(255, 255, 255, 0.86)'
 
@@ -52,8 +53,10 @@ class SettingsMenu extends React.PureComponent {
           open={this.state.open}
           onRequestClose={this.handleRequestClose}
         >
-          <MenuItem disabled>
-            <Text primary>Logout</Text>
+          <MenuItem>
+            <Link onClick={() => this.props.dispatch(logout())} to='/login'>
+              <Text primary>Logout</Text>
+            </Link>
           </MenuItem>
           <MenuItem>
             <Link
