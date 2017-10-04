@@ -1,6 +1,11 @@
+// we do a few trick with our initial state here
+// to persist auth across reloads
+
+const persistence = window.localStorage
+
 const initState = {
   loading: false,
-  credential: undefined,
+  credential: JSON.parse(persistence.getItem('credentials')),
   redirectUrl: undefined,
   error: false
 }

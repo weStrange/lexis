@@ -9,11 +9,12 @@ export const sendCredential = credentials => dispatch => {
     body: JSON.stringify(credentials)
   })
     .then(json => json.json())
-    .then(data =>
+    .then(data => {
       dispatch({
         type: 'received-login-data',
         payload: data
       })
-    )
+      window.localStorage.setItem('credentials', JSON.stringify(data))
+    })
     .catch(err => dispatch({ type: 'login-error' }))
 }

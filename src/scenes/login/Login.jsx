@@ -6,7 +6,7 @@ import TextField from 'material-ui/TextField'
 import Button from 'material-ui/Button'
 import { red } from 'material-ui/colors'
 import { connect } from 'react-redux'
-import { Redirect } from 'react-router-dom'
+import { Redirect, Link } from 'react-router-dom'
 import { sendCredential } from './actions'
 
 const Wrapper = styled.div`
@@ -16,6 +16,7 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: center;
   box-sizing: border-box;
+  animation: slideInLeft 0.7s ease 1;
 `
 const Illustration = styled.img`
   right: 5rem;
@@ -134,6 +135,20 @@ class Login extends React.Component {
               error={this.state.errorMessage}
               helperText={this.state.errorMessage && 'Forgot password?'}
             />
+            <Text
+              style={{ marginTop: '2rem' }}
+              color={'white'}
+              light
+              fontSize={'0.8rem'}
+            >
+              Doesnt have an account?{' '}
+              <Link
+                to='/register'
+                style={{ color: 'white', fontWeight: 'bold' }}
+              >
+                Register here
+              </Link>
+            </Text>
             <Button
               raised
               style={{
@@ -158,6 +173,6 @@ class Login extends React.Component {
 export default connect(state => ({
   loading: state.auth.loading,
   hasError: state.auth.error,
-  authorized: state.auth.credential !== undefined,
+  authorized: state.auth.credential,
   redirectUrl: state.auth.redirectUrl
 }))(Login)
