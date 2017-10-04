@@ -89,7 +89,15 @@ class Login extends React.Component {
   }
   render () {
     if (this.props.authorized)
-      return <Redirect to={this.props.redirectUrl || '/dashboard'} />
+      return (
+        <Redirect
+          to={
+            this.props.redirectUrl ||
+            this.props.redirectUrl === '/login' ||
+            '/dashboard'
+          }
+        />
+      )
     return (
       <Wrapper>
         <ContentBox>
