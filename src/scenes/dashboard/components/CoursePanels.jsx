@@ -113,7 +113,7 @@ function mapStateToProps (state: AppState) {
   return {
     courses: [
       {
-        name: 'Amazing English',
+        name: 'Business English',
         completion: '1/12'
       },
       {
@@ -121,23 +121,23 @@ function mapStateToProps (state: AppState) {
         completion: '1/12'
       },
       {
-        name: 'Helping The Poor English',
+        name: 'English for travelling',
         completion: '1/12'
       },
       {
-        name: 'Saving Humanity English',
+        name: 'English for kids',
         completion: '1/12'
       },
       {
-        name: 'Basics of Alien',
+        name: 'Basics of Esperanto',
         completion: '1/12'
       },
       {
-        name: 'Menani French',
+        name: 'Advanced French',
         completion: '1/12'
       },
       {
-        name: 'Advanced Seppo',
+        name: 'Advanced Italian',
         completion: '1/12'
       }
     ]

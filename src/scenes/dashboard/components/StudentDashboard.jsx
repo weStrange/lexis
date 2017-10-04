@@ -121,26 +121,26 @@ function mapStateToProps (state: AppState) {
     ]),
     courseAchievements: List([
       {
-        name: 'Menani French',
+        name: 'Basics of French',
         achievements: [
           {
-            name: 'Intoxicated',
-            description: 'Drink 3 bottles of coke',
+            name: 'Starter',
+            description: 'Complete the 1st chapter',
             unlocked: true
           },
           {
-            name: 'The Great Escape',
-            description: 'Happens after drinking 3 bottles of coke',
+            name: 'The Philosopher',
+            description: 'Complete chapter on French Philosophy (8th)',
             unlocked: true
           },
           {
-            name: 'Intoxicated',
-            description: 'Drink 3 bottles of coke',
+            name: 'Go-Getter',
+            description: 'Get all the assignments done on time',
             unlocked: false
           },
           {
-            name: 'The Great Escape',
-            description: 'Happens after drinking 3 bottles of coke',
+            name: 'Slacker',
+            description: 'Get highest score in 2 speaking tasks',
             unlocked: false
           }
         ]
@@ -149,23 +149,18 @@ function mapStateToProps (state: AppState) {
         name: 'Basics of Spanish',
         achievements: [
           {
-            name: 'The King',
-            description: 'Get married to a queen',
+            name: 'Starter',
+            description: 'Complete the 1st chapter',
             unlocked: true
           },
           {
-            name: 'Rumble in The Sky',
-            description: 'Use Stinger missile launcher at least ones',
-            unlocked: true
-          },
-          {
-            name: 'The King',
-            description: 'Get married to a queen',
+            name: 'Go-Getter',
+            description: 'Get all the assignments done on time',
             unlocked: false
           },
           {
-            name: 'Rumble in The Sky',
-            description: 'Use Stinger missile launcher at least ones',
+            name: 'Slacker',
+            description: 'Get highest score in 2 speaking tasks',
             unlocked: false
           }
         ]
