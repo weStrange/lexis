@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ActionButton Component renders a snapshot 1`] = `
+<withStyles(Button)
+  aria-label="add"
+  color="primary"
+  fab={true}
+  onClick={[Function]}
+  style={
+    Object {
+      "bottom": "50px",
+      "position": "fixed",
+      "right": "50px",
+    }
+  }
+/>
+`;

@@ -4,6 +4,8 @@ import * as CourseUtils from '../type-methods/course'
 import * as LessonUtils from '../type-methods/lesson'
 import { List } from 'immutable'
 
+import type { Course } from '../types'
+
 export function parseFetchedCourse (fetchedCourse: any): Course {
   return {
     id: fetchedCourse.id,

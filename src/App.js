@@ -68,7 +68,7 @@ class App extends Component {
               <Switch>
                 <Route path='/register' component={Registration} />
                 <Route path='/login' component={Login} />
-                <Route component={AppShell}>
+                <AppShell>
                   <Route path='/course-manager' component={CourseManager} />
                   <Route
                     exact
@@ -91,7 +91,7 @@ class App extends Component {
                     path='*'
                     component={() => <div>Page not found!</div>}
                   />
-              </Route>
+                </AppShell>
               </Switch>
             </div>
           </ConnectedRouter>
