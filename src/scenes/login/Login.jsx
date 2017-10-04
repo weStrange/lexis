@@ -7,7 +7,7 @@ import Button from 'material-ui/Button'
 
 const Wrapper = styled.div`
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
   background-color: #5b86e5;
   display: flex;
   justify-content: center;
