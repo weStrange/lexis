@@ -4,7 +4,7 @@ import { createStore, applyMiddleware, combineReducers, compose } from 'redux'
 import { routerReducer, routerMiddleware } from 'react-router-redux'
 import { ApolloClient } from 'react-apollo'
 import { createNetworkInterface } from 'apollo-upload-client'
-
+import ReduxThunk from 'redux-thunk'
 import * as rootReducer from './reducers'
 import history from './history'
 
@@ -24,7 +24,7 @@ const store = createStore(
     apollo: apolloClient.reducer()
   }),
   compose(
-    applyMiddleware(middleware, apolloClient.middleware()),
+    applyMiddleware(ReduxThunk, middleware, apolloClient.middleware()),
     window.devToolsExtension ? window.devToolsExtension() : f => f
   )
 )
