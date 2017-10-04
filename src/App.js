@@ -91,7 +91,7 @@ class App extends Component {
                     path='*'
                     component={() => <div>Page not found!</div>}
                   />
-                </Route>
+              </Route>
               </Switch>
             </div>
           </ConnectedRouter>
