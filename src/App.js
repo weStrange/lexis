@@ -69,28 +69,30 @@ class App extends Component {
                 <Route path='/register' component={Registration} />
                 <Route path='/login' component={Login} />
                 <AppShell>
-                  <Route path='/course-manager' component={CourseManager} />
-                  <Route
-                    exact
-                    path='/course-composer/:courseId'
-                    component={CourseEditor}
-                  />
-                  <Route
-                    exact
-                    path='/course-composer/:courseId/:levelId'
-                    component={LevelEditor}
-                  />
-                  <Route
-                    path='/course-composer/:courseId/:levelId/:lessonId'
-                    component={LessonEditor}
-                  />
-                  <Route path='/dashboard' component={Dashboard} />
-                  {/*<Route exact path='/student/courses' component={Courses} />*/}
-                  <Route path='/courses' component={CourseConsumer} />
-                  <Route
-                    path='*'
-                    component={() => <div>Page not found!</div>}
-                  />
+                  <Switch>
+                    <Route path='/course-manager' component={CourseManager} />
+                    <Route
+                      exact
+                      path='/course-composer/:courseId'
+                      component={CourseEditor}
+                    />
+                    <Route
+                      exact
+                      path='/course-composer/:courseId/:levelId'
+                      component={LevelEditor}
+                    />
+                    <Route
+                      path='/course-composer/:courseId/:levelId/:lessonId'
+                      component={LessonEditor}
+                    />
+                    <Route path='/dashboard' component={Dashboard} />
+                    {/*<Route exact path='/student/courses' component={Courses} />*/}
+                    <Route path='/courses' component={CourseConsumer} />
+                    <Route
+                      path='*'
+                      component={() => <div>Page not found!</div>}
+                    />
+                  </Switch>
                 </AppShell>
               </Switch>
             </div>

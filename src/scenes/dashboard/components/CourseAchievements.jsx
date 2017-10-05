@@ -47,15 +47,15 @@ function mapStateToProps (state: AppState) {
   return {
     courseData: [
       {
-        name: 'Menani French',
+        name: 'Basics of French',
         achievements: [
           {
-            name: 'Intoxicated',
-            description: 'Drink 3 bottles of coke'
+            name: 'Starter',
+            description: 'Complete the 1st chapter'
           },
           {
-            name: 'The Great Escape',
-            description: 'Happens after drinking 3 bottles of coke'
+            name: 'The Philosopher',
+            description: 'Complete chapter on French Philosophy (8th)'
           }
         ]
       },
@@ -63,12 +63,12 @@ function mapStateToProps (state: AppState) {
         name: 'Basics of Spanish',
         achievements: [
           {
-            name: 'The King',
-            description: 'Get married to a queen'
+            name: 'Five Day Streak',
+            description: 'Complete at least 1 lesson during 5 days in a row'
           },
           {
-            name: 'Rumble in The Sky',
-            description: 'Use Stinger missile launcher at least ones'
+            name: 'The Intensive',
+            description: 'Complete 2 chapters during 1 day'
           }
         ]
       }

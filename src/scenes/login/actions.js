@@ -16,5 +16,8 @@ export const sendCredential = credentials => dispatch => {
       })
       window.localStorage.setItem('credentials', JSON.stringify(data))
     })
-    .catch(err => dispatch({ type: 'login-error' }))
+    .catch(err => {
+      console.error(err)
+      dispatch({ type: 'login-error' })
+    })
 }
