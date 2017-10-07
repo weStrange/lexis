@@ -99,24 +99,20 @@ function mapStateToProps (state: AppState) {
     },
     generalAchievements: List([
       {
-        name: 'Humanity Destroyer',
-        description: 'Kill more than 7000000000 people'
+        name: 'Great subscriber',
+        description: 'Subscribe to 20 courses'
       },
       {
-        name: "Satan's Mom",
-        description: 'Give birth to satan'
+        name: 'Persistent',
+        description: 'Fully complete 5 courses'
       },
       {
-        name: 'The Pain Itself',
-        description: 'Hurt feelings of at least 1000 people around you'
+        name: '5 Days Streak',
+        description: 'Complete 1 lesson per day for 5 days'
       },
       {
-        name: 'Stunt Master',
-        description: 'Drive you car into the ocean and surf a shark'
-      },
-      {
-        name: 'The Doom Bringer',
-        description: 'Cause a malfunction at a nuclear power plant'
+        name: '15 Days Streak',
+        description: 'Complete 1 lesson per day for 15 days'
       }
     ]),
     courseAchievements: List([

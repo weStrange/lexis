@@ -112,27 +112,23 @@ function mapStateToProps (state: AppState) {
         name: 'Finance',
         achievements: [
           {
-            name: 'Man Who Sold The World',
-            description:
-              'Learn to play Man Who Sold The World and make a cover like Nirvana did',
+            name: 'Millioner',
+            description: 'Earn your first million in your currency',
             unlocked: true
           },
           {
-            name: 'Squeeze Them All',
-            description:
-              'Trick at least 100 students to subscribe to one of your courses with ridiculously high subscription cost',
+            name: 'Charitable',
+            description: 'Create 3 courses with the price less than 30 euros',
             unlocked: true
           },
           {
-            name: 'Man Who Sold The World',
-            description:
-              'Learn to play Man Who Sold The World and make a cover like Nirvana did',
+            name: 'Millioner',
+            description: 'Earn your first million in your currency',
             unlocked: false
           },
           {
-            name: 'Squeeze Them All',
-            description:
-              'Trick at least 100 students to subscribe to one of your courses with ridiculously high subscription cost',
+            name: 'Charitable',
+            description: 'Create 3 courses with the price less than 30 euros',
             unlocked: false
           }
         ]
@@ -143,24 +139,24 @@ function mapStateToProps (state: AppState) {
           {
             name: 'Kind Guy',
             description:
-              'Grant course completion certificates with 100% rate to 1 000 students',
+              'Grant course completion certificates with 100% score to 100 students',
             unlocked: true
           },
           {
-            name: 'Rumble in The Sky',
-            description: 'Use Stinger missile launcher at least ones',
-            unlocked: true
-          },
-          {
-            name: 'Man Who Sold The World',
+            name: 'Success',
             description:
-              'Learn to play Man Who Sold The World and make a cover like Nirvana did',
+              'Get the highest evaluation of one of your courses from 100 students',
+            unlocked: true
+          },
+          {
+            name: 'Genius',
+            description: 'Publish 7 courses with difficulty set to Proficient',
             unlocked: false
           },
           {
-            name: 'Squeeze Them All',
+            name: 'Average teacher',
             description:
-              'Trick at least 100 students to subscribe to one of your courses with ridiculously high subscription cost',
+              'Publish 15 courses with difficulty set to Intermediate',
             unlocked: false
           }
         ]

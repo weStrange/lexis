@@ -102,3 +102,48 @@ export type CourseComposerAction =
   | { type: 'teacher-composer-skype-duration-edit', duration: number }
   | { type: 'teacher-composer-skype-topic-edit', topic: string }
   | { type: 'teacher-composer-skype-group-toggle' }
+
+  // Writing actions
+  | { type: 'teacher-composer-writing-modal-open' }
+  | { type: 'teacher-composer-writing-modal-close' }
+  | { type: 'teacher-composer-writing-question-edit', question: string }
+  | { type: 'teacher-composer-writing-max-words-edit', words: number }
+  | { type: 'teacher-composer-writing-min-words-edit', words: number }
+
+  // Written-answer actions
+  | { type: 'teacher-composer-written-ans-modal-open' }
+  | { type: 'teacher-composer-written-ans-modal-close' }
+  | { type: 'teacher-composer-written-ans-question-add' }
+  | { type: 'teacher-composer-written-ans-question-remove', idx: number }
+  | {
+    type: 'teacher-composer-written-ans-question-edit',
+    idx: number,
+    question: string
+  }
+  | {
+    type: 'teacher-composer-written-ans-answer-edit',
+    idx: number,
+    answer: string
+  }
+
+  // Multimple-options actions
+  | { type: 'teacher-composer-multi-opt-modal-open' }
+  | { type: 'teacher-composer-multi-opt-modal-close' }
+  | { type: 'teacher-composer-multi-opt-question-add' }
+  | { type: 'teacher-composer-multi-opt-question-remove', idx: number }
+  | {
+    type: 'teacher-composer-multi-opt-question-edit',
+    idx: number,
+    question: string
+  }
+  | {
+    type: 'teacher-composer-multi-opt-correct-idx-edit',
+    idx: number,
+    correctIdx: number
+  }
+  | {
+    type: 'teacher-composer-multi-opt-option-edit',
+    idx: number,
+    option: string,
+    optionIdx: number
+  }

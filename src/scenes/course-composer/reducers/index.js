@@ -9,6 +9,8 @@ import lessonEditor from './lessonReducer'
 import skypeModal from './skypeReducer'
 import textModal from './textReducer'
 import videoModal from './videoReducer'
+import writingModal from './writingReducer'
+import writtenAnswerModal from './writtenAnswerReducer'
 
 export default combineReducers({
   audioModal,
@@ -17,5 +19,7 @@ export default combineReducers({
   lessonEditor,
   skypeModal,
   textModal,
-  videoModal
+  videoModal,
+  writingModal,
+  writtenAnswerModal
 })

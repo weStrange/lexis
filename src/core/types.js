@@ -61,6 +61,13 @@ export type Skype = {
   group: boolean
 }
 
+export type Writing = {
+  type: 'writing',
+  question: string,
+  minWords?: number,
+  maxWords?: number
+}
+
 export type WrittenAnswerEx = {
   type: 'written-answer',
   items: List<{ question: string, answer: string }>
@@ -106,6 +113,7 @@ export type ActivityKind =
   | 'skype'
   | 'written-answer'
   | 'multi-option'
+  | 'writing'
 
 export type Activity =
   | Video
@@ -114,6 +122,7 @@ export type Activity =
   | Skype
   | WrittenAnswerEx
   | MultiOptionEx
+  | Writing
 
 export type Header = {
   type: 'header',

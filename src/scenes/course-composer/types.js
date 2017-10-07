@@ -12,7 +12,8 @@ import type {
   Course,
   Lesson,
   Level,
-  ActivityKind
+  ActivityKind,
+  Writing
 } from 'core/types'
 
 export type {
@@ -25,7 +26,8 @@ export type {
   Text,
   Lesson,
   Level,
-  ActivityKind
+  ActivityKind,
+  Writing
 }
 
 export type BreadcrumbsState = {
@@ -90,6 +92,11 @@ export type CourseEditorState = {
   imageFile: File | null
 }
 
+export type WritingModalState = {
+  writing: Writing,
+  open: boolean
+}
+
 export type CourseComposerState = {
   courseEditor: CourseEditorState,
   levelEditor: LevelEditorState,
@@ -98,7 +105,10 @@ export type CourseComposerState = {
   audioModal: AudioModalState,
   videoModal: VideoModalState,
   skypeModal: SkypeModalState,
-  textModal: TextModalState
+  textModal: TextModalState,
+  writtenAnswerModal: WrittenAnswerModal,
+  multipleOptionsModal: MultiOptionModal,
+  writingModal: WritingModalState
 }
 /*
 export type CourseComposerState = {

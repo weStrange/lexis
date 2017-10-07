@@ -4,7 +4,7 @@ import { gql } from 'react-apollo'
 
 const courseListQuery = gql`
   query courseConsumerCourseList {
-    coursesByStudentEmail(email: "test@test.com") {
+    coursesByStudentEmail(email: "test@test.test") {
       name
       description
       id
