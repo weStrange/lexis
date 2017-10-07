@@ -14,7 +14,7 @@ export function close (): Action {
   }
 }
 
-export function editStartTime (startTime: number): Action {
+export function editStartTime (startTime: string): Action {
   return {
     type: 'teacher-composer-skype-start-time-edit',
     startTime: startTime

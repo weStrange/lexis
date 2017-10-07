@@ -1,5 +1,7 @@
 // @flow
 
+import moment from 'moment'
+
 import YouTube from 'react-youtube'
 import type { Activity } from 'core/types'
 import * as React from 'react'
@@ -41,16 +43,32 @@ const ActivityContent = ({ activity }: ActivityContentProps) => {
 
     case 'skype':
       return (
-        <div>
+        <div style={{ height: '280px' }}>
           <img
             width='50%'
             src='https://secure.skypeassets.com/i/common/images/icons/skype-logo-open-graph.png'
           />
-          <List style={{ display: 'inline', width: '50%', float: 'right' }}>
+          <List
+            style={{
+              display: 'inline',
+              width: '50%',
+              height: '100%',
+              float: 'right'
+            }}
+          >
             <ListItem>
               <ListItemText
                 primary='Session topic'
                 secondary={activity.topic}
+              />
+            </ListItem>
+            <Divider />
+            <ListItem>
+              <ListItemText
+                primary='Start time'
+                secondary={moment(activity.startTime).format(
+                  'DD.MM.YYYY hh:mm A'
+                )}
               />
             </ListItem>
             <Divider />

@@ -9,7 +9,7 @@ function getInitialState (): SkypeModalState {
   return {
     skype: {
       type: 'skype',
-      startTime: 0, // number of seconds from Epoch time
+      startTime: '', // number of seconds from Epoch time
       duration: 0, // number of seconds,
       topic: '',
       group: false
