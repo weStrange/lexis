@@ -35,7 +35,9 @@ import {
   VideoModal,
   AudioModal,
   SkypeModal,
-  TextModal
+  TextModal,
+  WritingModal,
+  WrittenAnswerModal
 } from '.'
 
 import * as actionCreators from '../action-creators'
@@ -67,6 +69,9 @@ type LessonEditorProps = {
   audioModal: AudioModalState,
   videoModal: VideoModalState,
   skypeModal: SkypeModalState,
+  writingModal: WritingModal,
+  writtenAnswerModal: WrittenAnswerModal,
+  // multipleOptionsModal: MultiOptionModal,
   history: any,
   match: any,
   actions: any
@@ -140,9 +145,12 @@ export class LessonEditor extends Component {
       audioModal,
       videoModal,
       skypeModal,
+      writingModal,
+      writtenAnswerModal,
       match,
       actions
     } = this.props
+    // console.log(writtenAnswerModal)
     const { lessonId, levelId, courseId } = match.params
 
     return (
@@ -233,6 +241,23 @@ export class LessonEditor extends Component {
           text={textModal}
           onTextEdit={actions.text.editContent}
           onClose={actions.text.close}
+          onSave={actions.activity.save}
+        />
+        <WritingModal
+          writing={writingModal}
+          onQuestionEdit={actions.writing.editQuestion}
+          onMaxWordsEdit={actions.writing.editMaxWords}
+          onMinWordsEdit={actions.writing.editMinWords}
+          onClose={actions.writing.close}
+          onSave={actions.activity.save}
+        />
+        <WrittenAnswerModal
+          writtenAnswer={writtenAnswerModal}
+          onAdd={actions.writtenAnswer.add}
+          onRemove={actions.writtenAnswer.remove}
+          onQuestionEdit={actions.writtenAnswer.editQuestion}
+          onAnswerEdit={actions.writtenAnswer.editAnswer}
+          onClose={actions.writtenAnswer.close}
           onSave={actions.activity.save}
         />
 
@@ -426,7 +451,10 @@ function mapStateToProps (state: AppState) {
     textModal: state.courseComposer.textModal,
     audioModal: state.courseComposer.audioModal,
     videoModal: state.courseComposer.videoModal,
-    skypeModal: state.courseComposer.skypeModal
+    skypeModal: state.courseComposer.skypeModal,
+    writingModal: state.courseComposer.writingModal,
+    writtenAnswerModal: state.courseComposer.writtenAnswerModal,
+    multiOptionModal: state.courseComposer.multipleOptionsModal
   }
 }
 
@@ -439,7 +467,12 @@ function mapDispatchToProps (dispatch) {
       text: bindActionCreators(actionCreators.textActions, dispatch),
       video: bindActionCreators(actionCreators.videoActions, dispatch),
       activity: bindActionCreators(actionCreators.activityActions, dispatch),
-      header: bindActionCreators(actionCreators.headerActions, dispatch)
+      header: bindActionCreators(actionCreators.headerActions, dispatch),
+      writing: bindActionCreators(actionCreators.writingActions, dispatch),
+      writtenAnswer: bindActionCreators(
+        actionCreators.writtenAnswerActions,
+        dispatch
+      )
     }
   }
 }

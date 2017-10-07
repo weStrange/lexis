@@ -73,15 +73,15 @@ const activities = ImmList.of(
   },
   {
     name: 'Full Answer Questions',
-    kind: 'faq',
+    kind: 'written-answer',
     mainOnly: false,
-    disabled: true
+    disabled: false
   },
   {
     name: 'Writing Exercise',
     kind: 'writing',
     mainOnly: false,
-    disabled: true
+    disabled: false
   },
   {
     name: 'Word Matching Exercise',

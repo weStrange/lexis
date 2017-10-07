@@ -10,6 +10,9 @@ import * as levelActions from './levelActions'
 import * as activityPicker from './activityPickerActions'
 import * as activityActions from './activityActions'
 import * as headerActions from './headerActions'
+import * as writingActions from './writingActions'
+import * as multiOptionActions from './multiOptionActions'
+import * as writtenAnswerActions from './writtenAnswerActions'
 
 export {
   audioActions,
@@ -21,5 +24,8 @@ export {
   levelActions,
   activityPicker,
   activityActions,
-  headerActions
+  headerActions,
+  writtenAnswerActions,
+  multiOptionActions,
+  writingActions
 }

@@ -4,6 +4,7 @@ import YouTube from 'react-youtube'
 import type { Activity } from 'core/types'
 import * as React from 'react'
 import Text from './Text'
+import TextField from 'material-ui/TextField'
 import { List, ListItemText, ListItem, Divider } from 'material-ui'
 
 type ActivityContentProps = {
@@ -72,6 +73,43 @@ const ActivityContent = ({ activity }: ActivityContentProps) => {
           </List>
         </div>
       )
+
+    case 'writing':
+      return (
+        <div>
+          <Text style={{ display: 'block' }}>{activity.question}</Text>
+          <List style={{ display: 'inline', width: '50%' }}>
+            <ListItem>
+              <ListItemText
+                primary='Min. number of words'
+                secondary={activity.minWords}
+              />
+            </ListItem>
+            <ListItem>
+              <ListItemText
+                primary='Max. number of words'
+                secondary={activity.maxWords}
+              />
+            </ListItem>
+          </List>
+        </div>
+      )
+
+    case 'written-answer':
+      return (
+        <div>
+          {activity.items.map((p, i) => (
+            <div key={i}>
+              <Divider />
+              <Text>{p.question}</Text>
+              <ListItem>
+                <ListItemText primary='Answer' secondary={p.answer} />
+              </ListItem>
+            </div>
+          ))}
+        </div>
+      )
+
     case 'header':
       return <Text fontSize={'1.5rem'}>{activity.text}</Text>
     default:
