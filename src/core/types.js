@@ -55,7 +55,7 @@ export type Text = {
 
 export type Skype = {
   type: 'skype',
-  startTime: number, // number of seconds from Epoch time
+  startTime: string, // number of seconds from Epoch time
   duration: number, // number of seconds,
   topic: string,
   group: boolean

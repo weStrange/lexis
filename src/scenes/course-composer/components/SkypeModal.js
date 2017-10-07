@@ -1,6 +1,7 @@
 /* @flow */
 
 import React from 'react'
+import moment from 'moment'
 
 import { withStyles } from 'material-ui/styles'
 import Button from 'material-ui/Button'
@@ -17,6 +18,8 @@ import { MenuItem } from 'material-ui/Menu'
 import { FormControl, FormHelperText } from 'material-ui/Form'
 import Select from 'material-ui/Select'
 import styled from 'styled-components'
+
+import { BlockedTextField } from '.'
 
 import type { Skype, SkypeModalState } from '../types'
 
@@ -85,6 +88,19 @@ export function SkypeModal ({
               />
             }
             label='Group session'
+          />
+          <BlockedTextField
+            id='session-start-time'
+            label='Start time'
+            type='datetime-local'
+            value={skype.skype.startTime}
+            onChange={ev => {
+              console.log(ev.target.value)
+              onStartTimeChange(ev.target.value)
+            }}
+            InputLabelProps={{
+              shrink: true
+            }}
           />
           <FormControl
             style={{

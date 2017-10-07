@@ -98,7 +98,7 @@ export type CourseComposerAction =
   // Skype actions
   | { type: 'teacher-composer-skype-modal-open' }
   | { type: 'teacher-composer-skype-modal-close' }
-  | { type: 'teacher-composer-skype-start-time-edit', startTime: number }
+  | { type: 'teacher-composer-skype-start-time-edit', startTime: string }
   | { type: 'teacher-composer-skype-duration-edit', duration: number }
   | { type: 'teacher-composer-skype-topic-edit', topic: string }
   | { type: 'teacher-composer-skype-group-toggle' }
