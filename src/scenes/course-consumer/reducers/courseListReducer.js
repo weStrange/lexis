@@ -3,8 +3,15 @@
 import type { Action } from '../../../actions'
 import type { CourseListState } from '../types'
 
+function getInitialState (): CourseListState {
+  return {
+    selectedCourse: null,
+    courseFilter: ''
+  }
+}
+
 export default function courseListReducer (
-  state: CourseListState = { selectedCourse: null },
+  state: CourseListState = getInitialState(),
   action: Action
 ): CourseListState {
   switch (action.type) {
@@ -12,6 +19,11 @@ export default function courseListReducer (
       return {
         ...state,
         selectedCourse: action.id
+      }
+    case 'course-consumer-course-filter-edit':
+      return {
+        ...state,
+        courseFilter: action.courseFilter
       }
     default:
       return state

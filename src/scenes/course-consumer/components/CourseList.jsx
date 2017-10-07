@@ -3,7 +3,8 @@
 import type { CourseListItem } from '../types'
 import * as React from 'react'
 
-import { Wrapper, ListPanel, Text } from 'common-components'
+import { List as ImmList } from 'immutable'
+import { SearchBox, ListPanel, Text, CenterBox } from 'common-components'
 import { Grid, List, Paper, ListItem } from 'material-ui'
 import styled from 'styled-components'
 import { bindActionCreators } from 'redux'
@@ -13,6 +14,8 @@ import { gql, graphql } from 'react-apollo'
 import { withRouter } from 'react-router'
 import { courseListQuery } from '../queries'
 import defaultImage from '../../../assets/course-space.svg'
+import type { AppState } from 'core/types'
+import { filterCourses } from '../../../core/utils/filters'
 
 const ClickableContainer = styled(ListItem)`
   margin-bottom: 1rem;
@@ -48,25 +51,41 @@ const CourseImg = styled.img`
   transform: translate(-50%, -50%);
 `
 
+const SearchBoxContainer = styled.div`
+  width: 70%;
+  margin: auto;
+`
+
+const Wrapper = styled(Grid)`
+  padding: 1rem;
+  margin: 1rem;
+`
+
 const ImgContainer = styled(Grid)`overflow: hidden;`
 
 type Props = {
+  courseFilter: string,
   actions: {
     courseList: typeof courseListActions
   },
   data: {
-    coursesByStudentEmail: Array<CourseListItem>
+    course: Array<CourseListItem>
   },
   history: any
 }
 
-const CourseList = ({ data, actions, history }: Props) => {
-  const courses = data.coursesByStudentEmail
+class CourseList extends React.Component {
+  props: Props
 
-  if (!courses) return null
+  renderCourseItems () {
+    const { data, actions, history, courseFilter } = this.props
 
-  const renderCourseItems = () => {
-    return courses.map(({ id, imageUrl, name, description }) => (
+    if (!data.course) return null
+
+    const courses = ImmList(data.course)
+    const filteredCourses = filterCourses(courses, courseFilter)
+
+    return filteredCourses.map(({ id, imageUrl, name, description }) => (
       <ListPanel key={id}>
         <ClickableContainer
           key={id}
@@ -96,14 +115,31 @@ const CourseList = ({ data, actions, history }: Props) => {
     ))
   }
 
-  return (
-    <Grid container spacing={0}>
-      {renderCourseItems()}
-    </Grid>
-  )
+  render () {
+    const { data, actions, courseFilter } = this.props
+
+    const { editCourseFilter } = actions.courseList
+
+    if (!data.course) return null
+
+    return (
+      <Wrapper container spacing={0}>
+        <SearchBoxContainer>
+          <SearchBox onChange={editCourseFilter} text={courseFilter} />
+        </SearchBoxContainer>
+        {this.renderCourseItems()}
+      </Wrapper>
+    )
+  }
 }
 
 const CourseListWithData = graphql(courseListQuery)(CourseList)
+
+function mapStateToProps (state: AppState) {
+  return {
+    courseFilter: state.courseConsumer.courseList.courseFilter
+  }
+}
 
 function mapDispatchToProps (dispatch) {
   return {
@@ -113,4 +149,6 @@ function mapDispatchToProps (dispatch) {
   }
 }
 
-export default withRouter(connect(null, mapDispatchToProps)(CourseListWithData))
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(CourseListWithData)
+)
