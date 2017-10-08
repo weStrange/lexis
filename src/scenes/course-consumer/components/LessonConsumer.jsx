@@ -1,24 +1,28 @@
 // @flow
 
 import * as React from 'react'
+import type { AppState, Lesson, Course, Activity } from 'core/types'
+import { connect } from 'react-redux'
 
 import { ActivityContent, Text, ActionButton } from 'common-components'
 import { Grid, Paper } from 'material-ui'
 import styled from 'styled-components'
 import ListIcon from 'material-ui-icons/List'
+import {
+  courseContentsActions,
+  lessonConsumerActions
+} from '../actions-creators'
 import DoneIcon from 'material-ui-icons/Done'
 
 import { bindActionCreators } from 'redux'
 import { withRouter } from 'react-router'
-import { connect } from 'react-redux'
+import type { ActivityAnswer } from '../types'
+import WritingActivityAnswer from './WritingActivityAnswer'
+import WrittenAnswerActivityAnswer from './WrittenAnswerActivityAnswer'
 import { graphql } from 'react-apollo'
-
-import { courseContentsActions } from '../actions-creators'
 
 import { makeProgress } from '../mutations'
 import { progressQuery } from '../queries'
-
-import type { AppState, Lesson, Course } from 'core/types'
 
 const Container = styled(Grid)`padding: 3rem;`
 
@@ -31,8 +35,10 @@ type Props = {
   userEmail: string,
   lesson: Lesson,
   course: Course,
+  activityAnswers: Map<string, ActivityAnswer>,
   actions: {
-    courseContents: typeof courseContentsActions
+    courseContents: typeof courseContentsActions,
+    lessonConsumer: typeof lessonConsumerActions
   },
   makeProgress: any,
   history: any
@@ -45,9 +51,13 @@ class LessonConsumer extends React.Component {
   constructor (props: Props) {
     super(props)
 
+    const { actions, lesson } = this.props
+
     this.handleCourseContentsButtonClick = this.handleCourseContentsButtonClick.bind(
       this
     )
+
+    if (lesson) actions.lessonConsumer.startLessonConsumer(lesson.activities)
   }
 
   handleCourseContentsButtonClick () {
@@ -59,6 +69,83 @@ class LessonConsumer extends React.Component {
     else history.push(`/courses`)
   }
 
+  handleWrittenAnswerActivityAnswerChange (activityIdx, itemIdx, inputState) {
+    const { editWrittenAnswerItem } = this.props.actions.lessonConsumer
+
+    editWrittenAnswerItem(activityIdx.toString(), itemIdx, inputState)
+  }
+
+  handleWrittenAnswerActivityAnswerCompletion (activityIdx, itemIdx) {
+    const { completeWrittenAnswerItem } = this.props.actions.lessonConsumer
+
+    completeWrittenAnswerItem(activityIdx.toString(), itemIdx)
+  }
+
+  handleWritingAnswerChange (activityIdx, inputState) {
+    const { editWriting } = this.props.actions.lessonConsumer
+
+    editWriting(activityIdx.toString(), inputState)
+  }
+
+  handleWritingAnswerSubmission (activityIdx) {
+    const { submitWriting } = this.props.actions.lessonConsumer
+
+    submitWriting(activityIdx.toString())
+  }
+
+  handleWritingAnswerEditingStart (activityIdx) {
+    const { startWritingEditing } = this.props.actions.lessonConsumer
+
+    startWritingEditing(activityIdx.toString())
+  }
+
+  renderActivity (activity: Activity, activityIdx) {
+    const { activityAnswers, actions } = this.props
+    const activityAnswer = activityAnswers.get(activityIdx.toString())
+
+    switch (activity.type) {
+      case 'written-answer':
+        if (!activityAnswer || activityAnswer.type !== 'written-answer')
+          return null
+
+        return (
+          <WrittenAnswerActivityAnswer
+            activity={activity}
+            activityAnswer={activityAnswer}
+            onChange={(studentAnswer, itemIdx) => {
+              this.handleWrittenAnswerActivityAnswerChange(
+                activityIdx,
+                itemIdx,
+                studentAnswer
+              )
+            }}
+            onComplete={itemIdx => {
+              this.handleWrittenAnswerActivityAnswerCompletion(
+                activityIdx,
+                itemIdx
+              )
+            }}
+          />
+        )
+      case 'writing':
+        if (!activityAnswer) return null
+
+        return (
+          <WritingActivityAnswer
+            activity={activity}
+            activityAnswer={activityAnswers.get(activityIdx.toString())}
+            onChange={studentAnswer =>
+              this.handleWritingAnswerChange(activityIdx, studentAnswer)}
+            onSubmit={() => this.handleWritingAnswerSubmission(activityIdx)}
+            onStartEdit={() =>
+              this.handleWritingAnswerEditingStart(activityIdx)}
+          />
+        )
+      default:
+        return <ActivityContent activity={activity} />
+    }
+  }
+
   renderActivities () {
     const { lesson } = this.props
 
@@ -66,10 +153,10 @@ class LessonConsumer extends React.Component {
 
     const { activities } = lesson
 
-    return activities.map((activity, i) => (
+    return activities.map((activity: Activity, i) => (
       <Grid key={i} item xs={12}>
         <ActivityContainer>
-          <ActivityContent activity={activity} />
+          {this.renderActivity(activity, i)}
         </ActivityContainer>
       </Grid>
     ))
@@ -142,14 +229,16 @@ function mapStateToProps (state: AppState) {
   return {
     userEmail: state.auth.credential.email,
     lesson: lesson,
-    course: course
+    course: course,
+    activityAnswers: state.courseConsumer.lessonConsumer.activityAnswers
   }
 }
 
 function mapDispatchToProps (dispatch) {
   return {
     actions: {
-      courseContents: bindActionCreators(courseContentsActions, dispatch)
+      courseContents: bindActionCreators(courseContentsActions, dispatch),
+      lessonConsumer: bindActionCreators(lessonConsumerActions, dispatch)
     }
   }
 }
