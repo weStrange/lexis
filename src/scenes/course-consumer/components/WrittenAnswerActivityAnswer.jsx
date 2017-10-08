@@ -3,7 +3,7 @@
 import * as React from 'react'
 import type { WrittenAnswerEx } from 'core/types'
 import type { WrittenAnswerActivityAnswer as ActivityAnswer } from '../types'
-import { Divider, TextField } from 'material-ui'
+import { Button, Divider, TextField } from 'material-ui'
 import { Check, Error } from 'material-ui-icons'
 import Text from 'common-components/Text'
 import styled from 'styled-components'
@@ -50,7 +50,7 @@ class WrittenAnswerActivityAnswer extends React.Component {
   }
 
   renderActivityItem (item: { question: string, answer: string }, i: number) {
-    const { activityAnswer, onChange } = this.props
+    const { activityAnswer, onChange, onComplete } = this.props
     const itemAnswer = activityAnswer.studentAnswers.get(i)
 
     return (
@@ -68,6 +68,14 @@ class WrittenAnswerActivityAnswer extends React.Component {
             this.handleItemCompletion(charCode, i)
           }}
         />
+        <Button
+          color={'primary'}
+          onClick={() => {
+            onComplete(i)
+          }}
+        >
+          Check
+        </Button>
         {itemAnswer.complete
           ? this.renderAnswerValidation(
               itemAnswer.studentAnswer === item.answer

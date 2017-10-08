@@ -34,3 +34,25 @@ export function completeWrittenAnswerItem (
     itemIdx
   }
 }
+
+export function editWriting (activityIdx: string, inputState: string) {
+  return {
+    type: 'course-consumer-lesson-consumer-writing-edit',
+    activityIdx,
+    inputState
+  }
+}
+
+export function submitWriting (activityIdx: string) {
+  return {
+    type: 'course-consumer-lesson-consumer-writing-submit',
+    activityIdx
+  }
+}
+
+export function startWritingEditing (activityIdx: string) {
+  return {
+    type: 'course-consumer-lesson-consumer-writing-edit-start',
+    activityIdx
+  }
+}

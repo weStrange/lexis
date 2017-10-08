@@ -30,3 +30,16 @@ export type CourseConsumerAction =
       activityIdx: string,
       itemIdx: number
     }
+  | {
+      type: 'course-consumer-lesson-consumer-writing-edit',
+      activityIdx: string,
+      inputState: string
+    }
+  | {
+      type: 'course-consumer-lesson-consumer-writing-submit',
+      activityIdx: string
+    }
+  | {
+      type: 'course-consumer-lesson-consumer-writing-edit-start',
+      activityIdx: string
+    }

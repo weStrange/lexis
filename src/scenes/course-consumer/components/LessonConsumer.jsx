@@ -81,6 +81,24 @@ class LessonConsumer extends React.Component {
     completeWrittenAnswerItem(activityIdx.toString(), itemIdx)
   }
 
+  handleWritingAnswerChange (activityIdx, inputState) {
+    const { editWriting } = this.props.actions.lessonConsumer
+
+    editWriting(activityIdx.toString(), inputState)
+  }
+
+  handleWritingAnswerSubmission (activityIdx) {
+    const { submitWriting } = this.props.actions.lessonConsumer
+
+    submitWriting(activityIdx.toString())
+  }
+
+  handleWritingAnswerEditingStart (activityIdx) {
+    const { startWritingEditing } = this.props.actions.lessonConsumer
+
+    startWritingEditing(activityIdx.toString())
+  }
+
   renderActivity (activity: Activity, activityIdx) {
     const { activityAnswers, actions } = this.props
     const activityAnswer = activityAnswers.get(activityIdx.toString())
@@ -116,6 +134,11 @@ class LessonConsumer extends React.Component {
           <WritingActivityAnswer
             activity={activity}
             activityAnswer={activityAnswers.get(activityIdx.toString())}
+            onChange={studentAnswer =>
+              this.handleWritingAnswerChange(activityIdx, studentAnswer)}
+            onSubmit={() => this.handleWritingAnswerSubmission(activityIdx)}
+            onStartEdit={() =>
+              this.handleWritingAnswerEditingStart(activityIdx)}
           />
         )
       default:

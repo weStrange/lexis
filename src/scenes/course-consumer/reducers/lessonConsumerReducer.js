@@ -3,6 +3,7 @@
 import type {
   ActivityAnswer,
   LessonConsumerState,
+  WritingActivityAnswer,
   WrittenAnswerActivityAnswer
 } from '../types'
 import { List, Map } from 'immutable'
@@ -32,7 +33,8 @@ function activityToActivityAnswer (activity, activityIdx): ?ActivityAnswer {
       return {
         activityIdx,
         type: activity.type,
-        studentAnswer: ''
+        studentAnswer: '',
+        submitted: false
       }
     default:
       return null
@@ -100,6 +102,45 @@ function completeWrittenAnswerItem (state, { activityIdx, itemIdx }) {
   }
 }
 
+function editWriting (state, { activityIdx, inputState }) {
+  const { activityAnswers } = state
+  const activityAnswer: WritingActivityAnswer = activityAnswers.get(activityIdx)
+
+  return {
+    ...state,
+    activityAnswers: activityAnswers.set(activityIdx, {
+      ...activityAnswer,
+      studentAnswer: inputState
+    })
+  }
+}
+
+function submitWriting (state, { activityIdx }) {
+  const { activityAnswers } = state
+  const activityAnswer: WritingActivityAnswer = activityAnswers.get(activityIdx)
+
+  return {
+    ...state,
+    activityAnswers: activityAnswers.set(activityIdx, {
+      ...activityAnswer,
+      submitted: true
+    })
+  }
+}
+
+function startWritingEditing (state, { activityIdx }) {
+  const { activityAnswers } = state
+  const activityAnswer: WritingActivityAnswer = activityAnswers.get(activityIdx)
+
+  return {
+    ...state,
+    activityAnswers: activityAnswers.set(activityIdx, {
+      ...activityAnswer,
+      submitted: false
+    })
+  }
+}
+
 export default function lessonConsumerReducer (
   state: LessonConsumerState = getInitialState(),
   action: Action
@@ -111,6 +152,12 @@ export default function lessonConsumerReducer (
       return editWrittenAnswerItem(state, action)
     case 'course-consumer-lesson-consumer-written-answer-item-complete':
       return completeWrittenAnswerItem(state, action)
+    case 'course-consumer-lesson-consumer-writing-edit':
+      return editWriting(state, action)
+    case 'course-consumer-lesson-consumer-writing-submit':
+      return submitWriting(state, action)
+    case 'course-consumer-lesson-consumer-writing-edit-start':
+      return startWritingEditing(state, action)
     default:
       return state
   }

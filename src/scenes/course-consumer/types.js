@@ -44,7 +44,8 @@ export type WrittenAnswerActivityAnswer = {
 export type WritingActivityAnswer = {
   activityIdx: number,
   studentAnswer: string,
-  type: 'writing'
+  type: 'writing',
+  submitted: boolean
 }
 
 export type ActivityAnswer = WrittenAnswerActivityAnswer | WritingActivityAnswer
