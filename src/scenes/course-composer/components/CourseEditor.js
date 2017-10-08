@@ -159,13 +159,12 @@ export class CourseEditor extends Component {
         </Text>
         <InputForm>
           <div>
-            <div
+            <img
+              src={course.imageUrl || defaultCourseImage}
               style={{
                 float: 'left',
                 width: '300px',
-                height: '300px',
-                backgroundImage: `url('${course.imageUrl ||
-                  defaultCourseImage}')`
+                height: '300px'
               }}
             />
             <input
