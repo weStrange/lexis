@@ -1,6 +1,7 @@
 // @flow
 
 import type { Course } from 'core/types'
+import type { List, Map } from 'immutable'
 
 export type CourseListItem = {
   name: string,
@@ -24,5 +25,42 @@ export type CourseContentsState = {
 
 export type CourseConsumerState = {
   courseContents: CourseContentsState,
-  courseList: CourseListState
+  courseList: CourseListState,
+  lessonConsumer: LessonConsumerState
+}
+
+export type WrittenAnswerActivityItemAnswer = {
+  itemIdx: number,
+  studentAnswer: string,
+  complete: boolean
+}
+
+export type WrittenAnswerActivityAnswer = {
+  activityIdx: number,
+  studentAnswers: List<WrittenAnswerActivityItemAnswer>,
+  type: 'written-answer'
+}
+
+export type WritingActivityAnswer = {
+  activityIdx: number,
+  studentAnswer: string,
+  type: 'writing'
+}
+
+export type ActivityAnswer = WrittenAnswerActivityAnswer | WritingActivityAnswer
+
+// export type LessonAnswer = {
+//   activityAnswers: Map<number, AnswerableActivity>
+// }
+//
+// export type LevelAnswer = {
+//   lessonAnswers: List<LessonAnswer>
+// }
+//
+// export type CourseAnswer = {
+//   levelAnswers: List<LevelAnswer>
+// }
+
+export type LessonConsumerState = {
+  activityAnswers: Map<string, ActivityAnswer>
 }
