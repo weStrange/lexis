@@ -7,7 +7,7 @@ import { List } from 'immutable'
 import type { Course } from '../types'
 
 export function parseFetchedCourse (fetchedCourse: any): Course {
-  return {
+  let parsedCourse = {
     id: fetchedCourse.id,
     name: fetchedCourse.name,
     description: fetchedCourse.description,
@@ -18,4 +18,13 @@ export function parseFetchedCourse (fetchedCourse: any): Course {
     })),
     imageUrl: fetchedCourse.imageUrl
   }
+
+  if (fetchedCourse.students) {
+    parsedCourse = {
+      ...parsedCourse,
+      students: List(fetchedCourse.students)
+    }
+  }
+
+  return parsedCourse
 }

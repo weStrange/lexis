@@ -83,6 +83,10 @@ class CourseList extends Component {
     // this.props.actions.main.start()
   }
 
+  componentWillMount () {
+    this.props.data.refetch()
+  }
+
   render () {
     const { item, course, actions, filter } = this.props
     // const courses = data.course || []

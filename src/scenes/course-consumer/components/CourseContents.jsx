@@ -3,15 +3,18 @@
 import * as React from 'react'
 import type { AppState, Course } from 'core/types'
 import { connect } from 'react-redux'
-import { graphql } from 'react-apollo'
+import { graphql, compose, withApollo } from 'react-apollo'
 import { courseContentsQuery } from '../queries'
+import { subscribe, unsubscribe } from '../mutations'
 import { Wrapper, Text } from 'common-components'
-import { Grid, List, ListItem } from 'material-ui'
+import { Grid, List, ListItem, Button } from 'material-ui'
 import { courseContentsActions } from '../actions-creators'
 import { bindActionCreators } from 'redux'
 import { withRouter } from 'react-router'
 import styled from 'styled-components'
 import defaultImage from '../../../assets/course-space.svg'
+
+import type { Level } from 'core/types'
 
 const Container = styled(Grid)`padding: 3rem;`
 const CourseImage = styled.img`
@@ -25,24 +28,40 @@ const CourseImage = styled.img`
 const ImageContainer = styled(Grid)`overflow: hidden;`
 
 type Props = {
+  userEmail: string,
   course: Course,
+  selectedCourse: Course,
+  progress: number,
+  subscribed: boolean,
   actions: {
     courseContents: typeof courseContentsActions
   },
+  subscribe: any,
+  unsubscribe: any,
   history: any,
+  client: any,
   location: Location
 }
 
 class CourseContents extends React.Component {
   props: Props
 
-  renderLessonListItems (chapterIdx, chapter) {
+  componentWillMount () {
+    this.props.data.refetch()
+  }
+
+  renderLessonListItems (
+    chapterIdx: number,
+    chapter: Level,
+    prevOffset: number
+  ) {
     const { courseContents } = this.props.actions
-    const { history, location } = this.props
+    const { history, location, progress, subscribed } = this.props
 
     return chapter.lessons.map((lesson, i) => (
       <ListItem
         button
+        disabled={!subscribed || prevOffset + i > progress}
         onClick={() => {
           courseContents.selectChapterAndLesson(chapterIdx, i)
           history.push(
@@ -60,17 +79,30 @@ class CourseContents extends React.Component {
     const { course } = this.props
 
     if (course) {
-      return course.levels.map((chapter, i) => (
+      return course.levels.map((chapter, i, arr) => (
         <div key={i}>
           <Text fontSize={'1.5rem'}>{`${i + 1}. ${chapter.name}`}</Text>
-          <List>{this.renderLessonListItems(i, chapter)}</List>
+          <List>
+            {this.renderLessonListItems(
+              i,
+              chapter,
+              arr.take(i).reduce((acc, s) => acc + s.lessons.size, 0) // number of lessons before
+            )}
+          </List>
         </div>
       ))
     }
   }
 
   render () {
-    const { course } = this.props
+    const {
+      course,
+      userEmail,
+      subscribe,
+      unsubscribe,
+      subscribed,
+      selectedCourse
+    } = this.props
 
     return (
       <Container container>
@@ -93,6 +125,32 @@ class CourseContents extends React.Component {
               </p>
               {this.renderTableOfContents()}
             </Grid>
+            <Button
+              raised
+              style={{
+                backgroundColor: subscribed ? 'grey' : 'red',
+                color: 'white',
+                fontWeight: 'bold',
+                position: 'fixed',
+                right: '50px',
+                bottom: '50px'
+              }}
+              onClick={() =>
+                (subscribed ? unsubscribe : subscribe)({
+                  variables: {
+                    studentEmail: userEmail,
+                    courseId: course.id
+                  },
+                  refetchQueries: [
+                    {
+                      query: courseContentsQuery,
+                      variables: { id: selectedCourse, email: userEmail }
+                    }
+                  ]
+                })}
+            >
+              {subscribed ? 'Unsubscribe' : 'Subscribe'}
+            </Button>
           </Grid>
         ) : (
           <div>No course data available</div>
@@ -104,8 +162,11 @@ class CourseContents extends React.Component {
 
 function mapStateToProps (state: AppState) {
   return {
+    userEmail: state.auth.credential.email,
     selectedCourse: state.courseConsumer.courseList.selectedCourse,
-    course: state.courseConsumer.courseContents.course
+    course: state.courseConsumer.courseContents.course,
+    progress: state.courseConsumer.courseContents.progress,
+    subscribed: state.courseConsumer.courseContents.subscribed
   }
 }
 
@@ -117,12 +178,22 @@ function mapDispatchToProps (dispatch) {
   }
 }
 
-const CourseContentsWithData = graphql(courseContentsQuery, {
-  options: props => {
-    return { variables: { id: props.selectedCourse } }
-  }
-})(CourseContents)
+const CourseContentsWithData = compose(
+  graphql(subscribe, {
+    name: 'subscribe'
+  }),
+  graphql(unsubscribe, { name: 'unsubscribe' }),
+  graphql(courseContentsQuery, {
+    options: props => {
+      return {
+        variables: { id: props.selectedCourse, email: props.userEmail }
+      }
+    }
+  })
+)(CourseContents)
 
-export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(CourseContentsWithData)
+export default withApollo(
+  withRouter(
+    connect(mapStateToProps, mapDispatchToProps)(CourseContentsWithData)
+  )
 )

@@ -8,7 +8,9 @@ function getInitialState (): CourseContentsState {
   return {
     course: null,
     selectedChapterIdx: null,
-    selectedLessonIdx: null
+    selectedLessonIdx: null,
+    progress: 0,
+    subscribed: false
   }
 }
 
@@ -25,6 +27,8 @@ export default function courseContentsReducer (
       ) {
         return {
           ...state,
+          subscribed: action.result.data.progress !== null,
+          progress: action.result.data.progress,
           course: parseFetchedCourse(action.result.data.course[0])
         }
       }
