@@ -20,6 +20,8 @@ const WrongAnswerIcon = styled(Error)`
   vertical-align: middle;
 `
 
+const AnswerInput = styled(TextField)`width: 40%;`
+
 type Props = {
   activity: WrittenAnswerEx,
   activityAnswer: ActivityAnswer,
@@ -58,7 +60,7 @@ class WrittenAnswerActivityAnswer extends React.Component {
         <Text>{item.question}</Text>
         <br />
         <br />
-        <TextField
+        <AnswerInput
           placeholder='Write you answer here'
           value={itemAnswer.studentAnswer}
           onChange={ev => {

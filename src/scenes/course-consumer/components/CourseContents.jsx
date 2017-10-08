@@ -17,7 +17,9 @@ import defaultImage from '../../../assets/course-space.svg'
 import type { Level } from 'core/types'
 
 const Container = styled(Grid)`padding: 3rem;`
+
 const CourseImage = styled.img`
+  margin-top: 2rem;
   height: 300px;
   position: relative;
   top: 50%;
@@ -25,7 +27,10 @@ const CourseImage = styled.img`
   display: block;
   transform: translate(-50%, -50%);
 `
-const ImageContainer = styled(Grid)`overflow: hidden;`
+const ImageContainer = styled(Grid)`
+  overflow: hidden;
+  height: 300px;
+`
 
 type Props = {
   userEmail: string,
@@ -113,10 +118,10 @@ class CourseContents extends React.Component {
             </ImageContainer>
             <Grid item xs={8}>
               <p>
-                <Text fontSize={'3rem'}>{course.name}</Text>
+                <Text fontSize={'2.5rem'}>{course.name}</Text>
               </p>
               <p>
-                <Text fontSize={'1.5rem'}>{course.description}</Text>
+                <Text>{course.description}</Text>
               </p>
             </Grid>
             <Grid item xs={12}>
