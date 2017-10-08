@@ -17,7 +17,9 @@ export type CourseListState = {
 export type CourseContentsState = {
   selectedChapterIdx: ?number,
   selectedLessonIdx: ?number,
-  course: ?Course
+  course: ?Course,
+  progress: number,
+  subscribed: boolean
 }
 
 export type CourseConsumerState = {

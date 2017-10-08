@@ -1,15 +1,24 @@
 // @flow
 
 import * as React from 'react'
-import type { AppState, Lesson, Course } from 'core/types'
-import { connect } from 'react-redux'
+
 import { ActivityContent, Text, ActionButton } from 'common-components'
 import { Grid, Paper } from 'material-ui'
 import styled from 'styled-components'
 import ListIcon from 'material-ui-icons/List'
-import { courseContentsActions } from '../actions-creators'
+import DoneIcon from 'material-ui-icons/Done'
+
 import { bindActionCreators } from 'redux'
 import { withRouter } from 'react-router'
+import { connect } from 'react-redux'
+import { graphql } from 'react-apollo'
+
+import { courseContentsActions } from '../actions-creators'
+
+import { makeProgress } from '../mutations'
+import { progressQuery } from '../queries'
+
+import type { AppState, Lesson, Course } from 'core/types'
 
 const Container = styled(Grid)`padding: 3rem;`
 
@@ -19,11 +28,13 @@ const ActivityContainer = styled(Paper)`
 `
 
 type Props = {
-  lesson: ?Lesson,
-  course: ?Course,
+  userEmail: string,
+  lesson: Lesson,
+  course: Course,
   actions: {
     courseContents: typeof courseContentsActions
   },
+  makeProgress: any,
   history: any
 }
 
@@ -81,7 +92,7 @@ class LessonConsumer extends React.Component {
   }
 
   render () {
-    const { lesson } = this.props
+    const { lesson, course, makeProgress, userEmail } = this.props
 
     return (
       <div>
@@ -93,8 +104,19 @@ class LessonConsumer extends React.Component {
         ) : (
           <div>no lesson data</div>
         )}
-        <ActionButton onClick={this.handleCourseContentsButtonClick}>
+        {/*  <ActionButton onClick={this.handleCourseContentsButtonClick}>
           <ListIcon />
+        </ActionButton> */}
+        <ActionButton
+          onClick={() =>
+            makeProgress({
+              variables: {
+                email: this.props.userEmail,
+                courseId: course.id
+              }
+            }).then(() => this.handleCourseContentsButtonClick())}
+        >
+          <DoneIcon />
         </ActionButton>
       </div>
     )
@@ -118,6 +140,7 @@ function mapStateToProps (state: AppState) {
     lesson = chapter.lessons.get(selectedLessonIdx)
 
   return {
+    userEmail: state.auth.credential.email,
     lesson: lesson,
     course: course
   }
@@ -131,6 +154,10 @@ function mapDispatchToProps (dispatch) {
   }
 }
 
+const LessonConsumerWithMutation = graphql(makeProgress, {
+  name: 'makeProgress'
+})(LessonConsumer)
+
 export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(LessonConsumer)
+  connect(mapStateToProps, mapDispatchToProps)(LessonConsumerWithMutation)
 )

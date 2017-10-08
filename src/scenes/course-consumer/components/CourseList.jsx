@@ -7,15 +7,22 @@ import { List as ImmList } from 'immutable'
 import { SearchBox, ListPanel, Text, CenterBox } from 'common-components'
 import { Grid, List, Paper, ListItem } from 'material-ui'
 import styled from 'styled-components'
-import { bindActionCreators } from 'redux'
+
 import * as courseListActions from '../actions-creators/courseListActions'
+
 import { connect } from 'react-redux'
-import { gql, graphql } from 'react-apollo'
+import { bindActionCreators } from 'redux'
+import { gql, graphql, compose } from 'react-apollo'
 import { withRouter } from 'react-router'
+
 import { courseListQuery } from '../queries'
+import { subscribe, unsubscribe } from '../mutations'
+
 import defaultImage from '../../../assets/course-space.svg'
-import type { AppState } from 'core/types'
+
 import { filterCourses } from '../../../core/utils/filters'
+
+import type { AppState } from 'core/types'
 
 const ClickableContainer = styled(ListItem)`
   margin-bottom: 1rem;
@@ -69,21 +76,24 @@ type Props = {
     courseList: typeof courseListActions
   },
   data: {
-    course: Array<CourseListItem>
+    course: Array<CourseListItem>,
+    coursesByStudentEmail: Array<CourseListItem>,
+    refetch: any
   },
+  subscribe: any,
+  unsubscribe: any,
   history: any
 }
 
 class CourseList extends React.Component {
   props: Props
 
-  renderCourseItems () {
-    const { data, actions, history, courseFilter } = this.props
+  componentWillMount () {
+    this.props.data.refetch()
+  }
 
-    if (!data.course) return null
-
-    const courses = ImmList(data.course)
-    const filteredCourses = filterCourses(courses, courseFilter)
+  renderCourseItems (filteredCourses: ImmList<CourseListItem>) {
+    const { actions, history } = this.props
 
     return filteredCourses.map(({ id, imageUrl, name, description }) => (
       <ListPanel key={id}>
@@ -116,9 +126,21 @@ class CourseList extends React.Component {
   }
 
   render () {
-    const { data, actions, courseFilter } = this.props
-
+    const { actions, data, courseFilter } = this.props
     const { editCourseFilter } = actions.courseList
+
+    if (!data.course) return null
+
+    const subscribedCourses = ImmList(data.coursesByStudentEmail)
+    const subscribedCourseIds = subscribedCourses.map(s => s.id)
+    const courses = ImmList(data.course).filter(
+      p => !subscribedCourseIds.includes(p.id)
+    )
+    const filteredCourses = filterCourses(courses, courseFilter)
+    const filteredSubscribedCourses = filterCourses(
+      subscribedCourses,
+      courseFilter
+    )
 
     if (!data.course) return null
 
@@ -127,16 +149,52 @@ class CourseList extends React.Component {
         <SearchBoxContainer>
           <SearchBox onChange={editCourseFilter} text={courseFilter} />
         </SearchBoxContainer>
-        {this.renderCourseItems()}
+        <Text
+          style={{
+            textDecoration: 'underline',
+            marginTop: '50px',
+            width: '100%',
+            display: 'block'
+          }}
+          primary
+          medium
+          fontSize={'1.3em'}
+        >
+          My Courses
+        </Text>
+        {this.renderCourseItems(filteredSubscribedCourses, actions)}
+        <Text
+          style={{
+            textDecoration: 'underline',
+            marginTop: '50px',
+            width: '100%',
+            display: 'block'
+          }}
+          primary
+          medium
+          fontSize={'1.3em'}
+        >
+          All Courses
+        </Text>
+        {this.renderCourseItems(filteredCourses, actions)}
       </Wrapper>
     )
   }
 }
 
-const CourseListWithData = graphql(courseListQuery)(CourseList)
+const CourseListWithData = compose(
+  graphql(subscribe, { name: 'subscribe' }),
+  graphql(unsubscribe, { name: 'unsubscribe' }),
+  graphql(courseListQuery, {
+    options: props => {
+      return { variables: { email: props.userEmail } }
+    }
+  })
+)(CourseList)
 
 function mapStateToProps (state: AppState) {
   return {
+    userEmail: state.auth.credential.email,
     courseFilter: state.courseConsumer.courseList.courseFilter
   }
 }

@@ -166,11 +166,25 @@ export type CourseDifficulty =
   | 'Advanced'
   | 'Proficient'
 
+export type UserCredentials = {
+  email: string,
+  registrationDate: string,
+  role: string,
+  token: string
+}
+
+export type AuthState = {
+  loading: boolean,
+  error: boolean,
+  credential: UserCredentials
+}
+
 export type AppState = {
   courseComposer: CourseComposerState,
   courseManager: CourseManagerState,
   nav: NavigationState,
-  courseConsumer: CourseConsumerState
+  courseConsumer: CourseConsumerState,
+  auth: AuthState
 }
 
 export type PromoEvent = { name: string, description: string }
