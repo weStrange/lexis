@@ -2,9 +2,20 @@
 
 import { gql } from 'react-apollo'
 
+// const courseListQuery = gql`
+//   query courseConsumerCourseList {
+//     coursesByStudentEmail(email: "test@test.test") {
+//       name
+//       description
+//       id
+//       imageUrl
+//     }
+//   }
+// `
+
 const courseListQuery = gql`
   query courseConsumerCourseList {
-    coursesByStudentEmail(email: "test@test.test") {
+    course {
       name
       description
       id

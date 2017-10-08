@@ -8,3 +8,10 @@ export function selectCourse (id: ?string): Action {
     id
   }
 }
+
+export function editCourseFilter (courseFilter: string): Action {
+  return {
+    type: 'course-consumer-course-filter-edit',
+    courseFilter
+  }
+}

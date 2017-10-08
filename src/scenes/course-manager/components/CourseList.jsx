@@ -26,6 +26,7 @@ import * as actionCreators from '../action-creators'
 
 import type { Course, AppState } from 'core/types'
 import type { CourseState, FilterState } from '../types'
+import { filterCourses } from 'core/utils/filters'
 
 const CourseGridList = styled(GridList)`
   width: 100%;
@@ -156,20 +157,6 @@ class CourseList extends Component {
       </div>
     )
   }
-}
-
-function filterCourses (courses: ImmList<Course>, search: string) {
-  if (search === '') {
-    return courses
-  }
-  return ImmList(
-    new Fuse(courses.toArray(), {
-      distance: 100,
-      location: 0,
-      threshold: 0.08,
-      keys: ['description', 'name']
-    }).search(search)
-  )
 }
 
 function mapStateToProps (state: AppState) {

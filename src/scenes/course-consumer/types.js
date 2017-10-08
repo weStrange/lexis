@@ -10,7 +10,8 @@ export type CourseListItem = {
 }
 
 export type CourseListState = {
-  selectedCourse: ?string
+  selectedCourse: ?string,
+  courseFilter: string
 }
 
 export type CourseContentsState = {
