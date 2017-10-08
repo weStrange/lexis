@@ -24,8 +24,6 @@ import { graphql } from 'react-apollo'
 import { makeProgress } from '../mutations'
 import { progressQuery } from '../queries'
 
-import type { AppState, Lesson, Course } from 'core/types'
-
 const Container = styled(Grid)`padding: 3rem;`
 
 const ActivityContainer = styled(Paper)`
