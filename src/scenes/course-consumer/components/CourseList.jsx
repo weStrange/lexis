@@ -36,18 +36,12 @@ const Container = styled(Paper)`
   margin: 0;
   overflow: hidden;
   position: relative;
-  max-height: 200px;
+  max-height: 150px;
 `
 
-const HeaderContainer = styled.div`
-  margin: 1rem;
-  width: 100%;
-`
+const HeaderContainer = styled.div`margin: 1rem;`
 
-const DescriptionContainer = styled.div`
-  margin: 1rem;
-  width: 100%;
-`
+const DescriptionContainer = styled.div`margin: 1rem;`
 
 const CourseImg = styled.img`
   height: 150px;
@@ -68,7 +62,10 @@ const Wrapper = styled(Grid)`
   margin: 1rem;
 `
 
-const ImgContainer = styled(Grid)`overflow: hidden;`
+const ImgContainer = styled.div`
+  overflow: hidden;
+  height: 150px;
+`
 
 type Props = {
   courseFilter: string,
@@ -106,16 +103,23 @@ class CourseList extends React.Component {
           button
         >
           <Container>
-            <Grid container spacing={24}>
-              <ImgContainer item xs={5}>
-                <CourseImg src={imageUrl || defaultImage} />
-              </ImgContainer>
-              <Grid item xs={7}>
+            <Grid container spacing={0}>
+              <Grid item xs={3} lg={4}>
+                <ImgContainer>
+                  <CourseImg src={imageUrl || defaultImage} />
+                </ImgContainer>
+              </Grid>
+              <Grid item xs={9} lg={8}>
                 <HeaderContainer>
-                  <Text fontSize={'2rem'}>{name}</Text>
+                  <Text fontSize={'1.4rem'}>{name}</Text>
                 </HeaderContainer>
                 <DescriptionContainer>
-                  <Text>{description}</Text>
+                  <Text fontSize={'0.9rem'}>
+                    {description
+                      .split(' ')
+                      .slice(0, 15)
+                      .join(' ') + ' ...'}
+                  </Text>
                 </DescriptionContainer>
               </Grid>
             </Grid>
