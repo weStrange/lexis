@@ -13,7 +13,7 @@ type Props = {
 
 const ListPanel = ({ children }: Props) => {
   return (
-    <Grid item xs={12} md={6} xl={4}>
+    <Grid item xs={12} lg={6} xl={4}>
       <ContentContainer>{children}</ContentContainer>
     </Grid>
   )
