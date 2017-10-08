@@ -8,9 +8,7 @@ export const AllCourses = gql`
       id
       creatorEmail
       name
-      students {
-        email
-      }
+      students
       levels {
         name
       }
@@ -27,12 +25,7 @@ export const Course = gql`
       id
       creatorEmail
       name
-      students {
-        email
-        firstName
-        lastName
-        avatarUrl
-      }
+      students
       levels {
         name
       }
