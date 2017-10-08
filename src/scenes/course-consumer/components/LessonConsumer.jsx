@@ -109,40 +109,50 @@ class LessonConsumer extends React.Component {
           return null
 
         return (
-          <WrittenAnswerActivityAnswer
-            activity={activity}
-            activityAnswer={activityAnswer}
-            onChange={(studentAnswer, itemIdx) => {
-              this.handleWrittenAnswerActivityAnswerChange(
-                activityIdx,
-                itemIdx,
-                studentAnswer
-              )
-            }}
-            onComplete={itemIdx => {
-              this.handleWrittenAnswerActivityAnswerCompletion(
-                activityIdx,
-                itemIdx
-              )
-            }}
-          />
+          <ActivityContainer>
+            <WrittenAnswerActivityAnswer
+              activity={activity}
+              activityAnswer={activityAnswer}
+              onChange={(studentAnswer, itemIdx) => {
+                this.handleWrittenAnswerActivityAnswerChange(
+                  activityIdx,
+                  itemIdx,
+                  studentAnswer
+                )
+              }}
+              onComplete={itemIdx => {
+                this.handleWrittenAnswerActivityAnswerCompletion(
+                  activityIdx,
+                  itemIdx
+                )
+              }}
+            />
+          </ActivityContainer>
         )
       case 'writing':
         if (!activityAnswer) return null
 
         return (
-          <WritingActivityAnswer
-            activity={activity}
-            activityAnswer={activityAnswers.get(activityIdx.toString())}
-            onChange={studentAnswer =>
-              this.handleWritingAnswerChange(activityIdx, studentAnswer)}
-            onSubmit={() => this.handleWritingAnswerSubmission(activityIdx)}
-            onStartEdit={() =>
-              this.handleWritingAnswerEditingStart(activityIdx)}
-          />
+          <ActivityContainer>
+            <WritingActivityAnswer
+              activity={activity}
+              activityAnswer={activityAnswers.get(activityIdx.toString())}
+              onChange={studentAnswer =>
+                this.handleWritingAnswerChange(activityIdx, studentAnswer)}
+              onSubmit={() => this.handleWritingAnswerSubmission(activityIdx)}
+              onStartEdit={() =>
+                this.handleWritingAnswerEditingStart(activityIdx)}
+            />
+          </ActivityContainer>
         )
-      default:
+      case 'header':
         return <ActivityContent activity={activity} />
+      default:
+        return (
+          <ActivityContainer>
+            <ActivityContent activity={activity} />
+          </ActivityContainer>
+        )
     }
   }
 
@@ -155,9 +165,7 @@ class LessonConsumer extends React.Component {
 
     return activities.map((activity: Activity, i) => (
       <Grid key={i} item xs={12}>
-        <ActivityContainer>
-          {this.renderActivity(activity, i)}
-        </ActivityContainer>
+        {this.renderActivity(activity, i)}
       </Grid>
     ))
   }
@@ -169,11 +177,7 @@ class LessonConsumer extends React.Component {
 
     return (
       <Grid item xs={12}>
-        <ActivityContainer>
-          <p>
-            <Text fontSize={'2rem'}>{lesson.name}</Text>
-          </p>
-        </ActivityContainer>
+        <Text fontSize={'2.5rem'}>{lesson.name}</Text>
       </Grid>
     )
   }
