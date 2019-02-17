@@ -86,7 +86,12 @@ class CourseContents extends React.Component {
     if (course) {
       return course.levels.map((chapter, i, arr) => (
         <div key={i}>
-          <Text fontSize={'1.5rem'}>{`${i + 1}. ${chapter.name}`}</Text>
+          <Text
+            style={{
+              textDecoration: 'underline'
+            }}
+            fontSize={'1.5rem'}
+          >{`${i + 1}. ${chapter.name}`}</Text>
           <List>
             {this.renderLessonListItems(
               i,

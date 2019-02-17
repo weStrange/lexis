@@ -1,6 +1,7 @@
 /* @flow */
 
 import defaultImage from '../../../assets/course-space.svg'
+import defaultAvatar from '../../../assets/default-avatar.svg'
 
 import React from 'react'
 import styled from 'styled-components'
@@ -50,8 +51,8 @@ const CourseDetail = ({ match, data }: CourseDetailProps) => {
         <List>
           {course.students.map((student, key) => (
             <ListItem key={key}>
-              <Avatar src={student.avatarUrl} />
-              <ListItemText primary={student.name} secondary={546} />
+              <Avatar src={defaultAvatar} />
+              <ListItemText primary={student} secondary={546 - key} />
             </ListItem>
           ))}
         </List>

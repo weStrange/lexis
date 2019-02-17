@@ -1,5 +1,7 @@
 // @flow
 
+import { List } from 'immutable'
+
 import * as React from 'react'
 import type { AppState, Lesson, Course, Activity } from 'core/types'
 import { connect } from 'react-redux'
@@ -19,7 +21,7 @@ import { withRouter } from 'react-router'
 import type { ActivityAnswer } from '../types'
 import WritingActivityAnswer from './WritingActivityAnswer'
 import WrittenAnswerActivityAnswer from './WrittenAnswerActivityAnswer'
-import { graphql } from 'react-apollo'
+import { graphql, compose } from 'react-apollo'
 
 import { makeProgress } from '../mutations'
 import { progressQuery } from '../queries'
@@ -36,6 +38,8 @@ type Props = {
   lesson: Lesson,
   course: Course,
   activityAnswers: Map<string, ActivityAnswer>,
+  data: any,
+  numberOfPrevLessons: number,
   actions: {
     courseContents: typeof courseContentsActions,
     lessonConsumer: typeof lessonConsumerActions
@@ -183,8 +187,28 @@ class LessonConsumer extends React.Component {
   }
 
   render () {
-    const { lesson, course, makeProgress, userEmail } = this.props
+    const {
+      lesson,
+      course,
+      makeProgress,
+      userEmail,
+      data,
+      numberOfPrevLessons,
+      activityAnswers
+    } = this.props
+    const complete = List(activityAnswers.values()).reduce((acc, p) => {
+      switch (p.type) {
+        case 'writing':
+          return acc && p.submitted
 
+        case 'written-answer':
+          return acc && p.studentAnswers.filter(s => !s.complete).isEmpty()
+
+        default:
+          return acc
+      }
+    }, true)
+    console.log(complete, List(activityAnswers.values()).toArray())
     return (
       <div>
         {lesson ? (
@@ -195,20 +219,24 @@ class LessonConsumer extends React.Component {
         ) : (
           <div>no lesson data</div>
         )}
-        {/*  <ActionButton onClick={this.handleCourseContentsButtonClick}>
-          <ListIcon />
-        </ActionButton> */}
-        <ActionButton
-          onClick={() =>
-            makeProgress({
-              variables: {
-                email: this.props.userEmail,
-                courseId: course.id
-              }
-            }).then(() => this.handleCourseContentsButtonClick())}
-        >
-          <DoneIcon />
-        </ActionButton>
+        {data.progress > numberOfPrevLessons ? (
+          <ActionButton onClick={this.handleCourseContentsButtonClick}>
+            <ListIcon />
+          </ActionButton>
+        ) : (
+          <ActionButton
+            disabled={!complete}
+            onClick={() =>
+              makeProgress({
+                variables: {
+                  email: this.props.userEmail,
+                  courseId: course.id
+                }
+              }).then(() => this.handleCourseContentsButtonClick())}
+          >
+            <DoneIcon />
+          </ActionButton>
+        )}
       </div>
     )
   }
@@ -223,15 +251,22 @@ function mapStateToProps (state: AppState) {
 
   let chapter
   let lesson
+  let numberOfPrevLessons
 
-  if (typeof selectedChapterIdx === 'number' && course && course.levels)
+  if (typeof selectedChapterIdx === 'number' && course && course.levels) {
     chapter = course.levels.get(selectedChapterIdx)
+    numberOfPrevLessons =
+      course.levels
+        .take(selectedChapterIdx)
+        .reduce((acc, p) => acc + p.lessons.size, 0) + selectedLessonIdx
+  }
 
   if (typeof selectedLessonIdx === 'number' && chapter && chapter.lessons)
     lesson = chapter.lessons.get(selectedLessonIdx)
 
   return {
     userEmail: state.auth.credential.email,
+    numberOfPrevLessons: numberOfPrevLessons,
     lesson: lesson,
     course: course,
     activityAnswers: state.courseConsumer.lessonConsumer.activityAnswers
@@ -247,9 +282,18 @@ function mapDispatchToProps (dispatch) {
   }
 }
 
-const LessonConsumerWithMutation = graphql(makeProgress, {
-  name: 'makeProgress'
-})(LessonConsumer)
+const LessonConsumerWithMutation = compose(
+  graphql(makeProgress, {
+    name: 'makeProgress'
+  }),
+  graphql(progressQuery, {
+    options: props => {
+      return {
+        variables: { id: props.course.id, email: props.userEmail }
+      }
+    }
+  })
+)(LessonConsumer)
 
 export default withRouter(
   connect(mapStateToProps, mapDispatchToProps)(LessonConsumerWithMutation)

@@ -35,13 +35,15 @@ export default function courseReducer (
         // ...and that it's the start of course-editing
         state.course.id !== action.result.data.course[0].id
       ) {
-        console.log('here')
         return {
           ...state,
           course: parseFetchedCourse(action.result.data.course[0])
         }
       }
       return state
+
+    case 'course-manager-start':
+      return getInitialState()
 
     case 'teacher-composer-start':
       // if it is a new course, creation of which just started
